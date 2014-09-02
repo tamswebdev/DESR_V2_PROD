@@ -65,7 +65,7 @@ function checkUserLogin()
 		}
 		else if (localstorage.get("userInfoData") == null)
 		{
-			userInfoData = getUserInfoDefault();
+			userInfoData = localstorage.getUserInfoDefault();
 		}
 	}
 	
