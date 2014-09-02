@@ -1,0 +1,565 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title></title>
+
+    <link rel="stylesheet" href="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.css" />
+    <link rel="stylesheet" href="Content/main.css" />
+    <script src="Scripts/jquery-2.1.0.min.js"></script>
+    <script src="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.js"></script>
+    <script src="Scripts/Base64Converter.js"></script>
+    <script src="Scripts/main.js"></script>
+	<script src="Scripts/utilities.js"></script>
+	
+	<script type="text/javascript" src="cordova.js"></script>
+</head>
+<body>
+    <div data-role="page" id="startpage" data-theme="a">
+        <div data-role="header">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						&nbsp;
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div><!-- /header 1 -->
+
+        <div role="main" class="ui-content">
+            <center><br /><img src="Images/ajax-loader.gif" border="0" /></center>
+        </div><!-- /content 1 -->
+    </div>
+
+    <div data-role="page" id="pgLogin">
+	    <div data-role="header">
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						&nbsp;
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+	    </div>
+	    <div role="main" class="ui-content">        
+            <div class="form-div">
+				<center>
+				<div class="logo-div">DEMO EQUIPMENT STATUS REQUEST TRACKING</div>
+                <table class="login-table">
+                    <tr><td class="login-label">Login</td></tr>
+                    <tr><td class="login-input"><input class="form-control" type="text" id="login" /></td></tr>
+                    <tr><td class="login-label">Password</td></tr>
+                    <tr><td class="login-input"><input class="form-control" type="password" id="password" /></td></tr>
+                    <tr><td class="login-label">
+						<input type="checkbox" name="rememberMe" id="rememberMe" />
+						<label for="rememberMe">Remember me</label>
+					</td></tr>
+                    <tr><td id="td-error"></td></tr>
+                    <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
+                </table>
+				<div class="copyright">TOSHIBA CORPORATION 2014. ALL RIGHTS RESERVED<br />V1.0<br />FOR INTERNAL USE ONLY</div>
+				</center>
+            </div>
+	    </div>
+	    <div data-role="footer"></div>
+    </div>
+	
+	 
+	
+	<div data-role="page" id="pgHome">
+        <div data-role="header">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div style="width: 5px; display:inline-block;"></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div role="main" class="ui-content">
+            <br />
+			<br />
+			<button class="btn btn-default btn-danger-custom  btn-lg btn-block" onclick="$.mobile.navigate('#pgSearch');"><span class="glyphicon glyphicon-plus"></span> Add Status</button>
+			<br />
+			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgHistory');"><span class="glyphicon glyphicon-file"></span> View My History</button>
+			<br />
+			<br />
+			<center>
+				<div class="home-tip-box">
+					<div><b>Steps:</b></div>
+					<div align="left">
+						<ol>
+							<li>Id paulo elaboraret ius, quaestio theophrastus pro ex.</li>
+							<li>No offendit adipiscing has, elit antiopam delicatissimi qui eu, atqui vivendum no has.</li>
+							<li>Molestiae abhorreant mnesarchum vix cu, hinc reformidans eos at.</li>
+						</ol>
+					</div>
+				</div>
+			</center>
+        </div>
+    </div>
+	
+	
+	<div data-role="page" id="pgSearch">
+        <div data-role="header" data-position="fixed">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu1" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu1" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div role="main" class="ui-content">
+			<div id="div-search-bar-wrapper">
+				<table width="100%" cellpadding="0" cellspacing="0">
+					<tr>
+						<td>
+							<input type="search" name="search" id="searchCatalogs" value="" onsearch="alert('yes');" />
+						</td>
+						<td style="width: 45px;padding-top: 3px;" align="right">
+							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn"></a>
+						</td>
+						<td style="width: 45px;padding-top: 3px;" align="right">
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn"></a>
+						</td>
+					</tr>
+				</table>
+				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
+			</div>
+			<div class="div-modality">
+                <table>
+                    <tr>
+                        <td>
+                            <select class="form-control" id="filterDocumentType">
+                                <option value="All">All System Types</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>                    
+            </div>
+			<center>
+				<div id="divSearchResults">
+					<img src="Images/ajax-loader.gif" border="0" />
+				</div>
+			</center>
+        </div>
+    </div>
+	
+	<div data-role="page" id="pgHistory">
+        <div data-role="header" data-position="fixed">
+            <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu2" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu2" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div role="main" class="ui-content">
+			<center>
+				<div id="divHistoryResults">
+					<img src="Images/ajax-loader.gif" border="0" />
+				</div>
+			</center>
+        </div>
+    </div>
+	
+	<div data-role="page" id="pgAddStatus">
+        <div data-role="header" data-position="fixed">
+           <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu3" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu3" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div role="main" class="ui-content">
+			<center>
+				<div id="divAddStatus">
+					<div class="div-catalogs-list error-message" id="error-div"></div>
+					<div class="div-catalogs-list success-message" id="success-div"></div>
+					<table class="table table-add-status">
+						<tr>
+							<td class="section-heading" colspan="2">System information</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">System type*:</td>
+							<td>
+								<div id="catalog_SystemType" class="add-status"></div>
+								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">System serial number*:</td>
+							<td>
+								<div id="catalog_Product" class="add-status"></div>
+								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemSerialNumber" /></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Software version*:</td>
+							<td>
+								<div id="catalog_Software_x0020_Version" class="add-status"></div>
+								<div class="add-new-status"><input type="text" class="form-control" id="inputSoftwareVersion" /></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Revision Level*:</td>
+							<td>
+								<div id="catalog_Revision_x0020_Level" class="add-status"></div>
+								<div class="add-new-status"><input type="text" class="form-control" id="inputRevisionLevel" /></div>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Date:</td>
+							<td><div id="catalog_System_x0020_Date"></div></td>
+						</tr>
+						<tr>
+							<td class="add-status-label">CSS:</td>
+							<td><div id="catalog_MCSS"></div></td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Modality*:</td>
+							<td>
+								<div id="catalog_Modality" class="add-status"></div>
+								<div class="add-new-status">
+									<select class="form-control" id="selectModality">
+										<option value="">-- Please Select --</option>
+										<option value="CT">CT</option>
+										<option value="MR">MR</option>
+										<option value="UL">UL</option>
+										<option value="VL">VL</option>
+										<option value="XR">XR</option>
+									</select>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Comments:</td>
+							<td>
+								<textarea class="form-control" id="Comments" rows="3"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td class="section-heading" colspan="2">System condition on arrival</td>        
+						</tr>
+						<tr>
+							<td class="add-status-label">Control panel layout:</td>
+							<td>
+								<select id="controlPanelLayout" class="form-control">
+									<option value="">-- Please Select --</option>
+								</select>
+							</td>
+						</tr>
+						<tr id="LayoutChangeExplainTR" style="display:none">
+							<td class="add-status-label">Explain if changed:</td>
+							<td>
+								<input type="text" class="form-control" id="LayoutChangeExplain" />
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Modality work list empty:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty1" value="Yes" checked="checked" /><label for="modalityWorkListEmpty1">Yes</label>
+									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty2" value="No" /><label for="modalityWorkListEmpty2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">All software loaded and functioning:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning1" value="Yes" checked="checked" /><label for="allSoftwareLoadedAndFunctioning1">Yes</label>
+									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning2" value="No" /><label for="allSoftwareLoadedAndFunctioning2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr id="allSoftwareLoadedAndFunctioningReasonTR" style="display:none;">
+							<td class="add-status-label explain-field">Please explain:</td>
+							<td>
+								<input type="text" class="form-control" id="allSoftwareLoadedAndFunctioningReason" />
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">NPD presets on system:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem1" value="Yes" checked="checked" /><label for="nPDPresetsOnSystem1">Yes</label>
+									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem2" value="No" /><label for="nPDPresetsOnSystem2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">HDD free of patients studies:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies1" value="Yes" checked="checked" /><label for="hDDFreeOfPatientStudies1">Yes</label>
+									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies2" value="No" /><label for="hDDFreeOfPatientStudies2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Demo images loaded on hard drive:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive1" value="Yes" checked="checked" /><label for="demoImagesLoadedOnHardDrive1">Yes</label>
+									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive2" value="No" /><label for="demoImagesLoadedOnHardDrive2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr>
+							<td class="section-heading" colspan="2">Before leaving customer site</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">System performed as expected:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected1" value="Yes" checked="checked" /><label for="systemPerformedAsExpected1">Yes</label>
+									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected2" value="No" /><label for="systemPerformedAsExpected2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr id="systemPerformedNotAsExpectedExplainTR" style="display:none;">
+							<td class="add-status-label explain-field">Please explain:</td>
+							<td>
+								<input type="text" class="form-control" id="systemPerformedNotAsExpectedExplain" />
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Were any issues discovered with system during demo:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo1" value="Yes" checked="checked" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo1">Yes</label>
+									<input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo2" value="No" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo2">No</label>
+								</fieldset>
+							</td>
+						</tr>        
+						<tr ng-show="wereAnyIssuesDiscoveredWithSystemDuringDemo=='Yes'">
+							<td class="add-status-label">Was service contacted:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="wasServiceContacted" id="wasServiceContacted1" value="Yes" checked="checked" /><label for="wasServiceContacted1">Yes</label>
+									<input type="radio" name="wasServiceContacted" id="wasServiceContacted2" value="No" /><label for="wasServiceContacted2">No</label>
+								</fieldset>
+							</td>
+						</tr>    
+						<tr>
+							<td class="add-status-label">Confirm that you have removed modality work list from system:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem1" value="Yes" checked="checked" /><label for="ConfirmModalityWorkListRemovedFromSystem1">Yes</label>
+									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem2" value="No" /><label for="ConfirmModalityWorkListRemovedFromSystem2">No</label>
+								</fieldset>
+							</td>
+						</tr>   
+						<tr>
+							<td class="add-status-label">Confirm that you have emptied system HDD emptied of all patient studies:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies1" value="Yes" checked="checked" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies1">Yes</label>
+									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies2" value="No" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies2">No</label>
+								</fieldset>
+							</td>
+						</tr> 
+					</table>
+					<table class="table add-status-buttons">
+						<tr><td colspan="3" class="td-error-message" id="error-div2"></td></tr>
+						<tr>
+						   <td id="btnSubmitDraft">
+								<input type="button" value="Submit Draft" class="common-button" onclick="saveStatus('No')" />
+							</td>
+							<td id="btnSubmitFinal">
+								<input type="button" value="Submit Final" class="common-button" onclick="saveStatus('Yes')" />
+							</td>
+							 <td id="btnSubmitCancel">
+								<input type="button" value="Cancel" class="common-button" onclick="cancelStatus()" />
+							</td>
+							
+						</tr>
+						
+					</table>
+				</div>
+			</center>
+        </div>
+    </div>
+	
+	
+	<div data-role="page" id="pgRedirect">
+	    <div data-role="header">
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu4" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu4" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+	    </div>
+	    <div role="main" class="ui-content">        
+            <center><br /><img src="Images/ajax-loader.gif" border="0" /></center>
+	    </div>
+	    <div data-role="footer"></div>
+    </div>
+	
+	<div data-role="page" id="pgHelp">
+	    <div data-role="header">
+			 <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<div class="header-menu-button">
+							<a href="#popupMenu5" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu5" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+	    </div>
+	    <div role="main" class="ui-content">  
+			<div id="divHelpContent">
+				<h1>Help</h1>
+				<p>Mel duis primis constituam ad. Magna nonumes ad vel. No cum option ceteros hendrerit, te qui aliquip abhorreant voluptaria, tamquam deserunt scribentur sit ut. Usu solum vocibus ex, in partem fuisset evertitur vel. Pertinax delicatissimi ex pri, an modo recusabo elaboraret mel, cum id dolorum omnesque. An pertinax signiferumque sea, ad porro euismod has.
+				</p><p>
+				Sed suas altera no, cu ubique ignota menandri has, odio ceteros oportere ut his. Quod populo deleniti ad cum. Postea debitis mei ex. Ne etiam oratio cum, eum no facer deterruisset consectetuer. Has nihil oporteat accusamus no, munere integre feugiat vix an, ut etiam numquam eloquentiam cum.
+				</p><p>
+				Ex graecis luptatum vituperata sit, melius deserunt duo ut. Sit et eruditi qualisque, eos diam molestie ut. Nec noluisse partiendo at, vero omittantur ea pri. Causae dolorum dissentiunt ei eum. Oportere argumentum mei ad, deleniti nominati ex mel.
+				</p><p>
+				Reque mentitum id pro, tale possim dissentiunt sed ne, senserit consectetuer has ne. Vim an fabellas temporibus, eos wisi ferri error an. Ut nostro constituam eum, decore debitis graecis ea his. An veri meis maluisset cum, pro tollit audiam impedit at. Cum ei vituperata ullamcorper intellegebat, qui saperet sapientem no.
+				</p><p>
+				Sea ea ridens vocent iuvaret. Vim errem equidem adipisci in, sit iriure percipit theophrastus in. Inermis omittantur ad pro, usu dicta commodo et, clita aperiri alienum vix ei. Brute efficiantur vis ad. Nec at agam nonumy, qui an epicurei suavitate.
+				</p>
+			</div>
+	    </div>
+	    <div data-role="footer"></div>
+    </div>
+</body>
+</html>
