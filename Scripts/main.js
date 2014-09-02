@@ -1,5 +1,5 @@
-var serviceRootUrl = "http://tusspdev1/VirtualApps/BusOpsWebs/TAMS.BUSOPS.DemoESR.MobileSVC/";
-var spwebRootUrl = "http://tusspdev1/";
+var serviceRootUrl = Configs.ServiceRootUrl;
+var spwebRootUrl = Configs.SharePointRootUrl;
 
 
 var isUserLogin = false;
