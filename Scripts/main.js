@@ -832,7 +832,6 @@ function checkConnection() {
 	}
 	catch (err) {
 		$(".no-connection-warning").remove();
-		$('div[role="main"]').prepend( "<div class='no-connection-warning'>It looks like you\'ve lost your connection. Please check that you have a working connection and try again.</div>" );
 	}
 	
 	
