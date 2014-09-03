@@ -51,7 +51,8 @@ function LoginUser()
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
-	$.ajax({
+	Jsonp_Call(_url, true, "callbackLogin");
+	/*$.ajax({
             crossDomain: true,
             type:"GET",
             contentType: "application/json; charset=utf-8",
@@ -61,7 +62,7 @@ function LoginUser()
             data: {},
             dataType: "jsonp",                
             jsonpCallback: "callbackLogin",
-    });
+    });*/
 }
 
 function callbackLogin( data ){
@@ -106,7 +107,10 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	$.ajax({
+	
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");
+	/*$.ajax({
 		crossDomain: true,
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
@@ -115,7 +119,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "callbackPopulateSystemTypes",
-    });
+    });*/
 	
 	performSearch();
 });
@@ -139,7 +143,9 @@ function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
-	$.ajax({
+	
+	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
+	/*$.ajax({
 		crossDomain: true,
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
@@ -148,7 +154,7 @@ function performSearch()
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "callbackPopulateSearchResults",
-    });
+    });*/
 }
 
 function callbackPopulateSearchResults(data)
@@ -205,9 +211,11 @@ function callbackPopulateSearchResults(data)
 /******************* History ***********************/
 $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
 	checkUserLogin();
-	
 	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
-	$.ajax({
+	
+	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, false, "callbackPopulateHistories");
+	/*$.ajax({
 		crossDomain: true,
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
@@ -216,7 +224,7 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "callbackPopulateHistories",
-    });
+    });*/
 });
 
 function callbackPopulateHistories(data)
@@ -401,7 +409,9 @@ function saveAdditionalComment(id) {
 	if (jQuery.trim(comment) != "") {
 		$("#divAddCommentError" + id).text("").append(getLoadingMini()).show();
 		
-		$.ajax({
+		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader;
+		Jsonp_Call(_url, false, "callbackAddComment");
+		/*$.ajax({
 			crossDomain: true,
 			type:"GET",
 			contentType: "application/json; charset=utf-8",
@@ -410,7 +420,7 @@ function saveAdditionalComment(id) {
 			data: {},
 			dataType: "jsonp",                
 			jsonpCallback: "callbackAddComment",
-		});
+		});*/
 	}
 	else {
 		$("#divAddCommentError" + id).text("").append("* Comment cannot be empty").show();
@@ -486,7 +496,9 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 			$("#LayoutChangeExplainTR").hide();
 	});
 	
-	$.ajax({
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetCPLValues");
+	/*$.ajax({
 		crossDomain: true,
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
@@ -495,13 +507,15 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "callbackGetCPLValues"
-	});
+	});*/
 	
 
 	var id = $.urlParam("id");
 	if (id > 0)
 	{
-		$.ajax({
+		var _url2 = serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id;
+		Jsonp_Call(_url2, false, "callbackLoadAddStatus");
+		/*$.ajax({
 			crossDomain: true,
 			type:"GET",
 			contentType: "application/json; charset=utf-8",
@@ -510,7 +524,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 			data: {},
 			dataType: "jsonp",                
 			jsonpCallback: "callbackLoadAddStatus"
-		});
+		});*/
 	}
 	else 
 	{
@@ -659,7 +673,8 @@ function saveStatus(isFinal) {
 			//showLoading(true);
 			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader;
 			
-			$.ajax({
+			Jsonp_Call(_url, true, "callbackSaveStatus");
+			/*$.ajax({
 				crossDomain: true,
 				type:"GET",
 				contentType: "application/json; charset=utf-8",
@@ -668,13 +683,14 @@ function saveStatus(isFinal) {
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: "callbackSaveStatus"
-			});
+			});*/
 		}
 		else 
 		{
 			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=No&authInfo=" + userInfoData.AuthenticationHeader;
 			
-			$.ajax({
+			Jsonp_Call(_url, true, "callbackSaveStatus");
+			/*$.ajax({
 				crossDomain: true,
 				type:"GET",
 				contentType: "application/json; charset=utf-8",
@@ -683,7 +699,7 @@ function saveStatus(isFinal) {
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: "callbackSaveStatus"
-			});
+			});*/
 		}
 	}
 }
@@ -714,9 +730,26 @@ $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 });
 
 
-function SignOut()
+function Jsonp_Call(_url, _async, callback)
 {
 	$.ajax({
+            crossDomain: true,
+            type:"GET",
+            contentType: "application/json; charset=utf-8",
+            async:true,
+			cache: _async,
+            url: _url,
+            data: {},
+            dataType: "jsonp",                
+            jsonpCallback: callback,
+    });
+}
+
+function SignOut()
+{
+	var _url = serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, false, "");
+	/*$.ajax({
 		crossDomain: true,
 		type:"GET",
 		contentType: "application/json; charset=utf-8",
@@ -725,7 +758,7 @@ function SignOut()
 		data: {},
 		dataType: "jsonp",                
 		jsonpCallback: "",
-    });
+    });*/
 
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
