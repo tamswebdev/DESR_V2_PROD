@@ -8,6 +8,10 @@
 	min-height: 72px;
 }
 
+.ui-simpledialog-container .ui-header {
+	min-height: 0px;
+}
+
 .ui-footer {
 	display:none;
 }

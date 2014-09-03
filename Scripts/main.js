@@ -4,6 +4,7 @@ var spwebRootUrl = Configs.SharePointRootUrl;
 
 var isUserLogin = false;
 var userInfoData = null;
+var $scope = null;
 
 $(document).ready(function () {
 	checkUserLogin();
@@ -570,14 +571,22 @@ function callbackGetCPLValues(data)
 
 
 function cancelStatus() {
-	var sure = confirm('Cancel the status update and go back to main screen?');
-	if (sure) {
-		NavigatePage('#pgHome');
-	}
+	$('<div>').simpledialog2({
+		mode: 'blank',
+		headerText: 'Confirmation',
+		headerClose: false,
+		transition: 'flip',
+		themeDialog: 'a',
+		zindex: 2000,
+		blankContent : 
+		  "<div style='padding: 15px;'><p>Cancel the status update and go back to main screen?</p>"+
+		  "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"NavigatePage('#pgHome');\">OK</a></td>" + 
+		  "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
+    }); 
 }
 
 function saveStatus(isFinal) {
-	var $scope = {
+	$scope = {
 		recordId : $.urlParam("id"),
 		Comments : $("#Comments").val(),
 		controlPanelLayout : $("#controlPanelLayout").val(),
@@ -659,10 +668,25 @@ function saveStatus(isFinal) {
 	if (isFinal == "Yes")
 		confirmMessage = 'Do you want to submit a final status?\nPlease make sure.....';
 
-	var sure = confirm(confirmMessage);
+	//var sure = confirm(confirmMessage);
 	
+	$('<div>').simpledialog2({
+		mode: 'blank',
+		headerText: 'Confirmation',
+		headerClose: false,
+		transition: 'flip',
+		themeDialog: 'a',
+		zindex: 2000,
+		blankContent : 
+		  "<div style='padding: 15px;'><p>" + confirmMessage + "</p>"+
+		  "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"SaveStatusProcess('" + isFinal + "');\">OK</a></td>" + 
+		  "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
+    });
+}
 	
-	if (sure) {
+function SaveStatusProcess(isFinal)
+{
+	if ($scope) {
 		
 		//show saving animation
 		$('#error-div2').text("").append(getLoadingMini());
