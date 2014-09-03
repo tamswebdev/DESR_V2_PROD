@@ -1,3 +1,69 @@
+/*********************************************************/
+/******************* Helping Method **********************/
+function goBack()
+{
+	history.go(-1);
+}
+
+function goHome()
+{
+	NavigatePage("#pgHome");
+}
+
+function addStatusAction(id)
+{
+	NavigatePage('#pgAddStatus?id=' + id);
+}
+
+function showAboutMeMenu() 
+{
+	$( "#popupAboutMe" ).popup( "open" )
+}
+
+function showTimedElem(id)
+{
+	$("#" + id).show();
+}
+
+function NavigatePage(pageid)
+{
+	$.mobile.navigate(pageid, { transition : "slide"});
+}
+
+function searchAction()
+{
+	NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+	performSearch();
+}
+
+function scanBarcode() 
+{
+	try {
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+			cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					$("#searchCatalogs").val(result.text);
+					navigator.notification.vibrate(15);
+					
+					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+					performSearch();
+				}, 
+				function (error) {
+					alert("Scanning failed: " + error);
+				}
+			);
+		}
+	}
+	catch(err) { }
+}
+
+function ShowHelp()
+{
+	NavigatePage( "#pgHelp" );
+}
+
+
+
 
 $.urlParam = function(name){
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20'))|| "";
@@ -40,33 +106,3 @@ function getTimestamp()
 	var d = new Date();
 	return d.getTime();
 }
-
-/*
-var createCookie = function(name, value, days) {
-    var expires;
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = "; expires=" + date.toGMTString();
-    }
-    else {
-        expires = "";
-    }
-    document.cookie = name + "=" + value + expires + "; path=/";
-}
-
-function getCookie(c_name) {
-    if (document.cookie.length > 0) {
-        c_start = document.cookie.indexOf(c_name + "=");
-        if (c_start != -1) {
-            c_start = c_start + c_name.length + 1;
-            c_end = document.cookie.indexOf(";", c_start);
-            if (c_end == -1) {
-                c_end = document.cookie.length;
-            }
-            return unescape(document.cookie.substring(c_start, c_end));
-        }
-    }
-    return "";
-}
-*/

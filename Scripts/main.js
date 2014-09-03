@@ -30,60 +30,6 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 	
 });
 
-function ShowHelp()
-{
-	NavigatePage( "#pgHelp" );
-}
-
-function SignOut()
-{
-	$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:false,
-		url: serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader,
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "",
-    });
-
-	userInfoData = localstorage.clear("userInfoData");
-	isUserLogin = false;
-	
-	NavigatePage("#pgLogin");
-}
-
-
-function checkUserLogin()
-{
-	if (userInfoData == null)
-	{
-		if (localstorage.get("userInfoData") != null)
-		{
-			userInfoData = localstorage.get("userInfoData");
-		}
-		else if (localstorage.get("userInfoData") == null)
-		{
-			userInfoData = localstorage.getUserInfoDefault();
-		}
-	}
-	
-	isUserLogin = (userInfoData.AuthenticationHeader != null && userInfoData.AuthenticationHeader != "" && 
-					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
-					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
-	
-    if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
-	{
-		NavigatePage("#pgLogin");
-	}
-	else if (isUserLogin)
-	{	
-		$(".spanLoginUser").text("" +userInfoData.DisplayName);
-		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
-			NavigatePage("#pgHome");
-	}
-}
 
 function LoginUser()
 {
@@ -768,65 +714,84 @@ $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 });
 
 
-/*********************************************************/
-/******************* Helping Method **********************/
-function goBack()
+function SignOut()
 {
-	history.go(-1);
+	$.ajax({
+		crossDomain: true,
+		type:"GET",
+		contentType: "application/json; charset=utf-8",
+		async:false,
+		url: serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader,
+		data: {},
+		dataType: "jsonp",                
+		jsonpCallback: "",
+    });
+
+	userInfoData = localstorage.clear("userInfoData");
+	isUserLogin = false;
+	
+	NavigatePage("#pgLogin");
 }
 
-function goHome()
-{
-	NavigatePage("#pgHome");
-}
 
-function addStatusAction(id)
+function checkUserLogin()
 {
-	NavigatePage('#pgAddStatus?id=' + id);
-}
-
-function showAboutMeMenu() 
-{
-	$( "#popupAboutMe" ).popup( "open" )
-}
-
-function showTimedElem(id)
-{
-	$("#" + id).show();
-}
-
-function NavigatePage(pageid)
-{
-	$.mobile.navigate(pageid, { transition : "slide"});
-}
-
-function searchAction()
-{
-	NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-	performSearch();
-}
-
-function scanBarcode() 
-{
-	try {
-		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
-			cordova.plugins.barcodeScanner.scan(
-				function (result) {
-					$("#searchCatalogs").val(result.text);
-					navigator.notification.vibrate(15);
-					
-					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-					performSearch();
-				}, 
-				function (error) {
-					alert("Scanning failed: " + error);
-				}
-			);
+	checkConnection();
+	
+	if (userInfoData == null)
+	{
+		if (localstorage.get("userInfoData") != null)
+		{
+			userInfoData = localstorage.get("userInfoData");
+		}
+		else if (localstorage.get("userInfoData") == null)
+		{
+			userInfoData = localstorage.getUserInfoDefault();
 		}
 	}
-	catch(err) { }
+	
+	isUserLogin = (userInfoData.AuthenticationHeader != null && userInfoData.AuthenticationHeader != "" && 
+					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
+					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
+	
+    if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
+	{
+		NavigatePage("#pgLogin");
+	}
+	else if (isUserLogin)
+	{	
+		$(".spanLoginUser").text("" +userInfoData.DisplayName);
+		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
+			NavigatePage("#pgHome");
+	}
 }
 
+function checkConnection() {
+	try {
+		var networkState = navigator.connection.type;
+		var states = {};
+		states[Connection.UNKNOWN]  = 'Unknown connection';
+		states[Connection.ETHERNET] = 'Ethernet connection';
+		states[Connection.WIFI]     = 'WiFi connection';
+		states[Connection.CELL_2G]  = 'Cell 2G connection';
+		states[Connection.CELL_3G]  = 'Cell 3G connection';
+		states[Connection.CELL_4G]  = 'Cell 4G connection';
+		states[Connection.CELL]     = 'Cell generic connection';
+		states[Connection.NONE]     = 'No internet connection';
+		
+		$(".no-connection-warning").remove();
+			
+		if (networkState == Connection.NONE)
+		{
+			$('div[role="main"]').prepend( "<div class='no-connection-warning'>" + states[networkState] + "</div>" );
+		}
+	}
+	catch (err) {
+		$(".no-connection-warning").remove();
+	}
+	
+	
+}
 
 
 
