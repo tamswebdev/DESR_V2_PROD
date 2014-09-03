@@ -123,7 +123,7 @@ function callbackLogin( data ){
 	{
 		userInfoData.DisplayName = data.d.results.name;
 		userInfoData.Email = data.d.results.email;
-		loggedUserPhone = data.d.results.phone;
+		userInfoData.Phone = data.d.results.phone;
 		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		
 		if ($('#rememberMe').is(':checked'))
@@ -497,6 +497,9 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
 	$("#selectModality").prop('selectedIndex', 0);
+	$('#error-div2').text("");
+	$('#Comments').val("");
+	
 	
 	
 	if ($.urlParam("id") == "")
@@ -631,7 +634,7 @@ function saveStatus(isFinal) {
 		ConfirmSystemHddEmptiedOfAllPatientStudies : $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
 		ConfirmModalityWorkListRemovedFromSystem : $('input[name=ConfirmModalityWorkListRemovedFromSystem]:checked').val(),
 		LayoutChangeExplain : $("#LayoutChangeExplain").val(),
-		userInfo: {WorkPhone: loggedUserPhone},
+		userInfo: {WorkPhone: userInfoData.Phone},
 		
 		SystemType : $("#inputSystemType").val(),
 		SystemSerialNumber : $("#inputSystemSerialNumber").val(),
