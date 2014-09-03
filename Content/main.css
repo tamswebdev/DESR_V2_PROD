@@ -47,10 +47,12 @@
 }
 
 .no-connection-warning {
-	background-color: #F4FA58;
-	border: 1px dashed #FFBF00;
+	background-color: #F6D8CE;
+	border: 2px dashed #FF0000;
 	text-align: center;
-	padding: 3px;
+	padding: 5px;
+	margin-bottom: 10px;
+	font-size: 0.8em;
 }
 
 #pgLogin > div

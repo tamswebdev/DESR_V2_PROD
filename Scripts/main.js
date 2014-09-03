@@ -717,10 +717,6 @@ function callbackSaveStatus(data)
 	}
 }
 
-
-
-
-
 /******************* Redirect Page ***********************/
 $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 	if ($.urlParam("url"))
@@ -742,6 +738,21 @@ function Jsonp_Call(_url, _async, callback)
             data: {},
             dataType: "jsonp",                
             jsonpCallback: callback,
+			error: function(jqXHR, textStatus, errorThrown) {
+				$("img[src='Images/loading.gif']").each(function () {
+					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).remove();
+				});
+				$("img[src='Images/ajax-loader.gif']").each(function () {
+					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).remove();
+				});
+				$("img[src='Images/ajax-loader-min.gif']").each(function () {
+					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).remove();
+				});
+				
+			}
     });
 }
 
@@ -810,7 +821,7 @@ function checkConnection() {
 		states[Connection.CELL_3G]  = 'Cell 3G connection';
 		states[Connection.CELL_4G]  = 'Cell 4G connection';
 		states[Connection.CELL]     = 'Cell generic connection';
-		states[Connection.NONE]     = 'No internet. Please make sure your device is connected to the internet.';
+		states[Connection.NONE]     = 'It looks like you\'ve lost your connection. Please check that you have a working connection and try again.';
 		
 		$(".no-connection-warning").remove();
 			
@@ -821,6 +832,7 @@ function checkConnection() {
 	}
 	catch (err) {
 		$(".no-connection-warning").remove();
+		$('div[role="main"]').prepend( "<div class='no-connection-warning'>It looks like you\'ve lost your connection. Please check that you have a working connection and try again.</div>" );
 	}
 	
 	
