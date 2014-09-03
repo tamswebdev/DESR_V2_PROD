@@ -42,7 +42,11 @@ function scanBarcode()
 		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
-					$("#searchCatalogs").val(result.text);
+					var barcodeText = result.text;
+					if (barcodeText.indexOf(";") > 0)
+						barcodeText = barcodeText.substring(barcodeText.indexOf(";") + 1);
+				
+					$("#searchCatalogs").val();
 					navigator.notification.vibrate(15);
 					
 					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
