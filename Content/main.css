@@ -46,6 +46,13 @@
  {
 }
 
+.no-connection-warning {
+	background-color: #F4FA58;
+	border: 1px dashed #FFBF00;
+	text-align: center;
+	padding: 3px;
+}
+
 #pgLogin > div
 {
     text-align:center;

@@ -777,7 +777,7 @@ function checkConnection() {
 		states[Connection.CELL_3G]  = 'Cell 3G connection';
 		states[Connection.CELL_4G]  = 'Cell 4G connection';
 		states[Connection.CELL]     = 'Cell generic connection';
-		states[Connection.NONE]     = 'No internet connection';
+		states[Connection.NONE]     = 'No internet. Please make sure your device is connected to the internet.';
 		
 		$(".no-connection-warning").remove();
 			
