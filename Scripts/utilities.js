@@ -46,8 +46,8 @@ function scanBarcode()
 					if (barcodeText.indexOf(";") > 0)
 						barcodeText = barcodeText.substring(barcodeText.indexOf(";") + 1);
 				
-					$("#searchCatalogs").val();
-					navigator.notification.vibrate(15);
+					$("#searchCatalogs").val(barcodeText);
+					navigator.notification.vibrate(20);
 					
 					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
 					performSearch();
