@@ -43,8 +43,8 @@ function scanBarcode()
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					var barcodeText = result.text;
-					if (barcodeText.indexOf(";") > 0)
-						barcodeText = barcodeText.substring(barcodeText.indexOf(";") + 1);
+					if (barcodeText.lastIndexOf(";") > 0)
+						barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
 				
 					$("#searchCatalogs").val(barcodeText);
 					navigator.notification.vibrate(20);
