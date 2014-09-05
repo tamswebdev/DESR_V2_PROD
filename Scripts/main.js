@@ -243,19 +243,19 @@ function callbackPopulateHistories(data)
                     temp += '<tr>';
                         temp += '<td class="catalog-info">';
                             temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '">';
-								temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)">';
+								temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)"  valign="top">';
 									temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
 									temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
-									temp += '<td><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
+									temp += '<td valign="top"><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
 									temp += '<td align="right">' + status.Modified + '</td></tr>';
-									temp += '<tr><td>Serial #: ' + status.SerialNumber + '</td>';
+									temp += '<tr><td valign="top">Serial #: ' + status.SerialNumber + '</td>';
 									temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
 									temp += '</table>';
 									
 								if (status.IsFinal == "No")
-									temp += "</td><td width='40' align='right' valign='top'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
+									temp += "</td><td width='40' align='right' valign='middle'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
 								else
-									temp += "</td><td width='40' align='right' valign='top'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
+									temp += "</td><td width='40' align='right' valign='middle'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
 								temp += "</td></tr></table>";
                             temp += '</div>  ';
                             temp += '<div id="divHistoryStatusDetails">  ';

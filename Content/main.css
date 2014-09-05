@@ -187,12 +187,14 @@
 
 #pgHistory .div-history-status-info .ui-btn, #pgHistory .ui-btn:visited {
 	border-color: red !important;
+	margin: 0px;
 }
 
 #pgHistory .history-expanded .collapsed-expanded-icon,
 #pgHistory .history-collapsed .collapsed-expanded-icon
 {
 	width: 32px;
+	padding-top: 0px;
 }
 
 #pgHistory .history-expanded .collapsed-expanded-icon > div {
@@ -207,7 +209,7 @@
 	background-color: rgba(0, 0, 0, 0.3);
     background-position: center center;
     background-repeat: no-repeat;
-    border-radius: 1em;
+    border-radius: 0em;
 }
 
 #pgHistory .history-collapsed .collapsed-expanded-icon > div {
@@ -223,7 +225,7 @@
 	background-color: rgba(0, 0, 0, 0.3);
     background-position: center center;
     background-repeat: no-repeat;
-    border-radius: 1em;
+    border-radius: 0em;
 }
 #pgHistory .div-history-status-info {
     margin: 0;
