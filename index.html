@@ -42,7 +42,7 @@
     </div>
 
     <div data-role="page" id="pgLogin">
-	    <div data-role="header">
+	    <div data-role="header" data-position="fixed">
 			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
@@ -83,7 +83,7 @@
 	 
 	
 	<div data-role="page" id="pgHome">
-        <div data-role="header">
+        <div data-role="header" data-position="fixed">
             <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
@@ -250,7 +250,8 @@
 	
 	<div data-role="page" id="pgAddStatus">
         <div data-role="header" data-position="fixed">
-           <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+			<div style="display:none;"><div id="divStatusId"></div></div>
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
 						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
@@ -531,7 +532,7 @@
     </div>
 	
 	<div data-role="page" id="pgHelp">
-	    <div data-role="header">
+	    <div data-role="header" data-position="fixed">
 			 <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">

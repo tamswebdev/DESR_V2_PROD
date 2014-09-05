@@ -110,3 +110,11 @@ function getTimestamp()
 	var d = new Date();
 	return d.getTime();
 }
+
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function SetRadioValue(name, SelectdValue) {
+    $('input[name="' + name+ '"][value="' + SelectdValue + '"]').prop('checked', true);
+}

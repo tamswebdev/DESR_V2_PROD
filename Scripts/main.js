@@ -242,10 +242,21 @@ function callbackPopulateHistories(data)
 				temp += '<table class="table-catalog-info">';
                     temp += '<tr>';
                         temp += '<td class="catalog-info">';
-                            temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '" onclick="toggleHistoryStatusDetails(this)">';
-                                temp += '<span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span>';
-                                temp += '<span style="float:right;">' + status.Modified + '</span>';
-                                temp += '<div style="">Serial #: ' + status.SerialNumber + '</div>';
+                            temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '">';
+								temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)">';
+									temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
+									temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
+									temp += '<td><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
+									temp += '<td align="right">' + status.Modified + '</td></tr>';
+									temp += '<tr><td>Serial #: ' + status.SerialNumber + '</td>';
+									temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
+									temp += '</table>';
+									
+								if (status.IsFinal == "No")
+									temp += "</td><td width='40' align='right' valign='top'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
+								else
+									temp += "</td><td width='40' align='right' valign='top'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
+								temp += "</td></tr></table>";
                             temp += '</div>  ';
                             temp += '<div id="divHistoryStatusDetails">  ';
                                 temp += '<table width="100%">';
@@ -392,13 +403,13 @@ function callbackPopulateHistories(data)
 }
 
 function toggleHistoryStatusDetails(obj) {
-    if ($(obj).hasClass("history-collapsed")) {
-        $(obj).removeClass("history-collapsed").addClass("history-expanded");
-        $(obj).next().show();
+    if ($(obj).closest("div").hasClass("history-collapsed")) {
+        $(obj).closest("div").removeClass("history-collapsed").addClass("history-expanded");
+        $(obj).closest("div").next().show();
     }
     else {
-        $(obj).removeClass("history-expanded").addClass("history-collapsed");
-        $(obj).next().hide();
+        $(obj).closest("div").removeClass("history-expanded").addClass("history-collapsed");
+        $(obj).closest("div").next().hide();
     }
 }
 
@@ -475,7 +486,14 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		$(".add-status").show();
 		$("#btnSubmitFinal").show();
 	}
-
+	
+	if ($.urlParam("sid") != "")
+	{
+		$("#divStatusId").text($.urlParam("sid"));
+		$("#btnSubmitFinal").show();
+	}
+	else
+		$("#divStatusId").text("");
 	
 	$("#allSoftwareLoadedAndFunctioning1, #allSoftwareLoadedAndFunctioning2").change(function () {
 		if ($(this).val() == "No")
@@ -562,6 +580,65 @@ function callbackGetCPLValues(data)
 			$("#controlPanelLayout").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
 		}
 		$("#controlPanelLayout").selectmenu('refresh', true);
+		
+		//Populate the draft data
+		if (isNumber($("#divStatusId").text()))
+		{
+			var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
+			Jsonp_Call(_url, false, "callbackLoadDraftStatus");
+		}
+	}
+	else
+	{
+		//
+	}
+}
+
+function callbackLoadDraftStatus(data)
+{
+	console.log(data);
+	if (data.d.results.length > 0)
+	{
+		var item = data.d.results[0];
+		
+		$("#inputSystemType").val(item.SystemType);
+		$("#inputSystemSerialNumber").val(item.SerialNumber);
+		$("#inputSoftwareVersion").val(item.SoftwareVersion);
+		$("#inputRevisionLevel").val(item.RevisionLevel);
+		$("#selectModality").val(item.Modality).selectmenu('refresh', true);
+		
+		$("#Comments").val(item.Comments);
+		$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);
+		SetRadioValue('modalityWorkListEmpty', item.ModalityWorkListEmpty);
+		SetRadioValue('allSoftwareLoadedAndFunctioning', item.AllSoftwareLoadedAndFunctioning);
+		$("#allSoftwareLoadedAndFunctioningReason").val(item.IfNoExplain);
+		SetRadioValue('nPDPresetsOnSystem', item.NPDPresetsOnSystem);
+		SetRadioValue('hDDFreeOfPatientStudies', item.HDDFreeOfPatientStudies);
+		SetRadioValue('demoImagesLoadedOnHardDrive', item.DemoImagesLoadedOnHardDrive);
+		SetRadioValue('systemPerformedAsExpected', item.SystemPerformedAsExpected);
+		$("#systemPerformedNotAsExpectedExplain").val(item.SystemPerformedNotAsExpectedExplain);
+		SetRadioValue('wereAnyIssuesDiscoveredWithSystemDuringDemo', item.AnyIssuesDuringDemo);
+		SetRadioValue('wasServiceContacted', item.wasServiceContacted);
+		SetRadioValue('ConfirmSystemHddEmptiedOfAllPatientStudies', item.ConfirmModalityWorkListRemoved);
+		SetRadioValue('ConfirmModalityWorkListRemovedFromSystem', item.ConfirmSystemHDDEmptied);
+		$("#LayoutChangeExplain").val(item.LayoutChangeExplain);
+		
+		$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
+		
+		if ($('input[name=allSoftwareLoadedAndFunctioning]:checked').val() == "No")
+			$("#allSoftwareLoadedAndFunctioningReasonTR").show();
+		else
+			$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
+			
+		if ($('input[name=systemPerformedAsExpected]:checked').val() == "No")
+			$("#systemPerformedNotAsExpectedExplainTR").show();
+		else
+			$("#systemPerformedNotAsExpectedExplainTR").hide();
+		
+		if ($("#controlPanelLayout").val() == "Control panel changed")
+			$("#LayoutChangeExplainTR").show();
+		else
+			$("#LayoutChangeExplainTR").hide();
 	}
 	else
 	{
@@ -609,7 +686,8 @@ function saveStatus(isFinal) {
 		SystemSerialNumber : $("#inputSystemSerialNumber").val(),
 		SoftwareVersion : $("#inputSoftwareVersion").val(),
 		RevisionLevel : $("#inputRevisionLevel").val(),
-		Modality : $("#selectModality").val()
+		Modality : $("#selectModality").val(),
+		StatusId : $("#divStatusId").text()
 	};
 
 	//console.log($scope);
@@ -664,9 +742,9 @@ function saveStatus(isFinal) {
 		return;
 	}
 
-	var confirmMessage = 'Submit the status update?';
+	var confirmMessage = 'Do you want to submit a <b><u>draft</u></b> status?<br />You can come back and edit it later';
 	if (isFinal == "Yes")
-		confirmMessage = 'Do you want to submit a final status?\nPlease make sure.....';
+		confirmMessage = 'Do you want to submit a <b><u>final</u></b> status?<br />The status will become read-only';
 
 	//var sure = confirm(confirmMessage);
 	
@@ -676,6 +754,7 @@ function saveStatus(isFinal) {
 		headerClose: false,
 		transition: 'flip',
 		themeDialog: 'a',
+		width: 300,
 		zindex: 2000,
 		blankContent : 
 		  "<div style='padding: 15px;'><p>" + confirmMessage + "</p>"+
@@ -695,7 +774,7 @@ function SaveStatusProcess(isFinal)
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
-			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 			/*$.ajax({
@@ -711,7 +790,7 @@ function SaveStatusProcess(isFinal)
 		}
 		else 
 		{
-			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=No&authInfo=" + userInfoData.AuthenticationHeader;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 			/*$.ajax({
@@ -764,15 +843,15 @@ function Jsonp_Call(_url, _async, callback)
             jsonpCallback: callback,
 			error: function(jqXHR, textStatus, errorThrown) {
 				$("img[src='Images/loading.gif']").each(function () {
-					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
 					$(this).remove();
 				});
 				$("img[src='Images/ajax-loader.gif']").each(function () {
-					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
 					$(this).remove();
 				});
 				$("img[src='Images/ajax-loader-min.gif']").each(function () {
-					$(this).parent().prepend("<div style='color: red;'>Network unreachable</div>");
+					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
 					$(this).remove();
 				});
 				
@@ -804,6 +883,8 @@ function SignOut()
 
 function checkUserLogin()
 {
+	$(".network-unreachable").remove();
+	
 	checkConnection();
 	
 	if (userInfoData == null)
