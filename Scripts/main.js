@@ -96,13 +96,13 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+			location.href = "index.html#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val();
 			performSearch();
 		}
 	});
 	
 	$("#filterDocumentType").change(function (event) {
-		NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+		location.href = "index.html#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val();
 		performSearch();
 	})
 	
@@ -596,7 +596,7 @@ function callbackGetCPLValues(data)
 
 function callbackLoadDraftStatus(data)
 {
-	console.log(data);
+	//console.log(data);
 	if (data.d.results.length > 0)
 	{
 		var item = data.d.results[0];
@@ -835,8 +835,8 @@ function Jsonp_Call(_url, _async, callback)
             crossDomain: true,
             type:"GET",
             contentType: "application/json; charset=utf-8",
-            async:true,
-			cache: _async,
+            async:_async,
+			cache: false,
             url: _url,
             data: {},
             dataType: "jsonp",                
