@@ -101,13 +101,13 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			location.href = "index.html#pgSearch?keyword=" + encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + encodeURIComponent($("#filterDocumentType").val());
+			location.href = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
 			performSearch();
 		}
 	});
 	
 	$("#filterDocumentType").change(function (event) {
-		location.href = "index.html#pgSearch?keyword=" + encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + encodeURIComponent($("#filterDocumentType").val());
+		location.href = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
 		performSearch();
 	})
 	
@@ -144,16 +144,6 @@ function performSearch()
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
-	/*$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:false,
-		url: searchURL,
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "callbackPopulateSearchResults",
-    });*/
 }
 
 function callbackPopulateSearchResults(data)
@@ -219,16 +209,6 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "callbackPopulateHistories");
-	/*$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:true,
-		url: serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader,
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "callbackPopulateHistories",
-    });*/
 });
 
 function callbackPopulateHistories(data)

@@ -70,7 +70,13 @@ function ShowHelp()
 
 
 $.urlParam = function(name){
-    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20'))|| "";
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')).replace("(FSLASH)","/").replace("(BSLASH)","\\") || "";
+}
+
+function _encodeURIComponent(value)
+{
+	value = value.replace("/", "(FSLASH)").replace("\\", "(BSLASH)");
+	return encodeURIComponent(value);
 }
 
 function getLoadingImg()
