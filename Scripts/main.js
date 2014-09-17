@@ -837,7 +837,7 @@ function Jsonp_Call(_url, _async, callback)
             contentType: "application/json; charset=utf-8",
             async:_async,
 			cache: false,
-            url: _url,
+            url: _url + "&nocachets=" + (new Date().getTime()),
             data: {},
             dataType: "jsonp",                
             jsonpCallback: callback,
