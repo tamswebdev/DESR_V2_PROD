@@ -101,13 +101,13 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	
 	$('#searchCatalogs').keyup(function (event) {
 		if (event.which == 13) {
-			location.href = "index.html#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val();
+			location.href = "index.html#pgSearch?keyword=" + encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + encodeURIComponent($("#filterDocumentType").val());
 			performSearch();
 		}
 	});
 	
 	$("#filterDocumentType").change(function (event) {
-		location.href = "index.html#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val();
+		location.href = "index.html#pgSearch?keyword=" + encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + encodeURIComponent($("#filterDocumentType").val());
 		performSearch();
 	})
 	
@@ -115,18 +115,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
-	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");
-	/*$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:false,
-		url: serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops",
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "callbackPopulateSystemTypes",
-    });*/
-	
+	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 	performSearch();
 });
 
