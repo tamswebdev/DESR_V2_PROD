@@ -67,25 +67,30 @@ function LoginUser()
 }
 
 function callbackLogin( data ){
-	if (data.d.results.issuccess) 
-	{
-		userInfoData.DisplayName = data.d.results.name;
-		userInfoData.Email = data.d.results.email;
-		userInfoData.Phone = data.d.results.phone;
-		$(".spanLoginUser").text("" +userInfoData.DisplayName);
-		
-		if ($('#rememberMe').is(':checked'))
-			userInfoData.Expiration = getTimestamp() + 1210000000;	//2 weeks
-		else
-			userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
-		
-		localstorage.set("userInfoData", userInfoData);
-		
-		NavigatePage("#pgHome");
+	try {
+		if (data.d.results.issuccess) 
+		{
+			userInfoData.DisplayName = data.d.results.name;
+			userInfoData.Email = data.d.results.email;
+			userInfoData.Phone = data.d.results.phone;
+			$(".spanLoginUser").text("" +userInfoData.DisplayName);
+			
+			if ($('#rememberMe').is(':checked'))
+				userInfoData.Expiration = getTimestamp() + 1210000000;	//2 weeks
+			else
+				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
+			
+			localstorage.set("userInfoData", userInfoData);
+			
+			NavigatePage("#pgHome");
+		}
+		else {
+			userInfoData = localstorage.getUserInfoDefault();
+			$('#td-error').html("Invalid login and/or password.");
+		}
 	}
-	else {
-		userInfoData = localstorage.getUserInfoDefault();
-		$('#td-error').html("Invalid login and/or password.");
+	catch(err) {
+		$('#td-error').html("Internal application error.");
 	}
 }
 
@@ -127,18 +132,22 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 
 function callbackPopulateSystemTypes(data)
 {
-	if (data.d.results.length > 0)
-	{
-		$('#filterDocumentType option[value!="All"]').remove();
-		
-		var _systemType = $.urlParam("systemtype");
-		for (var i = 0; i < data.d.results.length; i++)
+	try {
+		if (data.d.results.length > 0)
 		{
-			$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+			$('#filterDocumentType option[value!="All"]').remove();
+			
+			var _systemType = $.urlParam("systemtype");
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+			}
+			$("#filterDocumentType").selectmenu('refresh', true);
 		}
-		$("#filterDocumentType").selectmenu('refresh', true);
 	}
+	catch(err) {}
 }
+
 
 function performSearch()
 {
@@ -160,49 +169,54 @@ function performSearch()
 
 function callbackPopulateSearchResults(data)
 {
-	$( "#divSearchResults" ).text("");
-	
-	if (data.d.results.length > 0)
-	{
-		for(var i=0; i < data.d.results.length; i++)
+	try {
+		$( "#divSearchResults" ).text("");
+		
+		if (data.d.results.length > 0)
 		{
-			var catalog = data.d.results[i];
-			var temp = "";
-			temp += '<table class="search-item">';
-				temp += '<tr>';
-					if (catalog.ImageURL != "")
-						temp += '<td class="catalog-img"><div><img class="img-icon" src="' + serviceRootUrl + catalog.ImageURL + '" /></div></td>';
-					else
-						temp += '<td class="catalog-img"><div><img class="img-icon" src="images/no_image.jpg" /></div></td>';
-					temp += '<td class="catalog-info">';
-						temp += '<div class="div-catalog-info">';
-							temp += '<span class="head-cat">' + catalog.Modality + ' (' + catalog.SystemType + ')</span><br />';
-							temp += 'Serial Number: ' + catalog.Product + '<br />';
-							temp += 'Software Version: ' + catalog.Software_x0020_Version + ' (Revision ' + catalog.Revision_x0020_Level + ')<br />';
-							temp += 'Last Updated By: ' + catalog.MCSS.substring(catalog.MCSS.indexOf("#") + 1) + '<br /><br />';
-							temp += 'Last Updated: ' + catalog.System_x0020_Date.substring(0, catalog.System_x0020_Date.indexOf(" ")) + '';
-						temp += '</div>';
-					temp += '</td>';
-				temp += '</tr>';
-				temp += '<tr>';
-					temp += '<td class="td-add-to-cart" valign="bottom" colspan="4">';
-						temp += '<div class="div-catalog-add">';
-							temp += '<a data-mini="true" data-inline="true" data-role="button" href="javascript: addStatusAction('+catalog.ID+');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Status</span></span></a>';
-						temp += '</div>';
-					temp += '</td>';
-				temp += '</tr>';
-			temp += '</table>';
-		
-			$( "#divSearchResults" ).append(temp);
+			for(var i=0; i < data.d.results.length; i++)
+			{
+				var catalog = data.d.results[i];
+				var temp = "";
+				temp += '<table class="search-item">';
+					temp += '<tr>';
+						if (catalog.ImageURL != "")
+							temp += '<td class="catalog-img"><div><img class="img-icon" src="' + serviceRootUrl + catalog.ImageURL + '" /></div></td>';
+						else
+							temp += '<td class="catalog-img"><div><img class="img-icon" src="images/no_image.jpg" /></div></td>';
+						temp += '<td class="catalog-info">';
+							temp += '<div class="div-catalog-info">';
+								temp += '<span class="head-cat">' + catalog.Modality + ' (' + catalog.SystemType + ')</span><br />';
+								temp += 'Serial Number: ' + catalog.Product + '<br />';
+								temp += 'Software Version: ' + catalog.Software_x0020_Version + ' (Revision ' + catalog.Revision_x0020_Level + ')<br />';
+								temp += 'Last Updated By: ' + catalog.MCSS.substring(catalog.MCSS.indexOf("#") + 1) + '<br /><br />';
+								temp += 'Last Updated: ' + catalog.System_x0020_Date.substring(0, catalog.System_x0020_Date.indexOf(" ")) + '';
+							temp += '</div>';
+						temp += '</td>';
+					temp += '</tr>';
+					temp += '<tr>';
+						temp += '<td class="td-add-to-cart" valign="bottom" colspan="4">';
+							temp += '<div class="div-catalog-add">';
+								temp += '<a data-mini="true" data-inline="true" data-role="button" href="javascript: addStatusAction('+catalog.ID+');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Status</span></span></a>';
+							temp += '</div>';
+						temp += '</td>';
+					temp += '</tr>';
+				temp += '</table>';
+			
+				$( "#divSearchResults" ).append(temp);
+			}
+			
+			//$(".btnAddStatus").button('refresh');
+			$('.btnAddStatus').attr("data-theme", "a").removeClass("ui-btn-up-e").addClass("ui-btn-up-a");
 		}
-		
-		//$(".btnAddStatus").button('refresh');
-		$('.btnAddStatus').attr("data-theme", "a").removeClass("ui-btn-up-e").addClass("ui-btn-up-a");
+		else
+		{
+			//no item
+			$( "#divSearchResults" ).text("").append("<br /><center>No item found.</center>");
+		}
 	}
-	else
-	{
-		//no item
-		$( "#divSearchResults" ).text("").append("<br /><center>No item found.</center>");
+	catch(err) {
+		$( "#divSearchResults" ).text("").append("Internal application error.");
 	}
 }
 
@@ -230,181 +244,186 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 
 function callbackPopulateHistories(data)
 {
-	//console.log(data);
-	if (data.d.results.length > 0)
-	{
-		$( "#divHistoryResults" ).text("");
-		
-		for(var i=0; i < data.d.results.length; i++)
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
 		{
-			var status = data.d.results[i];
-			var temp = "";
-				temp += '<table class="table-catalog-info">';
-                    temp += '<tr>';
-                        temp += '<td class="catalog-info">';
-                            temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '">';
-								temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)"  valign="top">';
-									temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
-									temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
-									temp += '<td valign="top"><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
-									temp += '<td align="right">' + status.Modified + '</td></tr>';
-									temp += '<tr><td valign="top">Serial #: ' + status.SerialNumber + '</td>';
-									temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
+			$( "#divHistoryResults" ).text("");
+			
+			for(var i=0; i < data.d.results.length; i++)
+			{
+				var status = data.d.results[i];
+				var temp = "";
+					temp += '<table class="table-catalog-info">';
+						temp += '<tr>';
+							temp += '<td class="catalog-info">';
+								temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '">';
+									temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)"  valign="top">';
+										temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
+										temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
+										temp += '<td valign="top"><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
+										temp += '<td align="right">' + status.Modified + '</td></tr>';
+										temp += '<tr><td valign="top">Serial #: ' + status.SerialNumber + '</td>';
+										temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
+										temp += '</table>';
+										
+									if (status.IsFinal == "No")
+										temp += "</td><td width='40' align='right' valign='middle'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
+									else
+										temp += "</td><td width='40' align='right' valign='middle'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
+									temp += "</td></tr></table>";
+								temp += '</div>  ';
+								temp += '<div id="divHistoryStatusDetails">  ';
+									temp += '<table width="100%">';
+										temp += '<tr>';
+											temp += '<td class="history-item-title" width="30%">System serial number:</td>';
+											temp += '<td class="history-item-value" width="70%">' + status.SerialNumber + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Software version:</td>';
+											temp += '<td class="history-item-value">' + status.SoftwareVersion + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Revision Level:</td>';
+											temp += '<td class="history-item-value">' + status.RevisionLevel + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Date:</td>';
+											temp += '<td class="history-item-value">' + status.SystemDate + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">CSS:</td>';
+											temp += '<td class="history-item-value">' + status.MCSS + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Modality:</td>';
+											temp += '<td class="history-item-value">' + status.Modality + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Comments:</td>';
+											temp += '<td class="history-item-value" colspan="3">' + status.Comments + '</td>';
+										temp += '</tr>';
 									temp += '</table>';
-									
-								if (status.IsFinal == "No")
-									temp += "</td><td width='40' align='right' valign='middle'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
-								else
-									temp += "</td><td width='40' align='right' valign='middle'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
-								temp += "</td></tr></table>";
-                            temp += '</div>  ';
-                            temp += '<div id="divHistoryStatusDetails">  ';
-                                temp += '<table width="100%">';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title" width="30%">System serial number:</td>';
-                                        temp += '<td class="history-item-value" width="70%">' + status.SerialNumber + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Software version:</td>';
-                                        temp += '<td class="history-item-value">' + status.SoftwareVersion + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Revision Level:</td>';
-                                        temp += '<td class="history-item-value">' + status.RevisionLevel + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Date:</td>';
-                                        temp += '<td class="history-item-value">' + status.SystemDate + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">CSS:</td>';
-                                        temp += '<td class="history-item-value">' + status.MCSS + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Modality:</td>';
-                                        temp += '<td class="history-item-value">' + status.Modality + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Comments:</td>';
-                                        temp += '<td class="history-item-value" colspan="3">' + status.Comments + '</td>';
-                                    temp += '</tr>';
-                                temp += '</table>';
-                                temp += '<br />';
-                                temp += '<table width="100%">';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-section-header" colspan="4"><b>System condition on arrival</b></td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title" width="50%">Control panel layout:</td>';
-                                        temp += '<td class="history-item-value" width="50%">' + status.ControlPanelLayout + '</td>';
-                                    temp += '</tr>';
-									if (status.ControlPanelLayout=='Control panel changed') {
-										temp += '<tr ng-show="" style="font-style:italic;">';
-											temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
-											temp += '<td class="history-item-value">' + status.LayoutChangeExplain + '</td>';
-										temp += '</tr>';
-									}
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Modality work list empty:</td>';
-                                        temp += '<td class="history-item-value">' + status.ModalityWorkListEmpty + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">All software loaded and functioning:</td>';
-                                        temp += '<td class="history-item-value">' + status.AllSoftwareLoadedAndFunctioning + '</td>';
-                                    temp += '</tr>';
-									
-									if (status.AllSoftwareLoadedAndFunctioning=='No') {
-										temp += '<tr ng-show="" style="font-style:italic;">';
-											temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
-											temp += '<td class="history-item-value">' + status.IfNoExplain + '</td>';
-										temp += '</tr>';
-									}
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">NPD presets on system:</td>';
-                                        temp += '<td class="history-item-value">' + status.NPDPresetsOnSystem + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">HDD free of patients studies:</td>';
-                                        temp += '<td class="history-item-value">' + status.HDDFreeOfPatientStudies + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Demo images loaded on hard drive:</td>';
-                                        temp += '<td class="history-item-value">' + status.DemoImagesLoadedOnHardDrive + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-section-header" colspan="4"><b>Before leaving customer site</b></td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">System performed as expected:</td>';
-                                        temp += '<td class="history-item-value">' + status.SystemPerformedAsExpected + '</td>';
-                                    temp += '</tr>';
-									
-									if (status.SystemPerformedAsExpected=='No') {
-										temp += '<tr style="font-style:italic;">';
-											temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
-										   temp += ' <td class="history-item-value">' + status.SystemPerformedNotAsExpectedExplain + '</td>';
-										temp += '</tr>';
-									}
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Were any issues discovered with system during demo:</td>';
-                                        temp += '<td class="history-item-value">' + status.AnyIssuesDuringDemo + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Was service contacted:</td>';
-                                        temp += '<td class="history-item-value">' + status.wasServiceContacted + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Confirm modality work list removed from system:</td>';
-                                        temp += '<td class="history-item-value">' + status.ConfirmModalityWorkListRemoved + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-title">Confirm system HDD emptied of all patient studies:</td>';
-                                        temp += '<td class="history-item-value">' + status.ConfirmSystemHDDEmptied + '</td>';
-                                    temp += '</tr>';
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-section-header" colspan="4"><b>Additional Comments</b></td>';
-                                    temp += '</tr>';
-									
-									if (status.AdditionalComments !='') {
+									temp += '<br />';
+									temp += '<table width="100%">';
 										temp += '<tr>';
-											temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;">';
-												temp += '<div>' + status.AdditionalComments + '</div>';
+											temp += '<td class="history-item-section-header" colspan="4"><b>System condition on arrival</b></td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title" width="50%">Control panel layout:</td>';
+											temp += '<td class="history-item-value" width="50%">' + status.ControlPanelLayout + '</td>';
+										temp += '</tr>';
+										if (status.ControlPanelLayout=='Control panel changed') {
+											temp += '<tr ng-show="" style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+												temp += '<td class="history-item-value">' + status.LayoutChangeExplain + '</td>';
+											temp += '</tr>';
+										}
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Modality work list empty:</td>';
+											temp += '<td class="history-item-value">' + status.ModalityWorkListEmpty + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">All software loaded and functioning:</td>';
+											temp += '<td class="history-item-value">' + status.AllSoftwareLoadedAndFunctioning + '</td>';
+										temp += '</tr>';
+										
+										if (status.AllSoftwareLoadedAndFunctioning=='No') {
+											temp += '<tr ng-show="" style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+												temp += '<td class="history-item-value">' + status.IfNoExplain + '</td>';
+											temp += '</tr>';
+										}
+										temp += '<tr>';
+											temp += '<td class="history-item-title">NPD presets on system:</td>';
+											temp += '<td class="history-item-value">' + status.NPDPresetsOnSystem + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">HDD free of patients studies:</td>';
+											temp += '<td class="history-item-value">' + status.HDDFreeOfPatientStudies + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Demo images loaded on hard drive:</td>';
+											temp += '<td class="history-item-value">' + status.DemoImagesLoadedOnHardDrive + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-section-header" colspan="4"><b>Before leaving customer site</b></td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">System performed as expected:</td>';
+											temp += '<td class="history-item-value">' + status.SystemPerformedAsExpected + '</td>';
+										temp += '</tr>';
+										
+										if (status.SystemPerformedAsExpected=='No') {
+											temp += '<tr style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+											   temp += ' <td class="history-item-value">' + status.SystemPerformedNotAsExpectedExplain + '</td>';
+											temp += '</tr>';
+										}
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Were any issues discovered with system during demo:</td>';
+											temp += '<td class="history-item-value">' + status.AnyIssuesDuringDemo + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Was service contacted:</td>';
+											temp += '<td class="history-item-value">' + status.wasServiceContacted + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Confirm modality work list removed from system:</td>';
+											temp += '<td class="history-item-value">' + status.ConfirmModalityWorkListRemoved + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-title">Confirm system HDD emptied of all patient studies:</td>';
+											temp += '<td class="history-item-value">' + status.ConfirmSystemHDDEmptied + '</td>';
+										temp += '</tr>';
+										temp += '<tr>';
+											temp += '<td class="history-item-section-header" colspan="4"><b>Additional Comments</b></td>';
+										temp += '</tr>';
+										
+										if (status.AdditionalComments !='') {
+											temp += '<tr>';
+												temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;">';
+													temp += '<div>' + status.AdditionalComments + '</div>';
+												temp += '</td>';
+											temp += '</tr>';
+										}
+										if (status.AdditionalComments=='') {
+											temp += '<tr>';
+												temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;">No comment found.</td>';
+											temp += '</tr>';
+										}
+										temp += '<tr>';
+											temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;text-align:center;padding-top: 10px;padding-bottom: 10px;">';
+												temp += '<textarea id="taAdditionalComment' + status.ID + '" rows="2" style="width: 100%"></textarea>';
+												temp += '<div id="divAddCommentError' + status.ID + '" style="color:red;display:none;">* Comment cannot be empty</div>';
+												temp += '<a id="btnAddComment_' + status.ID + '" data-mini="true" data-inline="true" data-role="button" href="javascript: saveAdditionalComment(' + status.ID + ');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Comment</span></span></a>';
 											temp += '</td>';
-										temp += '</tr>';
-									}
-									if (status.AdditionalComments=='') {
-										temp += '<tr>';
-											temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;">No comment found.</td>';
-										temp += '</tr>';
-									}
-                                    temp += '<tr>';
-                                        temp += '<td class="history-item-value" colspan="2" style="font-weight:normal;text-align:center;padding-top: 10px;padding-bottom: 10px;">';
-                                            temp += '<textarea id="taAdditionalComment' + status.ID + '" rows="2" style="width: 100%"></textarea>';
-                                            temp += '<div id="divAddCommentError' + status.ID + '" style="color:red;display:none;">* Comment cannot be empty</div>';
-											temp += '<a id="btnAddComment_' + status.ID + '" data-mini="true" data-inline="true" data-role="button" href="javascript: saveAdditionalComment(' + status.ID + ');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Comment</span></span></a>';
-                                        temp += '</td>';
-                                   temp += '</tr>';
-                                temp += '</table> '; 
-                            temp += '</div> ';        
-                        temp += '</td>';
-                    temp += '</tr>';
-                temp += '</table>';
-				temp += '<div class="divRowSeparator"></div>';
-				
-				
-			$("#divHistoryResults").append(temp);
+									   temp += '</tr>';
+									temp += '</table> '; 
+								temp += '</div> ';        
+							temp += '</td>';
+						temp += '</tr>';
+					temp += '</table>';
+					temp += '<div class="divRowSeparator"></div>';
+					
+					
+				$("#divHistoryResults").append(temp);
+			}
+			
+			var _id = $.urlParam("id");
+			if (_id != "" && parseInt(_id) > 0)
+			{
+				$("div.itemid_" + _id).removeClass("history-collapsed").addClass("history-expanded");
+				$("div.itemid_" + _id).next().show();
+			}
 		}
-		
-		var _id = $.urlParam("id");
-		if (_id != "" && parseInt(_id) > 0)
+		else 
 		{
-			$("div.itemid_" + _id).removeClass("history-collapsed").addClass("history-expanded");
-			$("div.itemid_" + _id).next().show();
+			$( "#divHistoryResults" ).text("").append("<br /><center>No history found.</center>");
 		}
 	}
-	else 
-	{
-		$( "#divHistoryResults" ).text("").append("<br /><center>No history found.</center>");
+	catch(err) {
+		$( "#divHistoryResults" ).text("").append("Internal application error.");
 	}
 }
 
@@ -447,11 +466,14 @@ function saveAdditionalComment(id) {
 
 function callbackAddComment(data)
 {
-	//console.log(data);
-	if (data.d.results.length > 0)
-	{
-		NavigatePage("#pgRedirect?url=" + encodeURIComponent("#pgHistory?id=" + data.d.results[0]));
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			NavigatePage("#pgRedirect?url=" + encodeURIComponent("#pgHistory?id=" + data.d.results[0]));
+		}
 	}
+	catch(err) { }
 }
 
 
@@ -559,97 +581,106 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 
 function callbackLoadAddStatus(data)
 {
-	if (data.d.results.length > 0)
-	{
-		var catalog = data.d.results[0];
-		$("#catalog_SystemType").text(catalog.SystemType);
-		$("#catalog_Product").text(catalog.Product);
-		$("#catalog_Software_x0020_Version").text(catalog.Software_x0020_Version);
-		$("#catalog_Revision_x0020_Level").text(catalog.Revision_x0020_Level);
-		$("#catalog_System_x0020_Date").text(catalog.System_x0020_Date.substring(0, catalog.System_x0020_Date.indexOf(" ")));
-		$("#catalog_MCSS").text(catalog.MCSS.substring(catalog.MCSS.indexOf("#") + 1));
+	try {
+		if (data.d.results.length > 0)
+		{
+			var catalog = data.d.results[0];
+			$("#catalog_SystemType").text(catalog.SystemType);
+			$("#catalog_Product").text(catalog.Product);
+			$("#catalog_Software_x0020_Version").text(catalog.Software_x0020_Version);
+			$("#catalog_Revision_x0020_Level").text(catalog.Revision_x0020_Level);
+			$("#catalog_System_x0020_Date").text(catalog.System_x0020_Date.substring(0, catalog.System_x0020_Date.indexOf(" ")));
+			$("#catalog_MCSS").text(catalog.MCSS.substring(catalog.MCSS.indexOf("#") + 1));
+		}
+		else
+		{
+			//
+		}
 	}
-	else
-	{
-		//
-	}
+	catch(err) {}
 }
 
 function callbackGetCPLValues(data)
 {
-	//console.log(data);
-	if (data.d.results.length > 0)
-	{
-		$('#controlPanelLayout option[value!=""]').remove();
-		for (var i = 0; i < data.d.results.length; i++)
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
 		{
-			$("#controlPanelLayout").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+			$('#controlPanelLayout option[value!=""]').remove();
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#controlPanelLayout").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+			}
+			$("#controlPanelLayout").selectmenu('refresh', true);
+			
+			//Populate the draft data
+			if (isNumber($("#divStatusId").text()))
+			{
+				var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
+				Jsonp_Call(_url, false, "callbackLoadDraftStatus");
+			}
 		}
-		$("#controlPanelLayout").selectmenu('refresh', true);
-		
-		//Populate the draft data
-		if (isNumber($("#divStatusId").text()))
+		else
 		{
-			var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
-			Jsonp_Call(_url, false, "callbackLoadDraftStatus");
+			//
 		}
 	}
-	else
-	{
-		//
-	}
+	catch(err) {}
 }
 
 function callbackLoadDraftStatus(data)
 {
-	//console.log(data);
-	if (data.d.results.length > 0)
-	{
-		var item = data.d.results[0];
-		
-		$("#inputSystemType").val(item.SystemType);
-		$("#inputSystemSerialNumber").val(item.SerialNumber);
-		$("#inputSoftwareVersion").val(item.SoftwareVersion);
-		$("#inputRevisionLevel").val(item.RevisionLevel);
-		$("#selectModality").val(item.Modality).selectmenu('refresh', true);
-		
-		$("#Comments").val(item.Comments);
-		$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);
-		SetRadioValue('modalityWorkListEmpty', item.ModalityWorkListEmpty);
-		SetRadioValue('allSoftwareLoadedAndFunctioning', item.AllSoftwareLoadedAndFunctioning);
-		$("#allSoftwareLoadedAndFunctioningReason").val(item.IfNoExplain);
-		SetRadioValue('nPDPresetsOnSystem', item.NPDPresetsOnSystem);
-		SetRadioValue('hDDFreeOfPatientStudies', item.HDDFreeOfPatientStudies);
-		SetRadioValue('demoImagesLoadedOnHardDrive', item.DemoImagesLoadedOnHardDrive);
-		SetRadioValue('systemPerformedAsExpected', item.SystemPerformedAsExpected);
-		$("#systemPerformedNotAsExpectedExplain").val(item.SystemPerformedNotAsExpectedExplain);
-		SetRadioValue('wereAnyIssuesDiscoveredWithSystemDuringDemo', item.AnyIssuesDuringDemo);
-		SetRadioValue('wasServiceContacted', item.wasServiceContacted);
-		SetRadioValue('ConfirmSystemHddEmptiedOfAllPatientStudies', item.ConfirmModalityWorkListRemoved);
-		SetRadioValue('ConfirmModalityWorkListRemovedFromSystem', item.ConfirmSystemHDDEmptied);
-		$("#LayoutChangeExplain").val(item.LayoutChangeExplain);
-		
-		$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
-		
-		if ($('input[name=allSoftwareLoadedAndFunctioning]:checked').val() == "No")
-			$("#allSoftwareLoadedAndFunctioningReasonTR").show();
-		else
-			$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			var item = data.d.results[0];
 			
-		if ($('input[name=systemPerformedAsExpected]:checked').val() == "No")
-			$("#systemPerformedNotAsExpectedExplainTR").show();
+			$("#inputSystemType").val(item.SystemType);
+			$("#inputSystemSerialNumber").val(item.SerialNumber);
+			$("#inputSoftwareVersion").val(item.SoftwareVersion);
+			$("#inputRevisionLevel").val(item.RevisionLevel);
+			$("#selectModality").val(item.Modality).selectmenu('refresh', true);
+			
+			$("#Comments").val(item.Comments);
+			$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);
+			SetRadioValue('modalityWorkListEmpty', item.ModalityWorkListEmpty);
+			SetRadioValue('allSoftwareLoadedAndFunctioning', item.AllSoftwareLoadedAndFunctioning);
+			$("#allSoftwareLoadedAndFunctioningReason").val(item.IfNoExplain);
+			SetRadioValue('nPDPresetsOnSystem', item.NPDPresetsOnSystem);
+			SetRadioValue('hDDFreeOfPatientStudies', item.HDDFreeOfPatientStudies);
+			SetRadioValue('demoImagesLoadedOnHardDrive', item.DemoImagesLoadedOnHardDrive);
+			SetRadioValue('systemPerformedAsExpected', item.SystemPerformedAsExpected);
+			$("#systemPerformedNotAsExpectedExplain").val(item.SystemPerformedNotAsExpectedExplain);
+			SetRadioValue('wereAnyIssuesDiscoveredWithSystemDuringDemo', item.AnyIssuesDuringDemo);
+			SetRadioValue('wasServiceContacted', item.wasServiceContacted);
+			SetRadioValue('ConfirmSystemHddEmptiedOfAllPatientStudies', item.ConfirmModalityWorkListRemoved);
+			SetRadioValue('ConfirmModalityWorkListRemovedFromSystem', item.ConfirmSystemHDDEmptied);
+			$("#LayoutChangeExplain").val(item.LayoutChangeExplain);
+			
+			$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
+			
+			if ($('input[name=allSoftwareLoadedAndFunctioning]:checked').val() == "No")
+				$("#allSoftwareLoadedAndFunctioningReasonTR").show();
+			else
+				$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
+				
+			if ($('input[name=systemPerformedAsExpected]:checked').val() == "No")
+				$("#systemPerformedNotAsExpectedExplainTR").show();
+			else
+				$("#systemPerformedNotAsExpectedExplainTR").hide();
+			
+			if ($("#controlPanelLayout").val() == "Control panel changed")
+				$("#LayoutChangeExplainTR").show();
+			else
+				$("#LayoutChangeExplainTR").hide();
+		}
 		else
-			$("#systemPerformedNotAsExpectedExplainTR").hide();
-		
-		if ($("#controlPanelLayout").val() == "Control panel changed")
-			$("#LayoutChangeExplainTR").show();
-		else
-			$("#LayoutChangeExplainTR").hide();
+		{
+			//
+		}
 	}
-	else
-	{
-		//
-	}
+	catch(err) { }
 }
 
 
@@ -815,15 +846,18 @@ function SaveStatusProcess(isFinal)
 
 function callbackSaveStatus(data)
 {
-	//console.log(data);
-	if (data.d.results.length > 0 && parseInt(data.d.results[0]) > 0)
-	{
-		NavigatePage('#pgHistory');
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0 && parseInt(data.d.results[0]) > 0)
+		{
+			NavigatePage('#pgHistory');
+		}
+		else 
+		{
+			//
+		}
 	}
-	else 
-	{
-		//
-	}
+	catch(err) { }
 }
 
 /******************* Redirect Page ***********************/
@@ -837,32 +871,35 @@ $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 
 function Jsonp_Call(_url, _async, callback)
 {
-	$.ajax({
-            crossDomain: true,
-            type:"GET",
-            contentType: "application/json; charset=utf-8",
-            async:_async,
-			cache: false,
-            url: _url + "&nocachets=" + (new Date().getTime()),
-            data: {},
-            dataType: "jsonp",                
-            jsonpCallback: callback,
-			error: function(jqXHR, textStatus, errorThrown) {
-				$("img[src='Images/loading.gif']").each(function () {
-					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-					$(this).remove();
-				});
-				$("img[src='Images/ajax-loader.gif']").each(function () {
-					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-					$(this).remove();
-				});
-				$("img[src='Images/ajax-loader-min.gif']").each(function () {
-					$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-					$(this).remove();
-				});
-				
-			}
-    });
+	try {
+		$.ajax({
+				crossDomain: true,
+				type:"GET",
+				contentType: "application/json; charset=utf-8",
+				async:_async,
+				cache: false,
+				url: _url + "&nocachets=" + (new Date().getTime()),
+				data: {},
+				dataType: "jsonp",                
+				jsonpCallback: callback,
+				error: function(jqXHR, textStatus, errorThrown) {
+					$("img[src='Images/loading.gif']").each(function () {
+						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+						$(this).remove();
+					});
+					$("img[src='Images/ajax-loader.gif']").each(function () {
+						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+						$(this).remove();
+					});
+					$("img[src='Images/ajax-loader-min.gif']").each(function () {
+						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+						$(this).remove();
+					});
+					
+				}
+		});
+	}
+	catch(err) { }
 }
 
 function SignOut()
