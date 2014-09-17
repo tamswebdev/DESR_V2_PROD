@@ -298,6 +298,12 @@ function callbackPopulateHistories(data)
                                         temp += '<td class="history-item-title" width="50%">Control panel layout:</td>';
                                         temp += '<td class="history-item-value" width="50%">' + status.ControlPanelLayout + '</td>';
                                     temp += '</tr>';
+									if (status.ControlPanelLayout=='Control panel changed') {
+										temp += '<tr ng-show="" style="font-style:italic;">';
+											temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+											temp += '<td class="history-item-value">' + status.LayoutChangeExplain + '</td>';
+										temp += '</tr>';
+									}
                                     temp += '<tr>';
                                         temp += '<td class="history-item-title">Modality work list empty:</td>';
                                         temp += '<td class="history-item-value">' + status.ModalityWorkListEmpty + '</td>';
