@@ -32,8 +32,12 @@ function NavigatePage(pageid)
 
 function searchAction()
 {
-	NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-	performSearch();
+	//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+	//performSearch();
+	
+	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	location.href=_searchurl;
+	location.reload(true);
 }
 
 function scanBarcode() 
@@ -49,8 +53,11 @@ function scanBarcode()
 					$("#searchCatalogs").val(barcodeText);
 					navigator.notification.vibrate(20);
 					
-					NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-					performSearch();
+					//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+					//performSearch();
+					var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+					location.href=_searchurl;
+					location.reload(true);
 				}, 
 				function (error) {
 					alert("Scanning failed: " + error);
