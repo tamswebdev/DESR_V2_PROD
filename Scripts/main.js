@@ -582,7 +582,7 @@ function callbackGetCPLValues(data)
 		//console.log(data);
 		if (data.d.results.length > 0)
 		{
-			$('#controlPanelLayout option[value!=""]').remove();
+			$('#controlPanelLayout option[value!="N/A"]').remove();
 			for (var i = 0; i < data.d.results.length; i++)
 			{
 				$("#controlPanelLayout").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
