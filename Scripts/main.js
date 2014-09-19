@@ -714,7 +714,7 @@ function saveStatus(isFinal) {
 		return;
 	}
 
-	var confirmMessage = 'Do you want to submit a <b><u>draft</u></b> status?<br />You can come back and edit it later';
+	var confirmMessage = 'Do you want to save <b><u>draft</u></b>?<br />You can come back and edit it later';
 	if (isFinal == "Yes")
 		confirmMessage = 'Do you want to submit a <b><u>final</u></b> status?<br />The status will become read-only';
 
