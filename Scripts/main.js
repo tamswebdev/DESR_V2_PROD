@@ -54,17 +54,6 @@ function LoginUser()
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
 	Jsonp_Call(_url, true, "callbackLogin");
-	/*$.ajax({
-            crossDomain: true,
-            type:"GET",
-            contentType: "application/json; charset=utf-8",
-            async:true,
-			cache: false,
-            url: _url,
-            data: {},
-            dataType: "jsonp",                
-            jsonpCallback: "callbackLogin",
-    });*/
 }
 
 function callbackLogin( data ){
@@ -424,16 +413,6 @@ function saveAdditionalComment(id) {
 		
 		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader;
 		Jsonp_Call(_url, false, "callbackAddComment");
-		/*$.ajax({
-			crossDomain: true,
-			type:"GET",
-			contentType: "application/json; charset=utf-8",
-			async:true,
-			url: serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader,
-			data: {},
-			dataType: "jsonp",                
-			jsonpCallback: "callbackAddComment",
-		});*/
 	}
 	else {
 		$("#divAddCommentError" + id).text("").append("* Comment cannot be empty").show();
@@ -478,7 +457,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	{
 		$(".add-new-status").show();
 		$(".add-status").hide();
-		$("#btnSubmitFinal").hide();
+		//$("#btnSubmitFinal").hide();
 		
 		var today = new Date();
 		$("#catalog_System_x0020_Date").text((today.getMonth()+1) + '/' + today.getDate() + '/' + today.getFullYear());
@@ -488,13 +467,13 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	{
 		$(".add-new-status").hide();
 		$(".add-status").show();
-		$("#btnSubmitFinal").show();
+		//$("#btnSubmitFinal").show();
 	}
 	
 	if ($.urlParam("sid") != "")
 	{
 		$("#divStatusId").text($.urlParam("sid"));
-		$("#btnSubmitFinal").show();
+		//$("#btnSubmitFinal").show();
 	}
 	else
 		$("#divStatusId").text("");
@@ -521,16 +500,6 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	
 	var _url1 = serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url1, false, "callbackGetCPLValues");
-	/*$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:false,
-		url: serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + "sites/busops",
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "callbackGetCPLValues"
-	});*/
 	
 
 	var id = $.urlParam("id");
@@ -538,16 +507,6 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	{
 		var _url2 = serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id;
 		Jsonp_Call(_url2, false, "callbackLoadAddStatus");
-		/*$.ajax({
-			crossDomain: true,
-			type:"GET",
-			contentType: "application/json; charset=utf-8",
-			async:false,
-			url: serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id,
-			data: {},
-			dataType: "jsonp",                
-			jsonpCallback: "callbackLoadAddStatus"
-		});*/
 	}
 	else 
 	{
@@ -707,7 +666,7 @@ function saveStatus(isFinal) {
 	
 	if ($scope.recordId == "" || !($scope.recordId > 0))
 	{
-		if ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.RevisionLevel == "" || $scope.Modality == "")
+		if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.RevisionLevel == "" || $scope.Modality == ""))
 		{
 			$('#error-div').html('Please select all values.');
 			showTimedElem('error-div');
@@ -719,7 +678,7 @@ function saveStatus(isFinal) {
 	}
 
 
-	if ($scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "") {
+	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
 		$('#error-div').html('Please select all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please select all values.');
@@ -728,7 +687,7 @@ function saveStatus(isFinal) {
 		return;
 	}
 
-	if ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "") {
+	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
@@ -737,7 +696,7 @@ function saveStatus(isFinal) {
 		return;
 	}
 
-	if ($scope.allSoftwareLoadedAndFunctioning == "No" && $scope.allSoftwareLoadedAndFunctioningReason == "") {
+	if ((isFinal == "Yes") && ($scope.allSoftwareLoadedAndFunctioning == "No" && $scope.allSoftwareLoadedAndFunctioningReason == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
@@ -746,7 +705,7 @@ function saveStatus(isFinal) {
 		return;
 	}
 
-	if ($scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "Yes" && $scope.wasServiceContacted == "") {
+	if ((isFinal == "Yes") && ($scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "Yes" && $scope.wasServiceContacted == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
@@ -790,32 +749,12 @@ function SaveStatusProcess(isFinal)
 			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
-			/*$.ajax({
-				crossDomain: true,
-				type:"GET",
-				contentType: "application/json; charset=utf-8",
-				async:true,
-				url: _url,
-				data: {},
-				dataType: "jsonp",                
-				jsonpCallback: "callbackSaveStatus"
-			});*/
 		}
 		else 
 		{
 			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
-			/*$.ajax({
-				crossDomain: true,
-				type:"GET",
-				contentType: "application/json; charset=utf-8",
-				async:true,
-				url: _url,
-				data: {},
-				dataType: "jsonp",                
-				jsonpCallback: "callbackSaveStatus"
-			});*/
 		}
 	}
 }
@@ -882,16 +821,6 @@ function SignOut()
 {
 	var _url = serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
-	/*$.ajax({
-		crossDomain: true,
-		type:"GET",
-		contentType: "application/json; charset=utf-8",
-		async:false,
-		url: serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader,
-		data: {},
-		dataType: "jsonp",                
-		jsonpCallback: "",
-    });*/
 
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
