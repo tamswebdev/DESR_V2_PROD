@@ -1,8 +1,10 @@
 /*********************************************************/
 /******************* Helping Method **********************/
-function goBack()
+function goBack(backVal)
 {
-	history.go(-1);
+	backVal = typeof backVal !== 'undefined' ? backVal : -1;
+	
+	history.go(backVal);
 	if (location.href.indexOf("#pgAddStatus") > 0)
 	{
 		if (history.length > 0)

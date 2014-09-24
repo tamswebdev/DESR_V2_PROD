@@ -869,8 +869,6 @@ function checkUserLogin()
 	$(".network-unreachable").remove();
 	
 	checkConnection();
-	console.log(userInfoData);
-	console.log(localstorage.get("userInfoData"));
 	if (userInfoData == null)
 	{
 		if (localstorage.get("userInfoData") != null)
