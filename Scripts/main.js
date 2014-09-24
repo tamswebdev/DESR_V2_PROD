@@ -127,7 +127,7 @@ function callbackPopulateSystemTypes(data)
 			{
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 			}
-			$("#filterDocumentType").selectmenu('refresh', true).resizable();
+			$("#filterDocumentType").selectmenu('refresh', true);
 		}
 	}
 	catch(err) {}

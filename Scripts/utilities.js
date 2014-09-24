@@ -3,6 +3,13 @@
 function goBack()
 {
 	history.go(-1);
+	if (location.href.indexOf("#pgAddStatus") > 0)
+	{
+		if (history.length > 0)
+			goBack();
+		else
+			goHome();
+	}
 }
 
 function goHome()
