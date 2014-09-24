@@ -537,7 +537,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	if (isNumber($("#divStatusId").text()))
 	{
 		var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
-		Jsonp_Call(_url, false, "callbackLoadDraftStatus");
+		Jsonp_Call(_url, true, "callbackLoadDraftStatus");
 	}
 	
 
@@ -545,7 +545,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	if (id > 0)
 	{
 		var _url2 = serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id;
-		Jsonp_Call(_url2, false, "callbackLoadAddStatus");
+		Jsonp_Call(_url2, true, "callbackLoadAddStatus");
 	}
 	else 
 	{
@@ -701,7 +701,7 @@ function saveStatus(isFinal) {
 	
 	if ($scope.recordId == "" || !($scope.recordId > 0))
 	{
-		if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.RevisionLevel == "" || $scope.Modality == ""))
+		if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
 		{
 			$('#error-div').html('Please select all values.');
 			showTimedElem('error-div');

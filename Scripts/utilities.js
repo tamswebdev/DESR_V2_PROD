@@ -1,10 +1,12 @@
 /*********************************************************/
 /******************* Helping Method **********************/
-function goBack(backVal)
+function goBack()
 {
-	backVal = typeof backVal !== 'undefined' ? backVal : -1;
+	if (location.href.toLowerCase().indexOf("&ui-state=dialog") > 0)
+		history.go(-2);
+	else
+		history.go(-1);
 	
-	history.go(backVal);
 	if (location.href.indexOf("#pgAddStatus") > 0)
 	{
 		if (history.length > 0)
