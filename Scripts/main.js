@@ -110,6 +110,21 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	$("#searchCatalogs").val($.urlParam("keyword"));	
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
 	
+	//Load System Types from localstorage
+	var localSystemTypes = localstorage.get("localSystemTypes");
+	if (localSystemTypes != null && localSystemTypes != "")
+	{
+		$('#filterDocumentType option[value!="All"]').remove();			
+		var _systemType = $.urlParam("systemtype");
+		var _localSystemTypes = localSystemTypes.split(";");
+		for (var i = 0; i < _localSystemTypes.length; i++)
+		{
+			if (_localSystemTypes[i] != "")
+				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
+		}
+		$("#filterDocumentType").selectmenu('refresh', true);
+	}	
+	
 	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
 	performSearch();
@@ -122,12 +137,15 @@ function callbackPopulateSystemTypes(data)
 		{
 			$('#filterDocumentType option[value!="All"]').remove();
 			
+			var localSystemTypes = "";
 			var _systemType = $.urlParam("systemtype");
 			for (var i = 0; i < data.d.results.length; i++)
 			{
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+				localSystemTypes += data.d.results[i] + ";";
 			}
-			$("#filterDocumentType").selectmenu('refresh', true);
+			$("#filterDocumentType").selectmenu('refresh', true);			
+			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
 	catch(err) {}
@@ -498,8 +516,29 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 			$("#LayoutChangeExplainTR").hide();
 	});
 	
+	//Load CPL from localstorage
+	var lookupCPLValues = localstorage.get("lookupCPLValues");
+	if (lookupCPLValues != null && lookupCPLValues != "")
+	{
+		$('#controlPanelLayout option[value!="N/A"]').remove();
+		var _lookupCPLValues = lookupCPLValues.split(";");
+		for (var i = 0; i < _lookupCPLValues.length; i++)
+		{
+			if (_lookupCPLValues[i] != "")
+				$("#controlPanelLayout").append("<option value='" + _lookupCPLValues[i] + "'>" + _lookupCPLValues[i] + "</option>");
+		}
+		$("#controlPanelLayout").selectmenu('refresh', true);
+	}
+	
 	var _url1 = serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url1, false, "callbackGetCPLValues");
+	
+	//Populate the draft data
+	if (isNumber($("#divStatusId").text()))
+	{
+		var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
+		Jsonp_Call(_url, false, "callbackLoadDraftStatus");
+	}
 	
 
 	var id = $.urlParam("id");
@@ -542,18 +581,14 @@ function callbackGetCPLValues(data)
 		if (data.d.results.length > 0)
 		{
 			$('#controlPanelLayout option[value!="N/A"]').remove();
+			var lookupCPLValues = "";
 			for (var i = 0; i < data.d.results.length; i++)
 			{
 				$("#controlPanelLayout").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupCPLValues +=  data.d.results[i] + ";";
 			}
 			$("#controlPanelLayout").selectmenu('refresh', true);
-			
-			//Populate the draft data
-			if (isNumber($("#divStatusId").text()))
-			{
-				var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
-				Jsonp_Call(_url, false, "callbackLoadDraftStatus");
-			}
+			localstorage.set("lookupCPLValues", lookupCPLValues);
 		}
 		else
 		{
@@ -834,7 +869,8 @@ function checkUserLogin()
 	$(".network-unreachable").remove();
 	
 	checkConnection();
-	
+	console.log(userInfoData);
+	console.log(localstorage.get("userInfoData"));
 	if (userInfoData == null)
 	{
 		if (localstorage.get("userInfoData") != null)
