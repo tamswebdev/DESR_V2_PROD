@@ -71,6 +71,8 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
+			localstorage.clearHistory("navHistory");
+			
 			
 			NavigatePage("#pgHome");
 		}
@@ -866,6 +868,36 @@ function SignOut()
 
 function checkUserLogin()
 {
+	//Save Navigation History
+	var navHistory = [];
+	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
+	{
+		navHistory = localstorage.get("navHistory").History.split(";");
+	}
+	else {
+		localstorage.clearHistory("navHistory");
+	}
+	
+	if (location.href.toLowerCase().indexOf("#pglogin") < 0 && location.href.toLowerCase().indexOf("#pgaddstatus") < 0 && location.href.toLowerCase().indexOf("&ui-state=dialog") < 0)
+	{
+		if (navHistory.length >= 10)
+			navHistory.shift();
+		
+		var _currentUrl = location.href.substring(location.href.indexOf("#"));
+		if (navHistory.length == 0 || (navHistory.length > 0 && navHistory[navHistory.length - 1] != _currentUrl))
+		{
+			navHistory.push(location.href.substring(location.href.indexOf("#")));
+			localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
+		}
+	}
+	if (navHistory.length <= 1)
+		$(".menu-back-btn").hide();
+	else
+		$(".menu-back-btn").show();
+	//console.log(localstorage.get("navHistory"));
+	//End of Navigation History /////
+	
+
 	$(".network-unreachable").remove();
 	
 	checkConnection();

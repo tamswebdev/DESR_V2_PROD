@@ -2,17 +2,25 @@
 /******************* Helping Method **********************/
 function goBack()
 {
-	if (location.href.toLowerCase().indexOf("&ui-state=dialog") > 0)
-		history.go(-2);
-	else
-		history.go(-1);
-	
-	if (location.href.indexOf("#pgAddStatus") > 0)
+	var navHistory = [];
+	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
 	{
-		if (history.length > 0)
-			goBack();
-		else
-			goHome();
+		navHistory = localstorage.get("navHistory").History.split(";");
+	}
+	if (navHistory.length > 1)
+	{
+		navHistory.pop();
+		localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
+		var _backUrl = navHistory[navHistory.length - 1];
+		NavigatePage(_backUrl);
+		
+		if (_backUrl.toLowerCase().indexOf("#pgsearch") >= 0)
+			location.reload(true);
+	}
+	else
+	{
+		localstorage.clearHistory("navHistory");
+		NavigatePage("#pgHome");
 	}
 }
 
@@ -60,15 +68,18 @@ function scanBarcode()
 					var barcodeText = result.text;
 					if (barcodeText.lastIndexOf(";") > 0)
 						barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
-				
-					$("#searchCatalogs").val(barcodeText);
-					navigator.notification.vibrate(20);
 					
-					//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-					//performSearch();
-					var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-					location.href=_searchurl;
-					location.reload(true);
+					if (barcodeText != "")
+					{
+						$("#searchCatalogs").val(barcodeText);
+						navigator.notification.vibrate(20);
+						
+						//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
+						//performSearch();
+						var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+						location.href=_searchurl;
+						location.reload(true);
+					}
 				}, 
 				function (error) {
 					alert("Scanning failed: " + error);
@@ -124,8 +135,15 @@ var localstorage = {
 		window.localStorage.setItem( key, JSON.stringify(this.getUserInfoDefault()) );
 		return this.getUserInfoDefault();
 	},
+	clearHistory: function(key) {
+		window.localStorage.setItem( key, JSON.stringify(this.getHistoryDefault()) );
+		return this.getHistoryDefault();
+	},
 	getUserInfoDefault: function() {
 		return {"AuthenticationHeader" : "", "DisplayName" : "", "Email" : "", "Phone" : "", "Expiration" : 0 };
+	},
+	getHistoryDefault: function() {
+		return {"History" : "", "Expiration" : 0 };
 	}
 };
 
