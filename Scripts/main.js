@@ -467,7 +467,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
-	$("#selectModality").prop('selectedIndex', 0);
+	$("#selectModality").val('UL').selectmenu('refresh', true);
 	$('#error-div2').text("");
 	$('#Comments').val("");
 	
@@ -567,6 +567,8 @@ function callbackLoadAddStatus(data)
 			$("#catalog_Revision_x0020_Level").text(catalog.Revision_x0020_Level);
 			$("#catalog_System_x0020_Date").text(catalog.System_x0020_Date.substring(0, catalog.System_x0020_Date.indexOf(" ")));
 			$("#catalog_MCSS").text(catalog.MCSS.substring(catalog.MCSS.indexOf("#") + 1));
+			$("#catalog_Modality").text(catalog.Modality);
+			
 		}
 		else
 		{
