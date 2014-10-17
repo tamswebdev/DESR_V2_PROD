@@ -9,16 +9,12 @@ var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
 
-alert(navigator.userAgent);
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
-	alert("mobile");
 	document.addEventListener("deviceready", onDeviceReady, false);
 } else {
 	isWebBrowser = true;
-	alert("web");
 	$( document ).ready(function() {
-		alert("call ondeviceready");
 		onDeviceReady(); //this is the browser
 	});
 	
