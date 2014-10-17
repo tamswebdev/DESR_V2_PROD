@@ -1,27 +1,58 @@
 var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 
-
+var isPageLoadReady = false;
+var isSkipSearchLoad = false;
 var isUserLogin = false;
+var isWebBrowser = false;
 var userInfoData = null;
 var $scope = null;
+var deviceInfo = "";
 
-$(document).ready(function () {
+if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
+{
+	document.addEventListener("deviceready", onDeviceReady, false);
+} else {
+	isWebBrowser = true;
+	$( document ).ready(function() {
+		onDeviceReady(); //this is the browser
+	});
+	
+}
+
+function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
-	checkUserLogin();
-});
+	
+	if (typeof device != 'undefined')
+		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
+	else
+		deviceInfo = "Browser:" + navigator.browserDetail;
+		
+	localstorage.set("DeviceInfo", deviceInfo);
+	
+	checkUserLogin();	
+	initSystemTypes();
+	
+	isPageLoadReady = true;
+	
+	if (isSkipSearchLoad)
+		LoadSearchPage();
+};
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
+
+	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, false, "");
 });
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 	checkUserLogin();
+	$("#td-error").text("");
 });
 
 $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
-	checkUserLogin();
-	
+	checkUserLogin();	
 	$("#td-error").text("");
 	
 	$('#password').keyup(function (event) {
@@ -32,6 +63,41 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 	
 });
 
+$( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
+	if (isPageLoadReady)
+	{
+		LoadSearchPage();
+	}
+	else {
+		isSkipSearchLoad = true;
+	}
+});
+
+function LoadSearchPage()
+{
+	checkUserLogin();
+	$("#td-error").text("");
+	
+	$('#searchCatalogs').keypress(function (event) {
+		if (event.which == 13) {
+			searchAction();
+		}
+	});
+		
+	$("#filterDocumentType").change(function (event) {
+		searchAction(isWebBrowser);
+	});
+	
+	$("#searchCatalogs").val($.urlParam("keyword"));	
+	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
+	
+	$("#filterDocumentType").selectmenu('refresh', true);
+	
+	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
+		deviceInfo = localstorage.get("DeviceInfo");
+	
+	performSearch();
+}
 
 function LoginUser()
 {
@@ -71,7 +137,7 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
-			localstorage.clearHistory("navHistory");
+			//localstorage.clearHistory("navHistory");
 			
 			
 			NavigatePage("#pgHome");
@@ -87,30 +153,12 @@ function callbackLogin( data ){
 }
 
 
-
-$( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	checkUserLogin();
+function initSystemTypes()
+{
 	
-	$('#searchCatalogs').keyup(function (event) {
-		if (event.which == 13) {
-			var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-			//performSearch();
-			//$.mobile.changePage(_searchurl, { reloadPage: true });
-			location.href=_searchurl;
-			location.reload(true);
-		}
-	});
 	
-	$("#filterDocumentType").change(function (event) {
-		var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-		//performSearch();
-		//$.mobile.changePage(_searchurl, { reloadPage: true });
-		location.href=_searchurl;
-		location.reload(true);
-	})
-	
-	$("#searchCatalogs").val($.urlParam("keyword"));	
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
 	
 	//Load System Types from localstorage
 	var localSystemTypes = localstorage.get("localSystemTypes");
@@ -124,13 +172,9 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 			if (_localSystemTypes[i] != "")
 				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
-		$("#filterDocumentType").selectmenu('refresh', true);
-	}	
-	
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
-	Jsonp_Call(_url, false, "callbackPopulateSystemTypes");	
-	performSearch();
-});
+		
+	}
+}
 
 function callbackPopulateSystemTypes(data)
 {
@@ -145,8 +189,7 @@ function callbackPopulateSystemTypes(data)
 			{
 				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
-			}
-			$("#filterDocumentType").selectmenu('refresh', true);			
+			}		
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
@@ -157,7 +200,7 @@ function callbackPopulateSystemTypes(data)
 function performSearch()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + ($.urlParam("systemtype") == "" ? "All": $.urlParam("systemtype"));
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }
@@ -431,7 +474,7 @@ function saveAdditionalComment(id) {
 	if (jQuery.trim(comment) != "") {
 		$("#divAddCommentError" + id).text("").append(getLoadingMini()).show();
 		
-		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader;
+		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader + "&WorkPhone=" + userInfoData.Phone;
 		Jsonp_Call(_url, false, "callbackAddComment");
 	}
 	else {
@@ -832,24 +875,26 @@ function Jsonp_Call(_url, _async, callback)
 				contentType: "application/json; charset=utf-8",
 				async:_async,
 				cache: false,
-				url: _url + "&nocachets=" + (new Date().getTime()),
+				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo),
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: callback,
 				error: function(jqXHR, textStatus, errorThrown) {
-					$("img[src='Images/loading.gif']").each(function () {
-						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-						$(this).remove();
-					});
-					$("img[src='Images/ajax-loader.gif']").each(function () {
-						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-						$(this).remove();
-					});
-					$("img[src='Images/ajax-loader-min.gif']").each(function () {
-						$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
-						$(this).remove();
-					});
-					
+					if (textStatus.toLowerCase() == "error")
+					{
+						$("img[src='Images/loading.gif']").each(function () {
+							$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+							$(this).remove();
+						});
+						$("img[src='Images/ajax-loader.gif']").each(function () {
+							$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+							$(this).remove();
+						});
+						$("img[src='Images/ajax-loader-min.gif']").each(function () {
+							$(this).parent().prepend("<div class='network-unreachable' style='color: red;'>Network unreachable</div>");
+							$(this).remove();
+						});
+					}
 				}
 		});
 	}
@@ -870,6 +915,7 @@ function SignOut()
 
 function checkUserLogin()
 {
+	/*
 	//Save Navigation History
 	var navHistory = [];
 	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
@@ -897,7 +943,7 @@ function checkUserLogin()
 	else
 		$(".menu-back-btn").show();
 	//console.log(localstorage.get("navHistory"));
-	//End of Navigation History /////
+	//End of Navigation History ////*/
 	
 
 	$(".network-unreachable").remove();

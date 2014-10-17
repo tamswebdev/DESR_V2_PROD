@@ -1,5 +1,6 @@
 /*********************************************************/
 /******************* Helping Method **********************/
+/*
 function goBack()
 {
 	var navHistory = [];
@@ -23,6 +24,7 @@ function goBack()
 		NavigatePage("#pgHome");
 	}
 }
+*/
 
 function goHome()
 {
@@ -49,14 +51,13 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-function searchAction()
+function searchAction(refresh)
 {
-	//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-	//performSearch();
-	
+	refresh = typeof refresh !== 'undefined' ? refresh : true;
 	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.href=_searchurl;
-	location.reload(true);
+	location.replace(_searchurl);
+	if (refresh)
+		location.reload(true);
 }
 
 function scanBarcode() 
@@ -73,12 +74,7 @@ function scanBarcode()
 					{
 						$("#searchCatalogs").val(barcodeText);
 						navigator.notification.vibrate(20);
-						
-						//NavigatePage("#pgSearch?keyword=" + $('#searchCatalogs').val() + "&systemtype=" + $("#filterDocumentType").val());
-						//performSearch();
-						var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-						location.href=_searchurl;
-						location.reload(true);
+						searchAction();
 					}
 				}, 
 				function (error) {
@@ -160,3 +156,11 @@ function isNumber(n) {
 function SetRadioValue(name, SelectdValue) {
     $('input[name="' + name+ '"][value="' + SelectdValue + '"]').prop('checked', true);
 }
+
+navigator.browserDetail = (function(){
+    var N= navigator.appName, ua= navigator.userAgent, tem;
+    var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+    if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+    M= M? [M[1], M[2]]: [N, navigator.appVersion,'-?'];
+    return M;
+})();

@@ -87,14 +87,13 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div style="width: 5px; display:inline-block;"></div>
 						<div class="header-menu-button">
 							<a href="#popupMenu" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
@@ -144,14 +143,14 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
 						<div class="header-menu-button">
 							<a href="#popupMenu1" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu1" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
@@ -176,7 +175,7 @@
 				<table width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td>
-							<input type="search" name="search" id="searchCatalogs" value="" onsearch="alert('yes');" />
+							<input type="search" name="search" id="searchCatalogs" value="" />
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn"></a>
@@ -189,10 +188,10 @@
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
 			</div>
 			<div class="div-modality">
-                <table>
+                <table width="100%">
                     <tr>
                         <td>
-                            <select class="form-control" id="filterDocumentType">
+                            <select class="form-control" id="filterDocumentType" name="filterDocumentType" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
                                 <option value="All">All System Types</option>
                             </select>
                         </td>
@@ -212,14 +211,14 @@
             <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
 						<div class="header-menu-button">
 							<a href="#popupMenu2" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu2" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
@@ -254,14 +253,14 @@
 			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
 						<div class="header-menu-button">
 							<a href="#popupMenu3" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu3" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
@@ -331,7 +330,7 @@
 							<td>
 								<div id="catalog_Modality" class="add-status"></div>
 								<div class="add-new-status">
-									<select class="form-control" id="selectModality">
+									<select class="form-control" id="selectModality" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
 										<option value="">-- Please Select --</option>
 										<option value="CT">CT</option>
 										<option value="MR">MR</option>
@@ -355,7 +354,7 @@
 						<tr>
 							<td colspan="2">
 								<div class="add-status-label">Control panel layout:</div>
-								<select id="controlPanelLayout" class="form-control">
+								<select id="controlPanelLayout" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
 									<option value="N/A">-- N/A --</option>
 								</select>
 							</td>
@@ -499,14 +498,14 @@
 			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
 						<div class="header-menu-button">
 							<a href="#popupMenu4" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu4" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
@@ -536,14 +535,14 @@
 			 <table width="100%" cellspacing="0" cellpadding="0" class="header-table">
 				<tr>
 					<td class="header-left">
-						<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
 						<div class="header-menu-button">
 							<a href="#popupMenu5" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
 							<div data-role="popup" id="popupMenu5" data-theme="a">
 									<ul data-role="listview" data-inset="true" style="min-width:210px;">
 										<li data-role="list-divider">Choose an action</li>
 										<li><span class="spanLoginUser"></span></li>
-										<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
