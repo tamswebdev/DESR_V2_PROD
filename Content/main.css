@@ -328,3 +328,30 @@
 	padding-left: 5px;
 }
 
+
+#divHelpContent p {
+	margin: 5px;
+}
+#divHelpContent p.MsoNormal {
+	margin-left: 0px;
+}
+
+
+#divHelpContent a,
+#divHelpContent 
+ {
+	font-size: 1em;
+}
+
+#divHelpContent h1 {
+	font-size: 1.1em;
+}
+#divHelpContent h2 {
+	font-size: 1.1em;
+}
+
+#divHelpContent h1.header-title {
+	font-size: 1.3em;
+}
+
+
