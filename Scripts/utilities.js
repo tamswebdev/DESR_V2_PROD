@@ -1,34 +1,17 @@
 /*********************************************************/
 /******************* Helping Method **********************/
-/*
-function goBack()
-{
-	var navHistory = [];
-	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
-	{
-		navHistory = localstorage.get("navHistory").History.split(";");
-	}
-	if (navHistory.length > 1)
-	{
-		navHistory.pop();
-		localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
-		var _backUrl = navHistory[navHistory.length - 1];
-		NavigatePage(_backUrl);
-		
-		if (_backUrl.toLowerCase().indexOf("#pgsearch") >= 0)
-			location.reload(true);
-	}
-	else
-	{
-		localstorage.clearHistory("navHistory");
-		NavigatePage("#pgHome");
-	}
-}
-*/
 
 function goHome()
 {
 	NavigatePage("#pgHome");
+}
+
+function clearSearchCriteria()
+{
+	try {
+		localstorage.set("userSearchSystemType", "All");
+		localstorage.set("userSearchText", "");
+	} catch (err) {}
 }
 
 function addStatusAction(id)
@@ -51,13 +34,18 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-function searchAction(refresh)
+function searchAction()
 {
-	refresh = typeof refresh !== 'undefined' ? refresh : true;
-	var _searchurl = "index.html#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	location.replace(_searchurl);
-	if (refresh)
-		location.reload(true);
+	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
+	//userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
+	//userSearchText = _encodeURIComponent($("#searchCatalogs").val());
+	
+	localstorage.set("userSearchSystemType", _encodeURIComponent($("#filterDocumentType").val()));
+	localstorage.set("userSearchText", _encodeURIComponent($("#searchCatalogs").val()));
+	
+	location.href = "index.html#pgSearch";
+	window.location.reload(true);
+	//performSearch();
 }
 
 function scanBarcode() 
@@ -86,6 +74,31 @@ function scanBarcode()
 	catch(err) { }
 }
 
+function scanSerialNumBarcode() 
+{
+	try {
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+			cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					var barcodeText = result.text;
+					if (barcodeText.lastIndexOf(";") > 0)
+						barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
+					
+					if (barcodeText != "")
+					{
+						$("#inputSystemSerialNumber").val(barcodeText);
+						navigator.notification.vibrate(20);
+					}
+				}, 
+				function (error) {
+					alert("Scanning failed: " + error);
+				}
+			);
+		}
+	}
+	catch(err) { }
+}
+
 function ShowHelp()
 {
 	NavigatePage( "#pgHelp" );
@@ -98,10 +111,19 @@ $.urlParam = function(name){
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')).replace("(FSLASH)","/").replace("(BSLASH)","\\") || "";
 }
 
+$.urlParamRedirect = function(name){
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')) || "";
+}
+
 function _encodeURIComponent(value)
 {
 	value = value.replace("/", "(FSLASH)").replace("\\", "(BSLASH)");
 	return encodeURIComponent(value);
+}
+function _decodeURIComponent(value)
+{
+	value = value.replace("(FSLASH)", "/").replace("(BSLASH)", "\\");
+	return decodeURIComponent(value);
 }
 
 function getLoadingImg()
@@ -122,7 +144,10 @@ var localstorage = {
     },
     get: function (key) {
         try {
-            return JSON.parse( window.localStorage.getItem(key) );
+			if (window.localStorage.getItem(key) === null)
+				return null;
+			else
+				return JSON.parse( window.localStorage.getItem(key) );
         } catch (e) {
             return null;
         }

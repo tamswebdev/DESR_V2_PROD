@@ -2,12 +2,15 @@ var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 
 var isPageLoadReady = false;
-var isSkipSearchLoad = false;
+var isSkipPageLoad = "";
 var isUserLogin = false;
 var isWebBrowser = false;
 var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
+
+var userLongitude = 0;
+var userLatitude = 0;
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
@@ -31,20 +34,37 @@ function onDeviceReady() {
 	localstorage.set("DeviceInfo", deviceInfo);
 	
 	checkUserLogin();	
-	initSystemTypes();
+	LoadSystemTypes();
 	
 	isPageLoadReady = true;
 	
-	if (isSkipSearchLoad)
-		LoadSearchPage();
+	if (isSkipPageLoad != "")
+	{
+		if (isSkipPageLoad == "pgSearch")
+			LoadSearchPage();
+		else if (isSkipPageLoad == "pgHome")
+			pgHome_pagebeforeshow();
+	}
 };
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
+	if (!isPageLoadReady)
+	{
+		isSkipPageLoad = "pgHome";
+		return;
+	}
+	
+	pgHome_pagebeforeshow();	
+});
+
+function pgHome_pagebeforeshow()
+{
 	checkUserLogin();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
-});
+}
+
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 	checkUserLogin();
@@ -64,43 +84,28 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	if (isPageLoadReady)
+	if (!isPageLoadReady)
 	{
-		LoadSearchPage();
+		isSkipPageLoad = "pgSearch";
+		return;
 	}
-	else {
-		isSkipSearchLoad = true;
-	}
+	
+	initSystemTypes();
+	LoadSearchPage();
 });
+
 
 function LoadSearchPage()
 {
-	checkUserLogin();
-	$("#td-error").text("");
-	
-	$('#searchCatalogs').keypress(function (event) {
-		if (event.which == 13) {
-			searchAction();
-		}
-	});
-		
-	$("#filterDocumentType").change(function (event) {
-		searchAction(isWebBrowser);
-	});
-	
-	$("#searchCatalogs").val($.urlParam("keyword"));	
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	
-	$("#filterDocumentType").selectmenu('refresh', true);
-	
-	if (deviceInfo == "" && localstorage.get("DeviceInfo") != null)
-		deviceInfo = localstorage.get("DeviceInfo");
-	
+	checkUserLogin();	
 	performSearch();
 }
 
+
 function LoginUser()
 {
+	clearSearchCriteria();
+
 	if ($('#login') === undefined || $('#login').val() == '') {
 		$('#td-error').html('Please provide login.');
 		showTimedElem('td-error');
@@ -137,8 +142,6 @@ function callbackLogin( data ){
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
 			localstorage.set("userInfoData", userInfoData);
-			//localstorage.clearHistory("navHistory");
-			
 			
 			NavigatePage("#pgHome");
 		}
@@ -155,25 +158,29 @@ function callbackLogin( data ){
 
 function initSystemTypes()
 {
-	
-	
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
-	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
-	
 	//Load System Types from localstorage
 	var localSystemTypes = localstorage.get("localSystemTypes");
 	if (localSystemTypes != null && localSystemTypes != "")
 	{
+		var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 		$('#filterDocumentType option[value!="All"]').remove();			
-		var _systemType = $.urlParam("systemtype");
 		var _localSystemTypes = localSystemTypes.split(";");
 		for (var i = 0; i < _localSystemTypes.length; i++)
 		{
 			if (_localSystemTypes[i] != "")
-				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((_systemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
+				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((userSearchSystemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
 		}
 		
+		try {
+			$('#filterDocumentType').selectmenu("refresh");
+		} catch (err) {}
 	}
+}
+
+function LoadSystemTypes()
+{
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
 }
 
 function callbackPopulateSystemTypes(data)
@@ -181,15 +188,20 @@ function callbackPopulateSystemTypes(data)
 	try {
 		if (data.d.results.length > 0)
 		{
+			var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 			$('#filterDocumentType option[value!="All"]').remove();
 			
 			var localSystemTypes = "";
-			var _systemType = $.urlParam("systemtype");
 			for (var i = 0; i < data.d.results.length; i++)
 			{
-				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((_systemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((userSearchSystemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
 			}		
+			
+			try {
+				$('#filterDocumentType').selectmenu("refresh");
+			} catch (err) {}
+			
 			localstorage.set("localSystemTypes", localSystemTypes);
 		}
 	}
@@ -199,8 +211,21 @@ function callbackPopulateSystemTypes(data)
 
 function performSearch()
 {
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + $("#searchCatalogs").val() + "&modality=All&documentType=" + $("#filterDocumentType").val();
+	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
+	var userSearchText = "";
+	var userSearchSystemType = "All";
+	
+	try {
+		userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
+	} catch(err) {}
+	
+	try {
+		userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
+	} catch(err) {}
+	
+	$("#searchCatalogs").val(_decodeURIComponent(userSearchText));	
+	
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }
@@ -250,7 +275,25 @@ function callbackPopulateSearchResults(data)
 		else
 		{
 			//no item
-			$( "#divSearchResults" ).text("").append("<br /><center>No item found.</center>");
+			var temp = "<br /><center>No item found.</center>";
+			var userSearchText = "";
+			var userSearchSystemType = "All";
+			
+			try {
+				userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
+			} catch(err) {}
+			
+			try {
+				userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
+			} catch(err) {}
+			
+			temp += "<br />";			
+			if (userSearchText != "")
+				temp += "<div><center><i>Keyword:</i> <b>"+ _decodeURIComponent(userSearchText) +"</b></center></div>";
+
+			temp += "<div><center><i>System Type:</i> <b>"+ _decodeURIComponent(userSearchSystemType) +"</b></center></div>";
+			
+			$( "#divSearchResults" ).text("").append(temp);
 		}
 	}
 	catch(err) {
@@ -264,6 +307,7 @@ function callbackPopulateSearchResults(data)
 /******************* History ***********************/
 $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {	
 	checkUserLogin();
+	
 	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
 	
 	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
@@ -859,23 +903,59 @@ function callbackSaveStatus(data)
 
 /******************* Redirect Page ***********************/
 $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
-	if ($.urlParam("url"))
+	if ($.urlParamRedirect("url"))
 	{
-		NavigatePage(decodeURIComponent($.urlParam("url")));
+		NavigatePage(decodeURIComponent($.urlParamRedirect("url")));
 	}
 });
 
-
+var Jsonp_Call_Count = 0;
 function Jsonp_Call(_url, _async, callback)
 {
 	try {
+		navigator.geolocation.getCurrentPosition(
+			function (position) {
+				userLongitude = position.coords.longitude;
+				userLatitude = position.coords.latitude;
+			}, 
+			function (error) {
+			}
+		);
+		
+		Jsonp_Call_Count = 0;		
+		setTimeout(function(){
+			Jsonp_Call_Count++;
+			Jsonp_Call_RecursiveCall(_url, _async, callback);
+		}, 1000);
+	}
+	catch (err) {}	
+}
+
+function Jsonp_Call_RecursiveCall(_url, _async, callback)
+{
+	if (userLongitude != 0 || userLongitude != 0 || Jsonp_Call_Count >= 5)
+	{
+		Jsonp_Call_Process(_url, _async, callback)
+	}
+	else
+	{
+		setTimeout(function(){
+			Jsonp_Call_Count++;
+			Jsonp_Call_RecursiveCall(_url, _async, callback);
+		}, 1000);
+	}
+}
+
+function Jsonp_Call_Process(_url, _async, callback)
+{
+	try {	
 		$.ajax({
 				crossDomain: true,
 				type:"GET",
-				contentType: "application/json; charset=utf-8",
+				contentType: "application/javascript",
 				async:_async,
 				cache: false,
-				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo),
+				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&lon=" + userLongitude + "&lat=" + userLatitude,
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: callback,
@@ -909,43 +989,13 @@ function SignOut()
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
 	
+	clearSearchCriteria();
+	
 	NavigatePage("#pgLogin");
 }
 
-
 function checkUserLogin()
 {
-	/*
-	//Save Navigation History
-	var navHistory = [];
-	if (localstorage.get("navHistory") != null && localstorage.get("navHistory").History != "" && localstorage.get("navHistory").Expiration > getTimestamp())
-	{
-		navHistory = localstorage.get("navHistory").History.split(";");
-	}
-	else {
-		localstorage.clearHistory("navHistory");
-	}
-	
-	if (location.href.toLowerCase().indexOf("#pglogin") < 0 && location.href.toLowerCase().indexOf("#pgaddstatus") < 0 && location.href.toLowerCase().indexOf("&ui-state=dialog") < 0)
-	{
-		if (navHistory.length >= 10)
-			navHistory.shift();
-		
-		var _currentUrl = location.href.substring(location.href.indexOf("#"));
-		if (navHistory.length == 0 || (navHistory.length > 0 && navHistory[navHistory.length - 1] != _currentUrl))
-		{
-			navHistory.push(location.href.substring(location.href.indexOf("#")));
-			localstorage.set("navHistory", {"History" : navHistory.join(";"), "Expiration" : getTimestamp() + 180000});
-		}
-	}
-	if (navHistory.length <= 1)
-		$(".menu-back-btn").hide();
-	else
-		$(".menu-back-btn").show();
-	//console.log(localstorage.get("navHistory"));
-	//End of Navigation History ////*/
-	
-
 	$(".network-unreachable").remove();
 	
 	checkConnection();
@@ -974,6 +1024,18 @@ function checkUserLogin()
 		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
+		
+		try {
+			navigator.geolocation.getCurrentPosition(
+				function (position) {
+					userLongitude = position.coords.longitude;
+					userLatitude = position.coords.latitude;
+				}, 
+				function (error) {
+				}
+			);
+		}
+		catch (err) {}
 	}
 }
 

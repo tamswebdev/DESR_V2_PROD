@@ -178,10 +178,10 @@
 							<input type="search" name="search" id="searchCatalogs" value="" />
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
-							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn"></a>
+							<a href="javascript: void(0);" onclick="searchAction();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
-							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn"></a>
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
 						</td>
 					</tr>
 				</table>
@@ -191,7 +191,7 @@
                 <table width="100%">
                     <tr>
                         <td>
-                            <select class="form-control" id="filterDocumentType" name="filterDocumentType" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                            <select class="form-control" id="filterDocumentType" name="filterDocumentType" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1" onchange="searchAction(true);">
                                 <option value="All">All System Types</option>
                             </select>
                         </td>
@@ -300,7 +300,10 @@
 							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Product" class="add-status"></div>
-								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemSerialNumber" /></div>
+								<div class="add-new-status">
+									<input type="text" class="form-control" id="inputSystemSerialNumber" style="padding-right: 40px;" />
+									<a href="javascript: void(0);" onclick="scanSerialNumBarcode();" style="position: relative;margin-right: 5px;margin-top: -32px; float:right;" class="appScanBarcodeLink"><img src="Images/barcode2.png" id="img-barcode-sn-btn" />
+								</div>
 							</td>
 						</tr>
 						<tr>
