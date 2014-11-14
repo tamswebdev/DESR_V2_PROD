@@ -12,6 +12,10 @@ var deviceInfo = "";
 var userLongitude = 0;
 var userLatitude = 0;
 
+var userSearchText = "";
+var userSearchSystemType = "All";
+	
+
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
@@ -30,40 +34,37 @@ function onDeviceReady() {
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
 	else
 		deviceInfo = "Browser:" + navigator.browserDetail;
-		
+	
+	
+	try {
+		navigator.geolocation.watchPosition(
+			function (position) {
+				userLongitude = position.coords.longitude;
+				userLatitude = position.coords.latitude;
+			}, 
+			function (error) {
+			}
+		);
+	}
+	catch (err) {}
+	
+	
 	localstorage.set("DeviceInfo", deviceInfo);
 	
 	checkUserLogin();	
+	initSystemTypes();
 	LoadSystemTypes();
 	
 	isPageLoadReady = true;
 	
-	if (isSkipPageLoad != "")
-	{
-		if (isSkipPageLoad == "pgSearch")
-			LoadSearchPage();
-		else if (isSkipPageLoad == "pgHome")
-			pgHome_pagebeforeshow();
-	}
 };
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
-	if (!isPageLoadReady)
-	{
-		isSkipPageLoad = "pgHome";
-		return;
-	}
-	
-	pgHome_pagebeforeshow();	
-});
-
-function pgHome_pagebeforeshow()
-{
 	checkUserLogin();
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
-	Jsonp_Call(_url, false, "");
-}
+	Jsonp_Call(_url, false, "");	
+});
 
 
 $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
@@ -84,28 +85,26 @@ $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
-	if (!isPageLoadReady)
-	{
-		isSkipPageLoad = "pgSearch";
-		return;
-	}
+	$('.ui-content').on('click', '.ui-input-clear', function(e){
+		performSearch();
+	});
 	
-	initSystemTypes();
-	LoadSearchPage();
+	$( "#searchCatalogs" ).keypress(function(e) {
+		if (e.keyCode == 13) {
+            performSearch();
+        }
+	});
+	
+	$("#filterDocumentType").bind( "change", function(event, ui) {
+		//performSearch();
+	});
+
+	searchAction();
 });
-
-
-function LoadSearchPage()
-{
-	checkUserLogin();	
-	performSearch();
-}
 
 
 function LoginUser()
 {
-	clearSearchCriteria();
-
 	if ($('#login') === undefined || $('#login').val() == '') {
 		$('#td-error').html('Please provide login.');
 		showTimedElem('td-error');
@@ -120,7 +119,9 @@ function LoginUser()
 
 	$("#td-error").text("").append(getLoadingMini());
 	
-	var loginname = ($('#login').val().indexOf("\\") > 0) ? $('#login').val() : "tamsdomain\\" + $('#login').val();
+	var loginname = ($('#login').val().indexOf("@") > 0) ? $('#login').val().substring(0, $('#login').val().indexOf("@")) : $('#login').val();
+	loginname = (loginname.indexOf("\\") > 0) ? loginname : "tamsdomain\\" + loginname;
+	
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
@@ -162,7 +163,6 @@ function initSystemTypes()
 	var localSystemTypes = localstorage.get("localSystemTypes");
 	if (localSystemTypes != null && localSystemTypes != "")
 	{
-		var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 		$('#filterDocumentType option[value!="All"]').remove();			
 		var _localSystemTypes = localSystemTypes.split(";");
 		for (var i = 0; i < _localSystemTypes.length; i++)
@@ -188,13 +188,12 @@ function callbackPopulateSystemTypes(data)
 	try {
 		if (data.d.results.length > 0)
 		{
-			var userSearchSystemType = _decodeURIComponent(localstorage.get("userSearchSystemType") != null ? localstorage.get("userSearchSystemType") :"All");
 			$('#filterDocumentType option[value!="All"]').remove();
 			
 			var localSystemTypes = "";
 			for (var i = 0; i < data.d.results.length; i++)
 			{
-				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' "+ ((userSearchSystemType == $.trim(data.d.results[i])) ? "selected" : "") +">" + data.d.results[i] + "</option>");
+				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' " + (userSearchSystemType== data.d.results[i] ? " selected " : "") + ">" + data.d.results[i] + "</option>");
 				localSystemTypes += data.d.results[i] + ";";
 			}		
 			
@@ -208,22 +207,17 @@ function callbackPopulateSystemTypes(data)
 	catch(err) {}
 }
 
-
 function performSearch()
 {
-	$( "#divSearchResults" ).text("").append( getLoadingImg() );	
-	var userSearchText = "";
-	var userSearchSystemType = "All";
+	NavigatePage("#pgRedirect?url=#pgSearch");
+}
+
+function searchAction()
+{
+	$( "#divSearchResults" ).text("").append( getLoadingImg() );
 	
-	try {
-		userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
-	} catch(err) {}
-	
-	try {
-		userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
-	} catch(err) {}
-	
-	$("#searchCatalogs").val(_decodeURIComponent(userSearchText));	
+	userSearchText = $("#searchCatalogs").val();
+	userSearchSystemType = $("#filterDocumentType").val();
 	
 	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
 	
@@ -276,22 +270,12 @@ function callbackPopulateSearchResults(data)
 		{
 			//no item
 			var temp = "<br /><center>No item found.</center>";
-			var userSearchText = "";
-			var userSearchSystemType = "All";
-			
-			try {
-				userSearchText = (localstorage.get("userSearchText") ? localstorage.get("userSearchText") :"");
-			} catch(err) {}
-			
-			try {
-				userSearchSystemType = (localstorage.get("userSearchSystemType") ? localstorage.get("userSearchSystemType") :"All");
-			} catch(err) {}
 			
 			temp += "<br />";			
 			if (userSearchText != "")
-				temp += "<div><center><i>Keyword:</i> <b>"+ _decodeURIComponent(userSearchText) +"</b></center></div>";
+				temp += "<div><center><i>Keyword:</i> <b>"+ userSearchText +"</b></center></div>";
 
-			temp += "<div><center><i>System Type:</i> <b>"+ _decodeURIComponent(userSearchSystemType) +"</b></center></div>";
+			temp += "<div><center><i>System Type:</i> <b>"+ userSearchSystemType +"</b></center></div>";
 			
 			$( "#divSearchResults" ).text("").append(temp);
 		}
@@ -913,15 +897,6 @@ var Jsonp_Call_Count = 0;
 function Jsonp_Call(_url, _async, callback)
 {
 	try {
-		navigator.geolocation.getCurrentPosition(
-			function (position) {
-				userLongitude = position.coords.longitude;
-				userLatitude = position.coords.latitude;
-			}, 
-			function (error) {
-			}
-		);
-		
 		Jsonp_Call_Count = 0;		
 		setTimeout(function(){
 			Jsonp_Call_Count++;
@@ -989,8 +964,6 @@ function SignOut()
 	userInfoData = localstorage.clear("userInfoData");
 	isUserLogin = false;
 	
-	clearSearchCriteria();
-	
 	NavigatePage("#pgLogin");
 }
 
@@ -1024,18 +997,6 @@ function checkUserLogin()
 		$(".spanLoginUser").text("" +userInfoData.DisplayName);
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
-		
-		try {
-			navigator.geolocation.getCurrentPosition(
-				function (position) {
-					userLongitude = position.coords.longitude;
-					userLatitude = position.coords.latitude;
-				}, 
-				function (error) {
-				}
-			);
-		}
-		catch (err) {}
 	}
 }
 

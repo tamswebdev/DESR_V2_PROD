@@ -6,14 +6,6 @@ function goHome()
 	NavigatePage("#pgHome");
 }
 
-function clearSearchCriteria()
-{
-	try {
-		localstorage.set("userSearchSystemType", "All");
-		localstorage.set("userSearchText", "");
-	} catch (err) {}
-}
-
 function addStatusAction(id)
 {
 	NavigatePage('#pgAddStatus?id=' + id);
@@ -34,20 +26,6 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-function searchAction()
-{
-	//var _searchurl = "#pgSearch?keyword=" + _encodeURIComponent($('#searchCatalogs').val()) + "&systemtype=" + _encodeURIComponent($("#filterDocumentType").val());
-	//userSearchSystemType = _encodeURIComponent($("#filterDocumentType").val());
-	//userSearchText = _encodeURIComponent($("#searchCatalogs").val());
-	
-	localstorage.set("userSearchSystemType", _encodeURIComponent($("#filterDocumentType").val()));
-	localstorage.set("userSearchText", _encodeURIComponent($("#searchCatalogs").val()));
-	
-	location.href = "index.html#pgSearch";
-	window.location.reload(true);
-	//performSearch();
-}
-
 function scanBarcode() 
 {
 	try {
@@ -62,7 +40,7 @@ function scanBarcode()
 					{
 						$("#searchCatalogs").val(barcodeText);
 						navigator.notification.vibrate(20);
-						searchAction();
+						performSearch();
 					}
 				}, 
 				function (error) {
@@ -104,7 +82,11 @@ function ShowHelp()
 	NavigatePage( "#pgHelp" );
 }
 
-
+function RefrestApp()
+{
+	location.href='index.html#pgHome';
+	location.reload(true);
+}
 
 
 $.urlParam = function(name){
