@@ -33,9 +33,12 @@ function scanBarcode()
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					var barcodeText = result.text;
+					var BarCodeData = barcodeText.split(";");
 					if (barcodeText.lastIndexOf(";") > 0)
-						barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
-					
+					{
+						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
+						barcodeText = BarCodeData[3];
+					}
 					if (barcodeText != "")
 					{
 						$("#searchCatalogs").val(barcodeText);
@@ -59,9 +62,13 @@ function scanSerialNumBarcode()
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					var barcodeText = result.text;
+					var BarCodeData = barcodeText.split(";");
 					if (barcodeText.lastIndexOf(";") > 0)
-						barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
-					
+					{
+						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
+						barcodeText = BarCodeData[3];
+					}
+
 					if (barcodeText != "")
 					{
 						$("#inputSystemSerialNumber").val(barcodeText);
