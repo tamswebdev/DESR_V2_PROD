@@ -14,7 +14,7 @@ var userLatitude = 0;
 
 var userSearchText = "";
 var userSearchSystemType = "All";
-	
+	  
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
