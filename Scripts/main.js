@@ -8,7 +8,7 @@ var isWebBrowser = false;
 var userInfoData = null;
 var $scope = null;
 var deviceInfo = "";
-
+   
 var userLongitude = 0;
 var userLatitude = 0;
 
