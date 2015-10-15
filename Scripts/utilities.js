@@ -10,7 +10,7 @@ function addStatusAction(id)
 {
 	NavigatePage('#pgAddStatus?id=' + id);
 }
-
+  
 function showAboutMeMenu() 
 {
 	$( "#popupAboutMe" ).popup( "open" )
