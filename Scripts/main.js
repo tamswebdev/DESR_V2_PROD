@@ -19,6 +19,7 @@ var userSearchSystemType = "All";
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
+
 } else {
 	isWebBrowser = true;
 	$( document ).ready(function() {
@@ -29,7 +30,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
-	
+		
 	if (typeof device != 'undefined')
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
 	else
@@ -884,6 +885,343 @@ function callbackSaveStatus(data)
 	}
 	catch(err) { }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+/******************* Send Feedback ***********************/
+$( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
+	checkUserLogin();
+	
+	//clear the form
+	$("table.table-add-status").find("input").each(function() {
+		if ($(this).attr("type") == "text")
+			$(this).val("");
+
+		if ($(this).attr("type") == "date")
+			$(this).val(NowDate());				
+	});	
+
+	$('#SendFeedback-error-div').text("");
+	$('#SendFeedback-error-div2').text("");
+	$('#txt_SF_Comments').val("");
+	$('#txt_SF_Ergonomics').val("");
+
+		$(".add-status").show();
+		$(".add-new-status").show();
+	
+
+		//$("#txt_SF_catalog_MCSS").text(userInfoData.DisplayName);
+		$("#txt_SF_catalog_MCSS").val(userInfoData.DisplayName);
+
+	
+	//Load PG from localstorage
+	var lookupPGValues = localstorage.get("lookupPGValues");
+	if (lookupPGValues != null && lookupPGValues != "")
+	{
+		$('#ddl_SF_ProductGap option[value!="N/A"]').remove();
+		var _lookupPGValues = lookupPGValues.split(";");
+		for (var i = 0; i < _lookupPGValues.length; i++)
+		{
+			if (_lookupPGValues[i] != "")
+				$("#ddl_SF_ProductGap").append("<option value='" + _lookupPGValues[i] + "'>" + _lookupPGValues[i] + "</option>");
+		}
+		$("#ddl_SF_ProductGap").selectmenu('refresh', true);
+	}
+	
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Product Gap&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetPGValues");
+	
+	var lookupFeedbackPortfolioGapValues = localstorage.get("lookupFeedbackPortfolioGapValues");
+	if (lookupFeedbackPortfolioGapValues != null && lookupFeedbackPortfolioGapValues != "")
+	{
+		$('#ddl_SF_PortfolioGap option[value!="N/A"]').remove();
+		var _lookupFeedbackPortfolioGapValues = lookupFeedbackPortfolioGapValues.split(";");
+		for (var i = 0; i < _lookupFeedbackPortfolioGapValues.length; i++)
+		{
+			if (_lookupFeedbackPortfolioGapValues[i] != "")
+				$("#ddl_SF_PortfolioGap").append("<option value='" + _lookupFeedbackPortfolioGapValues[i] + "'>" + _lookupFeedbackPortfolioGapValues[i] + "</option>");
+		}
+		$("#ddl_SF_PortfolioGap").selectmenu('refresh', true);
+	}
+	
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Portfolio Gap&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetFeedbackPortfolioGapValues");	
+
+	var lookupFeedbackClinicalAppsValues = localstorage.get("lookupFeedbackClinicalAppsValues");
+	if (lookupFeedbackClinicalAppsValues != null && lookupFeedbackClinicalAppsValues != "")
+	{
+		$('#ddl_SF_ClinicalApps option[value!="N/A"]').remove();
+		var _lookupFeedbackClinicalAppsValues = lookupFeedbackClinicalAppsValues.split(";");
+		for (var i = 0; i < _lookupFeedbackClinicalAppsValues.length; i++)
+		{
+			if (_lookupFeedbackClinicalAppsValues[i] != "")
+				$("#ddl_SF_ClinicalApps").append("<option value='" + _lookupFeedbackClinicalAppsValues[i] + "'>" + _lookupFeedbackClinicalAppsValues[i] + "</option>");
+		}
+		$("#ddl_SF_ClinicalApps").selectmenu('refresh', true);
+	}
+	
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetFeedbackClinicalAppsValues");	
+	
+	var lookupFeedbackWorkflowValues = localstorage.get("lookupFeedbackWorkflowValues");
+	if (lookupFeedbackWorkflowValues != null && lookupFeedbackWorkflowValues != "")
+	{
+		$('#ddl_SF_Workflow option[value!="N/A"]').remove();
+		var _lookupFeedbackWorkflowValues = lookupFeedbackWorkflowValues.split(";");
+		for (var i = 0; i < _lookupFeedbackWorkflowValues.length; i++)
+		{
+			if (_lookupFeedbackWorkflowValues[i] != "")
+				$("#ddl_SF_Workflow").append("<option value='" + _lookupFeedbackWorkflowValues[i] + "'>" + _lookupFeedbackWorkflowValues[i] + "</option>");
+		}
+		$("#ddl_SF_Workflow").selectmenu('refresh', true);
+	}
+	
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Workflow&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetFeedbackWorkflowValues");	
+
+	
+});
+
+function callbackGetPGValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#ddl_SF_ProductGap option[value!="N/A"]').remove();
+			var lookupPGValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#ddl_SF_ProductGap").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupPGValues +=  data.d.results[i] + ";";
+			}
+			$("#ddl_SF_ProductGap").selectmenu('refresh', true);
+			localstorage.set("lookupPGValues", lookupPGValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+function callbackGetFeedbackPortfolioGapValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#ddl_SF_PortfolioGap option[value!="N/A"]').remove();
+			var lookupFeedbackPortfolioGapValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#ddl_SF_PortfolioGap").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupFeedbackPortfolioGapValues +=  data.d.results[i] + ";";
+			}
+			$("#ddl_SF_PortfolioGap").selectmenu('refresh', true);
+			localstorage.set("lookupFeedbackPortfolioGapValues", lookupFeedbackPortfolioGapValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+function callbackGetFeedbackClinicalAppsValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#ddl_SF_ClinicalApps option[value!="N/A"]').remove();
+			var lookupFeedbackClinicalAppsValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#ddl_SF_ClinicalApps").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupFeedbackClinicalAppsValues +=  data.d.results[i] + ";";
+			}
+			$("#ddl_SF_ClinicalApps").selectmenu('refresh', true);
+			localstorage.set("lookupFeedbackClinicalAppsValues", lookupFeedbackClinicalAppsValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+
+function callbackGetFeedbackWorkflowValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#ddl_SF_Workflow option[value!="N/A"]').remove();
+			var lookupFeedbackWorkflowValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#ddl_SF_Workflow").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupFeedbackWorkflowValues +=  data.d.results[i] + ";";
+			}
+			$("#ddl_SF_Workflow").selectmenu('refresh', true);
+			localstorage.set("lookupFeedbackWorkflowValues", lookupFeedbackWorkflowValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+
+function cancelFeedback() {
+	$('<div>').simpledialog2({
+		mode: 'blank',
+		headerText: 'Confirmation',
+		headerClose: false,
+		transition: 'flip',
+		themeDialog: 'a',
+		zindex: 2000,
+		blankContent : 
+		  "<div style='padding: 15px;'><p>Cancel the feedback and go back to main screen?</p>"+
+		  "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"NavigatePage('#pgHome');\">OK</a></td>" + 
+		  "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
+    }); 
+}
+
+function saveFeedback(isFinal) {
+
+	$scope = {
+		
+		Comments : $("#txt_SF_Comments").val(),
+		ProductGap : $("#ddl_SF_ProductGap").val(),
+		HospitalName : $('#txt_SF_HospitalName').val(),
+		DemoDate : $('#txt_SF_Date').val(),
+		CSSName : $('#txt_SF_catalog_MCSS').val(),
+		
+		CustomerName : $("#txt_SF_CustomerName").val(),
+		CustomerEmail : $("#txt_SF_CustomerEmail").val(),
+		ProductName : $('#txt_SF_ProductName').val(),
+		SoftwareVersion : $('#txt_SF_SoftwareVersion').val(),
+		PortfolioGap : $('#ddl_SF_PortfolioGap').val(),
+
+		ClinicalApps : $("#ddl_SF_ClinicalApps").val(),
+		Workflow : $("#ddl_SF_Workflow").val(),
+		Ergonomics : $('#txt_SF_Ergonomics').val(),
+
+
+		userInfo: {WorkPhone: userInfoData.Phone},
+
+	};
+
+
+
+		if ($scope.CustomerName == "" || $scope.CustomerEmail == "" || $scope.SoftwareVersion == "" || $scope.ProductName == "" || $scope.HospitalName == "" || $scope.DemoDate == "" || $scope.CSSName == "")
+		{
+			$('#SendFeedback-error-div').html('Please enter all required values.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter all required values.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+
+		if (!IsEmail($scope.CustomerEmail))
+		{
+			$('#SendFeedback-error-div').html('Please enter a valid email address.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter a valid email address.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}		
+
+	var confirmMessage = 'Please confirm you want to send the Feedback. An email will be sent out to the customer email address with this informaion.';
+
+	$('<div>').simpledialog2({
+		mode: 'blank',
+		headerText: 'Confirmation',
+		headerClose: false,
+		transition: 'flip',
+		themeDialog: 'a',
+		width: 300,
+		zindex: 2000,
+		blankContent : 
+		  "<div style='padding: 15px;'><p>" + confirmMessage + "</p>"+
+		  "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"SaveFeedbackProcess('" + isFinal + "');\">OK</a></td>" + 
+		  "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
+    });
+}
+	
+function SaveFeedbackProcess(isFinal)
+{
+	if ($scope) {
+		
+		//show saving animation
+		$('#SendFeedback-error-div2').text("").append(getLoadingMini());
+		showTimedElem('SendFeedback-error-div2');
+
+
+			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&ClinicalApplications=" + $scope.ClinicalApps + "&Workflow=" + $scope.Workflow + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics + "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
+
+			Jsonp_Call(_url, true, "callbackSaveFeedback");
+
+
+	}
+}
+
+function callbackSaveFeedback(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0 && parseInt(data.d.results[0]) > 0)
+		{
+			NavigatePage('#pgHome');
+		}
+		else 
+		{
+			//
+		}
+	}
+	catch(err) { }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /******************* Redirect Page ***********************/
 $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {

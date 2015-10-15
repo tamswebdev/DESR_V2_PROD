@@ -10,13 +10,20 @@
     <link rel="stylesheet" href="Content/main.css" />
 	<script src="Scripts/environment-configs.js"></script>
     <script src="Scripts/jquery-2.1.0.min.js"></script>
+	
+	<script>
+    $(document).bind('mobileinit',function(){
+        $.mobile.pushStateEnabled = false;
+    });
+</script>
+	
     <script src="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.js"></script>
 	<script src="Scripts/simpledialog/jquery.mobile.simpledialog2.min.js"></script>
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
 	
-	<script type="text/javascript" src="cordova.js"></script>
+	<!--<script type="text/javascript" src="cordova.js"></script>-->
 </head>
 <body>
     <div data-role="page" id="startpage" data-theme="a">
@@ -60,7 +67,7 @@
 	    <div role="main" class="ui-content">        
             <div class="form-div">
 				<center>
-				<div class="logo-div">DEMO EQUIPMENT STATUS REQUEST TRACKING</div>
+				<div class="logo-div">TAMS UL MOBILE APPS</div>
                 <table class="login-table">
                     <tr><td class="login-label">Login</td></tr>
                     <tr><td class="login-input"><input class="form-control" type="text" id="login" /></td></tr>
@@ -73,7 +80,7 @@
                     <tr><td id="td-error"></td></tr>
                     <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
                 </table>
-				<div class="copyright">TOSHIBA CORPORATION 2014. ALL RIGHTS RESERVED<br />V1.1<br />FOR INTERNAL USE ONLY</div>
+				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.0<br />FOR INTERNAL USE ONLY</div>
 				</center>
             </div>
 	    </div>
@@ -97,6 +104,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>										
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -116,11 +124,13 @@
 
         <div role="main" class="ui-content">
             <br />
-			<br />
+			
 			<button class="btn btn-default btn-danger-custom  btn-lg btn-block" onclick="$.mobile.navigate('#pgSearch');"><span class="glyphicon glyphicon-plus"></span> Add Status</button>
-			<br />
+			
 			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgHistory');"><span class="glyphicon glyphicon-file"></span> View My History</button>
-			<br />
+			
+			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgSendFeedback');"><span class="glyphicon glyphicon-file"></span> Send Feedback</button>
+			<br />			
 			<br />
 			<center>
 				<div class="home-tip-box">
@@ -155,6 +165,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>	
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp()">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -207,6 +218,216 @@
 			</center>
         </div>
     </div>
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<div data-role="page" id="pgSendFeedback">
+        <div data-role="header" data-position="fixed">
+		
+			<table width="100%" cellspacing="0" cellpadding="0" class="header-table">
+				<tr>
+					<td class="header-left">
+						<!--<div class="header-back-button"><a onclick="goBack();" href="javascript:void(0);" class="appLogoBackLink"><img src="Images/logo-back.png"></a></div>-->
+						<div class="header-menu-button">
+							<a href="#popupMenu3" data-rel="popup" data-transition="slideup"><img src="Images/menu-button2.png" id="img-left-bars"></a>
+							<div data-role="popup" id="popupMenu3" data-theme="a">
+									<ul data-role="listview" data-inset="true" style="min-width:210px;">
+										<li data-role="list-divider">Choose an action</li>
+										<li><span class="spanLoginUser"></span></li>
+										<!--<li class="menu-back-btn"><a href="javascript:void(0);" onclick="goBack();">Back</a></li>-->
+										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
+										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
+										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
+									</ul>
+							</div>
+						</div>
+                    </td>
+					<td class="header-middle">
+						<a href="javascript: void(0);" onclick="goHome();" style="" class="appLogoLink"><img src="Images/toshiba-logo.png" id="img-toshiba-logo"></a>
+                    </td>
+                    <td class="header-right">
+						&nbsp;
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div role="main" class="ui-content">
+			<center>
+				<div id="divSendFeedback">
+					<div class="div-catalogs-list error-message" id="SendFeedback-error-div"></div>
+					<div class="div-catalogs-list success-message" id="SendFeedback-success-div"></div>
+					<table class="table table-add-status">
+						<tr>
+							<td class="section-heading" colspan="2">Customer information</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">CSS<span class="required">*</span>:</td>
+							<td>
+								
+								<input type="text" class="form-control" id="txt_SF_catalog_MCSS" readonly />
+							</td>
+						</tr>											
+						<tr>
+							<td class="add-status-label">Date<span class="required">*</span>:</td>
+							<td>
+									
+								
+									<input type="date"  name="txt_SF_Date" id="txt_SF_Date"  value=""  />
+								
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Hospital Name<span class="required">*</span>:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_HospitalName" />
+							</td>
+						</tr>
+												<tr>
+							<td class="add-status-label">Customer Name<span class="required">*</span>:</td>
+							<td>
+								
+								<input type="text" class="form-control" id="txt_SF_CustomerName" />
+							</td>
+						</tr>
+						<tr>
+							<td class="add-status-label">Customer Email<span class="required">*</span>:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_CustomerEmail" />
+							</td>
+						</tr>						
+
+						<tr>
+							<td class="add-status-label">Product Name<span class="required">*</span>:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_ProductName" />
+							</td>
+						</tr>						
+						<tr>
+							<td class="add-status-label">Software Version<span class="required">*</span>:</td>
+							<td>
+								
+								<input type="text" class="form-control" id="txt_SF_SoftwareVersion" />
+							</td>
+						</tr>
+
+						<tr>
+							
+							<td colspan="2">
+								<div class="add-status-label">Comments:</div>
+								<textarea class="form-control" id="txt_SF_Comments" rows="3" style="width: 100%"></textarea>
+							</td>
+						</tr>
+						<tr>
+							<td class="section-heading" colspan="2">Product Feedback</td>        
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Product Gap:</div>
+								<select id="ddl_SF_ProductGap" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Portfolio Gap:</div>
+								<select id="ddl_SF_PortfolioGap" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Clinical Apps:</div>
+								<select id="ddl_SF_ClinicalApps" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Workflow:</div>
+								<select id="ddl_SF_Workflow" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>		
+						<tr>
+							
+							<td colspan="2">
+								<div class="add-status-label">Ergonomics:</div>
+								<textarea class="form-control" id="txt_SF_Ergonomics" rows="3" style="width: 100%"></textarea>
+							</td>
+						</tr>						
+					</table>
+					<table class="table add-status-buttons">
+						<tr><td colspan="3" class="td-error-message" id="SendFeedback-error-div2"></td></tr>
+						<tr>
+
+							<td id="btnSendFeedbackSubmitFinal">
+								<a href="javascript:void(0);" data-role="button" onclick="saveFeedback('Yes')">Submit</a>
+							</td>
+							 <td id="btnSendFeedbackSubmitCancel">
+								<a href="javascript:void(0);" data-role="button" onclick="cancelFeedback()">Cancel</a>
+							</td>
+							
+						</tr>
+						
+					</table>
+				</div>
+			</center>
+        </div>
+    </div>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+
 	
 	<div data-role="page" id="pgHistory">
         <div data-role="header" data-position="fixed">
@@ -224,6 +445,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -267,6 +489,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -516,6 +739,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -554,6 +778,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>

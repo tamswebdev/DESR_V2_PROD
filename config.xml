@@ -20,15 +20,15 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "io.tams.ULApps"
-        version   = "1.0.0">
+        version   = "2.0.0">
 		
-    <name>UL Demo Equipment Status</name>
+    <name>TAMS UL Mobile Apps</name>
     <description>
-        Demo Equipment Status Request. Author: TAMS Web Team
+        A mobile app for UL. Collection of features to improve portability, efficiency and productivity. Currently includes Demo Equipment Status Request App and UL Customer Feeback App. Author: Umer Pasha
     </description>
 
     <author href="http://www.umerpasha.com" email="upasha@tams.com">
-        TAMS Web Team
+        Umer Pasha
     </author>
 
 

@@ -157,6 +157,60 @@ var localstorage = {
 	}
 };
 
+function IsEmail(email)
+{      
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+
+    return re.test(email);
+} 
+
+
+function getISOTodayDateString(DateString)
+{
+	if (DateString)
+	{
+		var d = new Date(DateString);
+		return ConvertToISO(d).substring(0,10);
+	}
+	else
+	{
+		return "";
+	}
+
+}
+
+function ConvertToISO(d){		
+ function pad(n){return n<10 ? '0'+n : n}
+ return (d.getFullYear()+'-'
+      + pad(d.getMonth()+1)+'-'
+      + pad(d.getDate())+'T'
+      + pad(d.getHours())+':'
+      + pad(d.getMinutes())+':'
+      + pad(d.getSeconds())+'Z').substring(0,10)}
+	  
+
+
+function NowDate(){		
+ function pad(n){return n<10 ? '0'+n : n}
+ var d = new Date();
+ return (d.getFullYear()+'-'
+      + pad(d.getMonth()+1)+'-'
+      + pad(d.getDate())+'T'
+      + pad(d.getHours())+':'
+      + pad(d.getMinutes())+':'
+      + pad(d.getSeconds())+'Z').substring(0,10)}
+	  
+function Now(){		
+ function pad(n){return n<10 ? '0'+n : n}
+ var d = new Date();
+ return d.getFullYear()+'-'
+      + pad(d.getMonth()+1)+'-'
+      + pad(d.getDate())+'T'
+      + pad(d.getHours())+':'
+      + pad(d.getMinutes())+':'
+      + pad(d.getSeconds())+'Z'}
+	  
+	  
 function getTimestamp()
 {
 	var d = new Date();

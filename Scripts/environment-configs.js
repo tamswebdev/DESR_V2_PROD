@@ -3,4 +3,9 @@
 var Configs = {
 	"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
 	"SharePointRootUrl" : "https://intranet.tams.com/"
+	
+
+	
+	
+	
 };

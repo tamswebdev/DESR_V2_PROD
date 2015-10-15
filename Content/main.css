@@ -329,6 +329,68 @@
 }
 
 
+
+
+
+#pgSendFeedback #divSendFeedback {
+	font-size: 14px;
+}
+#pgSendFeedback .section-heading {
+    background-color: #000;
+    color: white;
+    font-size: 16px;
+    padding-bottom: 1px !important;
+    padding-top: 1px !important;
+    text-align: center;
+}
+
+#pgSendFeedback .table-add-status {
+    background-color: transparent;
+    width: 100%;
+	border-bottom: 1px solid #ddd;
+}
+
+#pgSendFeedback .add-status-buttons {
+	width: 100%;
+}
+
+#pgSendFeedback .td-error-message {
+    color: red;
+    border: none !important;
+    display:none;
+    padding:0px !important;
+	text-align:center;
+}
+
+#pgSendFeedback .error-message {
+    text-align:center;
+    color:red;
+}
+
+#pgSendFeedback .add-new-status,
+#pgSendFeedback .add-status  {
+	display: none;
+}
+
+#pgSendFeedback .radio-button-td {
+	text-align: right;
+}
+
+#pgSendFeedback .common-button {
+	word-wrap: break-word !important;
+	white-space: normal !important;
+}
+
+#pgSendFeedback .required {
+	font-weight: bold;
+	color: red;
+	padding-left: 5px;
+}
+
+
+
+
+
 #divHelpContent p {
 	margin: 5px;
 }
