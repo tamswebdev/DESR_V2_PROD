@@ -15,7 +15,7 @@ function showAboutMeMenu()
 {
 	$( "#popupAboutMe" ).popup( "open" )
 }
-
+  
 function showTimedElem(id)
 {
 	$("#" + id).show();
