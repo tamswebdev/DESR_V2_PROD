@@ -989,6 +989,24 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Workflow&SPUrl=" + spwebRootUrl + "sites/busops";
 	Jsonp_Call(_url1, false, "callbackGetFeedbackWorkflowValues");	
 
+		_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetFeedbackClinicalAppsValues");	
+	
+	var lookupFeedbackProductNameValues = localstorage.get("lookupFeedbackProductNameValues");
+	if (lookupFeedbackProductNameValues != null && lookupFeedbackProductNameValues != "")
+	{
+		$('#ddl_SF_ProductName option[value!="N/A"]').remove();
+		var _lookupFeedbackProductNameValues = lookupFeedbackProductNameValues.split(";");
+		for (var i = 0; i < _lookupFeedbackProductNameValues.length; i++)
+		{
+			if (_lookupFeedbackProductNameValues[i] != "")
+				$("#ddl_SF_ProductName").append("<option value='" + _lookupFeedbackProductNameValues[i] + "'>" + _lookupFeedbackProductNameValues[i] + "</option>");
+		}
+		$("#ddl_SF_ProductName").selectmenu('refresh', true);
+	}
+	
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=ProductName&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetFeedbackProductNameValues");	
 	
 });
 
@@ -1089,6 +1107,30 @@ function callbackGetFeedbackWorkflowValues(data)
 	catch(err) {}
 }
 
+function callbackGetFeedbackProductNameValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#ddl_SF_ProductName option[value!="N/A"]').remove();
+			var lookupFeedbackProductNameValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#ddl_SF_ProductName").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupFeedbackProductNameValues +=  data.d.results[i] + ";";
+			}
+			$("#ddl_SF_ProductName").selectmenu('refresh', true);
+			localstorage.set("lookupFeedbackProductNameValues", lookupFeedbackProductNameValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
 
 function cancelFeedback() {
 	$('<div>').simpledialog2({
@@ -1117,7 +1159,7 @@ function saveFeedback(isFinal) {
 		
 		CustomerName : $("#txt_SF_CustomerName").val(),
 		CustomerEmail : $("#txt_SF_CustomerEmail").val(),
-		ProductName : $('#txt_SF_ProductName').val(),
+		ProductName : $('#ddl_SF_ProductName').val(),
 		SoftwareVersion : $('#txt_SF_SoftwareVersion').val(),
 		PortfolioGap : $('#ddl_SF_PortfolioGap').val(),
 
