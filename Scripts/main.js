@@ -52,6 +52,9 @@ function onDeviceReady() {
 	
 	localstorage.set("DeviceInfo", deviceInfo);
 	
+	
+	ToggleTheme(0);
+	
 	checkUserLogin();	
 	initSystemTypes();
 	LoadSystemTypes();

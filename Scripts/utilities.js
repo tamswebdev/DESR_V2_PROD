@@ -89,6 +89,57 @@ function ShowHelp()
 	NavigatePage( "#pgHelp" );
 }
 
+
+
+function ToggleTheme(ThemeChanged)
+{
+	var ThemeID = localstorage.get("ThemeID");
+	
+
+	if (ThemeID == null && ThemeID == ""){
+		ThemeID=0;
+		localstorage.set("ThemeID",ThemeID);
+		
+	}
+	
+	if (ThemeChanged==1)
+	{
+		ThemeID=Math.abs(ThemeID - 1);
+		localstorage.set("ThemeID",ThemeID);
+		
+	}
+	
+	if (ThemeID!=0)
+	{
+			var head  = document.getElementsByTagName('head')[0];
+			var link  = document.createElement('link');
+			link.id   = 'NotDefaultTheme';
+			link.rel  = 'stylesheet';
+			link.type = 'text/css';
+			link.href = 'Content/umer001-tams001/UMER001-TAMS001.css';
+			link.media = 'all';
+			head.appendChild(link);
+
+			goHome();
+
+	}
+	else
+	{
+		if (ThemeChanged==1)
+		{
+			var element = document.getElementById("NotDefaultTheme"); 
+			if (element)
+				element.parentNode.removeChild(element);
+			goHome();
+		}
+		
+	}
+			
+
+	
+
+}
+
 function RefrestApp()
 {
 	location.href='index.html#pgHome';
