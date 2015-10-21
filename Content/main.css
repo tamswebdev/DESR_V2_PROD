@@ -62,6 +62,11 @@
 	font-size: 0.8em;
 }
 
+.ui-btn {
+    font-size: 16px !important;
+
+}
+
 .ui-radio .ui-btn-active {
     background-color: red !important;
     border-color: red !important;
