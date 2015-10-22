@@ -20,13 +20,17 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-	goHome();
-	ToggleTheme(0);
-	localstorage.set("DeviceInfo", deviceInfo);
-	checkUserLogin();	
-	initSystemTypes();
-	LoadSystemTypes();
-	isPageLoadReady = true;
+		$( document ).ready(function() {
+			goHome();
+			ToggleTheme(0);
+			localstorage.set("DeviceInfo", deviceInfo);
+			checkUserLogin();	
+			initSystemTypes();
+			LoadSystemTypes();
+			isPageLoadReady = true;
+	});
+	
+
 	
 } else {
 	isWebBrowser = true;
