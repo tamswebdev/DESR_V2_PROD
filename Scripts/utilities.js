@@ -120,9 +120,6 @@ function ToggleTheme(ThemeChanged)
 			link.media = 'all';
 			head.appendChild(link);
 
-			if (ThemeChanged==1)
-				RefrestApp();
-
 	}
 	else
 	{
