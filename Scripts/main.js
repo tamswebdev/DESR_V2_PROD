@@ -19,7 +19,14 @@ var userSearchSystemType = "All";
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
-	RefrestApp();
+	
+	
+	ToggleTheme(0);
+	localstorage.set("DeviceInfo", deviceInfo);
+	checkUserLogin();	
+	initSystemTypes();
+	LoadSystemTypes();
+	isPageLoadReady = true;
 	
 } else {
 	isWebBrowser = true;
