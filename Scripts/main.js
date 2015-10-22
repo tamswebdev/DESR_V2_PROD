@@ -35,7 +35,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
 	
-	
+	ToggleTheme(0);
 		
 	if (typeof device != 'undefined')
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
@@ -71,6 +71,7 @@ function onDeviceReady() {
 
 $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
+	ToggleTheme(0);
 
 	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");	
@@ -1359,7 +1360,7 @@ function SignOut()
 
 function checkUserLogin()
 {
-	ToggleTheme(0);
+	
 	$(".network-unreachable").remove();
 	
 	checkConnection();
