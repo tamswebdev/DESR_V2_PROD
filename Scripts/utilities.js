@@ -126,18 +126,20 @@ function ToggleTheme(ThemeChanged)
 	}
 	else
 	{
-		if (ThemeChanged==1)
-		{
+		//if (ThemeChanged==1)
+		//{
 			var element = document.getElementById("NotDefaultTheme"); 
 			if (element)
 				element.parentNode.removeChild(element);
-			RefrestApp();
-		}
+
+		//}
 		
 	}
-			
 
-	
+	if (ThemeChanged==1)
+			RefrestApp();
+		
+
 
 }
 
