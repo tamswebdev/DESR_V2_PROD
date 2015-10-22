@@ -120,7 +120,8 @@ function ToggleTheme(ThemeChanged)
 			link.media = 'all';
 			head.appendChild(link);
 
-			goHome();
+			if (ThemeChanged==1)
+				RefrestApp();
 
 	}
 	else
@@ -130,7 +131,7 @@ function ToggleTheme(ThemeChanged)
 			var element = document.getElementById("NotDefaultTheme"); 
 			if (element)
 				element.parentNode.removeChild(element);
-			goHome();
+			RefrestApp();
 		}
 		
 	}
