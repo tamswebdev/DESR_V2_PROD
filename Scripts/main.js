@@ -19,6 +19,7 @@ var userSearchSystemType = "All";
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
+	alert('2');
 
 } else {
 	isWebBrowser = true;
@@ -31,7 +32,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
 	
-	alert("in");
+	
 		
 	if (typeof device != 'undefined')
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
