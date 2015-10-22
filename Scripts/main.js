@@ -83,7 +83,7 @@ $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
-	ToggleTheme(0);
+	
 	checkUserLogin();	
 	$("#td-error").text("");
 	
@@ -1359,6 +1359,7 @@ function SignOut()
 
 function checkUserLogin()
 {
+	ToggleTheme(0);
 	$(".network-unreachable").remove();
 	
 	checkConnection();
