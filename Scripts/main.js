@@ -19,11 +19,8 @@ var userSearchSystemType = "All";
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
-		$( document ).ready(function() {
-		onDeviceReady(); //this is the browser
-	});
+	RefrestApp();
 	
-
 } else {
 	isWebBrowser = true;
 	$( document ).ready(function() {
