@@ -30,6 +30,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
+	
+	alert("in");
 		
 	if (typeof device != 'undefined')
 		deviceInfo = device.model + '|' + device.platform + '|' + device.version;
@@ -53,7 +55,7 @@ function onDeviceReady() {
 	localstorage.set("DeviceInfo", deviceInfo);
 	
 	
-	ToggleTheme(0);
+	
 	
 	checkUserLogin();	
 	initSystemTypes();
@@ -77,6 +79,7 @@ $( document ).on( "pagebeforeshow", "#pgHelp", function(event) {
 });
 
 $( document ).on( "pagebeforeshow", "#pgLogin", function(event) {
+	ToggleTheme(0);
 	checkUserLogin();	
 	$("#td-error").text("");
 	
