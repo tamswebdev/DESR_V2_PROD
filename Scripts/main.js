@@ -937,11 +937,43 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 
 		$(".add-status").show();
 		$(".add-new-status").show();
-	
+		
+	$("#tr_SF_ProductGap").hide();
+	$("#tr_SF_PortfolioGap").hide();
+	$("#tr_SF_ClinicalApps").hide();
+	$("#tr_SF_Workflow").hide();
 
 		//$("#txt_SF_catalog_MCSS").text(userInfoData.DisplayName);
 		$("#txt_SF_catalog_MCSS").val(userInfoData.DisplayName);
 
+	$("#ddl_SF_ProductGap").change(function () {
+		if ($(this).val() == "Other Feature")
+			$("#tr_SF_ProductGap").show();
+		else
+			$("#tr_SF_ProductGap").hide();
+	});
+	
+	$("#ddl_SF_PortfolioGap").change(function () {
+		if ($(this).val() == "Other Product")
+			$("#tr_SF_PortfolioGap").show();
+		else
+			$("#tr_SF_PortfolioGap").hide();
+	});
+	
+	$("#ddl_SF_ClinicalApps").change(function () {
+		if ($(this).val().indexOf(" - Other")>=0)
+			$("#tr_SF_ClinicalApps").show();
+		else
+			$("#tr_SF_ClinicalApps").hide();
+	});
+	
+	$("#ddl_SF_Workflow").change(function () {
+		if ($(this).val() == "Other")
+			$("#tr_SF_Workflow").show();
+		else
+			$("#tr_SF_Workflow").hide();
+	});
+	
 	
 	//Load PG from localstorage
 	var lookupPGValues = localstorage.get("lookupPGValues");
@@ -1172,6 +1204,10 @@ function saveFeedback(isFinal) {
 		
 		Comments : $("#txt_SF_Comments").val(),
 		ProductGap : $("#ddl_SF_ProductGap").val(),
+		ProductGapOther : $('#txt_SF_ProductGap').val(),
+		PortfolioGapOther : $('#txt_SF_PortfolioGap').val(),
+		ClinicalAppsOther : $('#txt_SF_ClinicalApps').val(),
+		WorkflowOther : $('#txt_SF_Workflow').val(),		
 		HospitalName : $('#txt_SF_HospitalName').val(),
 		DemoDate : $('#txt_SF_Date').val(),
 		CSSName : $('#txt_SF_catalog_MCSS').val(),
@@ -1181,6 +1217,7 @@ function saveFeedback(isFinal) {
 		ProductName : $('#ddl_SF_ProductName').val(),
 		SoftwareVersion : $('#txt_SF_SoftwareVersion').val(),
 		PortfolioGap : $('#ddl_SF_PortfolioGap').val(),
+
 
 		ClinicalApps : $("#ddl_SF_ClinicalApps").val(),
 		Workflow : $("#ddl_SF_Workflow").val(),
@@ -1203,6 +1240,7 @@ function saveFeedback(isFinal) {
 			return;
 		}
 
+
 		if (!IsEmail($scope.CustomerEmail))
 		{
 			$('#SendFeedback-error-div').html('Please enter a valid email address.');
@@ -1212,8 +1250,49 @@ function saveFeedback(isFinal) {
 			//showLoading(false);
 			return;
 		}		
+		
+		
+		
+		if ($scope.ProductGap == "Other Feature" && $scope.ProductGapOther == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter other value for Product Gap.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter other value for Product Gap.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
 
-	var confirmMessage = 'Please confirm you want to send the Feedback. An email will be sent out to the customer email address with this informaion.';
+		if ($scope.PortfolioGap == "Other Product" && $scope.PortfolioGapOther == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter other value for Portfolio Gap.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter other value for Portfolio Gap.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}		
+
+		if ($scope.ClinicalApps.indexOf(" - Other")>=0 && $scope.ClinicalAppsOther == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter other value for Clinical Applications.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter other value for Clinical Applications.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+		
+		if ($scope.Workflow == "Other" && $scope.WorkflowOther == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter other value for Workflow.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter other value for Workflow.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+	var confirmMessage = 'Please confirm you want to send the Feedback. A confirmation email will be sent out to the customer email address.';
 
 	$('<div>').simpledialog2({
 		mode: 'blank',
@@ -1239,7 +1318,7 @@ function SaveFeedbackProcess(isFinal)
 		showTimedElem('SendFeedback-error-div2');
 
 
-			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&ClinicalApplications=" + $scope.ClinicalApps + "&Workflow=" + $scope.Workflow + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics + "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
+			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics + "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
 
 			Jsonp_Call(_url, true, "callbackSaveFeedback");
 
