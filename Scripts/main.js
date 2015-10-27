@@ -948,30 +948,30 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 
 	$("#ddl_SF_ProductGap").change(function () {
 		if ($(this).val() == "Other Feature")
-			$("#tr_SF_ProductGap").show();
+			{$("#tr_SF_ProductGap").show();}
 		else
-			$("#tr_SF_ProductGap").hide();
+			{$("#tr_SF_ProductGap").val("");$("#tr_SF_ProductGap").hide();}
 	});
 	
 	$("#ddl_SF_PortfolioGap").change(function () {
 		if ($(this).val() == "Other Product")
-			$("#tr_SF_PortfolioGap").show();
+			{$("#tr_SF_PortfolioGap").show();}
 		else
-			$("#tr_SF_PortfolioGap").hide();
+			{$("#tr_SF_PortfolioGap").val("");$("#tr_SF_PortfolioGap").hide();}
 	});
 	
 	$("#ddl_SF_ClinicalApps").change(function () {
 		if ($(this).val().indexOf(" - Other")>=0)
-			$("#tr_SF_ClinicalApps").show();
+			{$("#tr_SF_ClinicalApps").show();}
 		else
-			$("#tr_SF_ClinicalApps").hide();
+			{$("#tr_SF_ClinicalApps").val("");$("#tr_SF_ClinicalApps").hide();}
 	});
 	
 	$("#ddl_SF_Workflow").change(function () {
 		if ($(this).val() == "Other")
-			$("#tr_SF_Workflow").show();
+			{$("#tr_SF_Workflow").show();}
 		else
-			$("#tr_SF_Workflow").hide();
+			{$("#tr_SF_Workflow").val("");$("#tr_SF_Workflow").hide();}
 	});
 	
 	
