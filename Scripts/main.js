@@ -934,6 +934,9 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 			$(this).filter('[value=No]').prop('checked', true);
 	});	
 
+	
+	$("#tbl_SF").find("input[type=radio]").checkboxradio("refresh");
+	
 	$('#SendFeedback-error-div').text("");
 	$('#SendFeedback-error-div2').text("");
 	$('#txt_SF_Comments').val("");
