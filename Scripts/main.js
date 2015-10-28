@@ -928,6 +928,10 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 
 		if ($(this).attr("type") == "date")
 			$(this).val(NowDate());				
+		
+		
+		if ($(this).attr("type") == "radio")
+			$(this).filter('[value=No]').prop('checked', true);
 	});	
 
 	$('#SendFeedback-error-div').text("");
@@ -1223,6 +1227,7 @@ function saveFeedback(isFinal) {
 		Workflow : $("#ddl_SF_Workflow").val(),
 		Ergonomics : $('#txt_SF_Ergonomics').val(),
 
+		GapCauseLostOrder : $('input[name=rad_SF_GapCauseLostOrder]:checked').val(),
 
 		userInfo: {WorkPhone: userInfoData.Phone},
 
@@ -1318,7 +1323,7 @@ function SaveFeedbackProcess(isFinal)
 		showTimedElem('SendFeedback-error-div2');
 
 
-			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics + "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
+			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics+ "&GapCauseLostOrder=" + $scope.GapCauseLostOrder+ "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
 
 			Jsonp_Call(_url, true, "callbackSaveFeedback");
 
