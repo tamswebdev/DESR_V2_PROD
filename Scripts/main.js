@@ -385,6 +385,36 @@ function callbackPopulateHistories(data)
 										temp += '<tr>';
 											temp += '<td class="history-item-section-header" colspan="4"><b>System condition on arrival</b></td>';
 										temp += '</tr>';
+										
+
+										temp += '<tr>';
+											temp += '<td class="history-item-title" width="50%">Physical State:</td>';
+											temp += '<td class="history-item-value" width="50%">' + status.PhysicalState + '</td>';
+										temp += '</tr>';
+										if (status.PhysicalState=='Physical State changed') {
+											temp += '<tr ng-show="" style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+												temp += '<td class="history-item-value">' + status.PhysicalStateComments + '</td>';
+											temp += '</tr>';
+										}
+
+
+										temp += '<tr>';
+											temp += '<td class="history-item-title" width="50%">Transducer State:</td>';
+											temp += '<td class="history-item-value" width="50%">' + status.TransducerState + '</td>';
+										temp += '</tr>';
+										if (status.TransducerState=='Transducer State changed') {
+											temp += '<tr ng-show="" style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+												temp += '<td class="history-item-value">' + status.TransducerStateComments + '</td>';
+											temp += '</tr>';
+										}
+
+
+
+
+
+										
 										temp += '<tr>';
 											temp += '<td class="history-item-title" width="50%">Control panel layout:</td>';
 											temp += '<td class="history-item-value" width="50%">' + status.ControlPanelLayout + '</td>';
@@ -395,6 +425,13 @@ function callbackPopulateHistories(data)
 												temp += '<td class="history-item-value">' + status.LayoutChangeExplain + '</td>';
 											temp += '</tr>';
 										}
+										
+										
+										
+										
+										
+										
+										
 										temp += '<tr>';
 											temp += '<td class="history-item-title">Modality work list empty:</td>';
 											temp += '<td class="history-item-value">' + status.ModalityWorkListEmpty + '</td>';
@@ -551,11 +588,15 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("table.table-add-status").find("input").each(function() {
 		if ($(this).attr("type") == "text")
 			$(this).val("");
-		if ($(this).attr("type") == "radio")
-			$(this).filter('[value=Yes]').prop('checked', true);
+		if ($(this).attr("type") == "radio"){
+			$(this).checkboxradio();
+			$(this).checkboxradio("refresh");
+			$(this).filter('[value=Yes]').prop('checked', true);}
 	});	
 	$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
 	$("#allSoftwareLoadedAndFunctioningReasonTR").hide();
+	$("#PhysicalStateCommentsTR").hide();
+	$("#TransducerStateCommentsTR").hide();
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
 	$("#selectModality").val('UL').selectmenu('refresh', true);
@@ -601,6 +642,59 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		else
 			$("#systemPerformedNotAsExpectedExplainTR").hide();
 	});
+
+
+
+	$("#PhysicalState").change(function () {
+		if ($(this).val() == "Physical State changed")
+			$("#PhysicalStateCommentsTR").show();
+		else
+			$("#PhysicalStateCommentsTR").hide();
+	});
+	
+
+	$("#TransducerState").change(function () {
+		if ($(this).val() == "Transducer State changed")
+			$("#TransducerStateCommentsTR").show();
+		else
+			$("#TransducerStateCommentsTR").hide();
+	});
+	
+
+	//Load PhysicalState from localstorage
+	var lookupPhysicalStateValues = localstorage.get("lookupPhysicalStateValues");
+	if (lookupPhysicalStateValues != null && lookupPhysicalStateValues != "")
+	{
+		$('#PhysicalState option[value!="N/A"]').remove();
+		var _lookupPhysicalStateValues = lookupPhysicalStateValues.split(";");
+		for (var i = 0; i < _lookupPhysicalStateValues.length; i++)
+		{
+			if (_lookupPhysicalStateValues[i] != "")
+				$("#PhysicalState").append("<option value='" + _lookupPhysicalStateValues[i] + "'>" + _lookupPhysicalStateValues[i] + "</option>");
+		}
+		$("#PhysicalState").selectmenu('refresh', true);
+	}
+	
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetPhysicalStateValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetPhysicalStateValues");
+
+		//Load TransducerState from localstorage
+	var lookupTransducerStateValues = localstorage.get("lookupTransducerStateValues");
+	if (lookupTransducerStateValues != null && lookupTransducerStateValues != "")
+	{
+		$('#TransducerState option[value!="N/A"]').remove();
+		var _lookupTransducerStateValues = lookupTransducerStateValues.split(";");
+		for (var i = 0; i < _lookupTransducerStateValues.length; i++)
+		{
+			if (_lookupTransducerStateValues[i] != "")
+				$("#TransducerState").append("<option value='" + _lookupTransducerStateValues[i] + "'>" + _lookupTransducerStateValues[i] + "</option>");
+		}
+		$("#TransducerState").selectmenu('refresh', true);
+	}
+	
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetTransducerStateValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	Jsonp_Call(_url1, false, "callbackGetTransducerStateValues");
+
 	
 	$("#controlPanelLayout").change(function () {
 		if ($(this).val() == "Control panel changed")
@@ -669,6 +763,58 @@ function callbackLoadAddStatus(data)
 	catch(err) {}
 }
 
+
+
+function callbackGetPhysicalStateValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#PhysicalState option[value!="N/A"]').remove();
+			var lookupPhysicalStateValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#PhysicalState").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupPhysicalStateValues +=  data.d.results[i] + ";";
+			}
+			$("#PhysicalState").selectmenu('refresh', true);
+			localstorage.set("lookupPhysicalStateValues", lookupPhysicalStateValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+function callbackGetTransducerStateValues(data)
+{
+	try {
+		//console.log(data);
+		if (data.d.results.length > 0)
+		{
+			$('#TransducerState option[value!="N/A"]').remove();
+			var lookupTransducerStateValues = "";
+			for (var i = 0; i < data.d.results.length; i++)
+			{
+				$("#TransducerState").append("<option value='" + data.d.results[i] + "'>" + data.d.results[i] + "</option>");
+				lookupTransducerStateValues +=  data.d.results[i] + ";";
+			}
+			$("#TransducerState").selectmenu('refresh', true);
+			localstorage.set("lookupTransducerStateValues", lookupTransducerStateValues);
+		}
+		else
+		{
+			//
+		}
+	}
+	catch(err) {}
+}
+
+
+
 function callbackGetCPLValues(data)
 {
 	try {
@@ -708,6 +854,8 @@ function callbackLoadDraftStatus(data)
 			$("#selectModality").val(item.Modality).selectmenu('refresh', true);
 			
 			$("#Comments").val(item.Comments);
+			$("#PhysicalState").val(item.PhysicalState).selectmenu('refresh', true);
+			$("#TransducerState").val(item.TransducerState).selectmenu('refresh', true);			
 			$("#controlPanelLayout").val(item.ControlPanelLayout).selectmenu('refresh', true);
 			SetRadioValue('modalityWorkListEmpty', item.ModalityWorkListEmpty);
 			SetRadioValue('allSoftwareLoadedAndFunctioning', item.AllSoftwareLoadedAndFunctioning);
@@ -721,6 +869,8 @@ function callbackLoadDraftStatus(data)
 			SetRadioValue('wasServiceContacted', item.wasServiceContacted);
 			SetRadioValue('ConfirmSystemHddEmptiedOfAllPatientStudies', item.ConfirmModalityWorkListRemoved);
 			SetRadioValue('ConfirmModalityWorkListRemovedFromSystem', item.ConfirmSystemHDDEmptied);
+			$("#PhysicalStateComments").val(item.PhysicalStateComments);
+			$("#TransducerStateComments").val(item.TransducerStateComments);
 			$("#LayoutChangeExplain").val(item.LayoutChangeExplain);
 			
 			$("table.table-add-status").find("input[type=radio]").checkboxradio("refresh");
@@ -734,6 +884,17 @@ function callbackLoadDraftStatus(data)
 				$("#systemPerformedNotAsExpectedExplainTR").show();
 			else
 				$("#systemPerformedNotAsExpectedExplainTR").hide();
+
+			if ($("#PhysicalState").val() == "Physical State changed")
+				$("#PhysicalStateCommentsTR").show();
+			else
+				$("#PhysicalStateCommentsTR").hide();
+
+			if ($("#TransducerState").val() == "Transducer State changed")
+				$("#TransducerStateCommentsTR").show();
+			else
+				$("#TransducerStateCommentsTR").hide();
+
 			
 			if ($("#controlPanelLayout").val() == "Control panel changed")
 				$("#LayoutChangeExplainTR").show();
@@ -768,6 +929,8 @@ function saveStatus(isFinal) {
 	$scope = {
 		recordId : $.urlParam("id"),
 		Comments : $("#Comments").val(),
+		PhysicalState : $("#PhysicalState").val(),
+		TransducerState : $("#TransducerState").val(),
 		controlPanelLayout : $("#controlPanelLayout").val(),
 		modalityWorkListEmpty : $('input[name=modalityWorkListEmpty]:checked').val(),
 		allSoftwareLoadedAndFunctioning : $('input[name=allSoftwareLoadedAndFunctioning]:checked').val(),
@@ -781,6 +944,8 @@ function saveStatus(isFinal) {
 		wasServiceContacted : $('input[name=wasServiceContacted]:checked').val(),
 		ConfirmSystemHddEmptiedOfAllPatientStudies : $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
 		ConfirmModalityWorkListRemovedFromSystem : $('input[name=ConfirmModalityWorkListRemovedFromSystem]:checked').val(),
+		PhysicalStateComments : $("#PhysicalStateComments").val(),
+		TransducerStateComments : $("#TransducerStateComments").val(),
 		LayoutChangeExplain : $("#LayoutChangeExplain").val(),
 		userInfo: {WorkPhone: userInfoData.Phone},
 		
@@ -808,7 +973,7 @@ function saveStatus(isFinal) {
 	}
 
 
-	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
+	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
 		$('#error-div').html('Please select all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please select all values.');
@@ -816,7 +981,27 @@ function saveStatus(isFinal) {
 		//showLoading(false);
 		return;
 	}
+	
 
+
+	if ((isFinal == "Yes") && ($scope.PhysicalState == "Physical State changed" && $scope.PhysicalStateComments == "")) {
+		$('#error-div').html('Please fill all values.');
+		showTimedElem('error-div');
+		$('#error-div2').html('Please fill all values.');
+		showTimedElem('error-div2');
+		//showLoading(false);
+		return;
+	}
+	
+	if ((isFinal == "Yes") && ($scope.TransducerState == "Transducer State changed" && $scope.TransducerStateComments == "")) {
+		$('#error-div').html('Please fill all values.');
+		showTimedElem('error-div');
+		$('#error-div2').html('Please fill all values.');
+		showTimedElem('error-div2');
+		//showLoading(false);
+		return;
+	}	
+	
 	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
@@ -876,13 +1061,13 @@ function SaveStatusProcess(isFinal)
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
-			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
 		else 
 		{
-			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+"&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
