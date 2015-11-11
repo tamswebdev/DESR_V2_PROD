@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
@@ -99,7 +99,7 @@
                     <tr><td id="td-error"></td></tr>
                     <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
                 </table>
-				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.1<br />FOR INTERNAL USE ONLY</div>
+				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.5<br />FOR INTERNAL USE ONLY</div>
 				</center>
             </div>
 	    </div>
@@ -650,6 +650,50 @@
 						<tr>
 							<td class="section-heading" colspan="2">System condition on arrival</td>        
 						</tr>
+
+
+						
+						
+						
+
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Physical State:</div>
+								<select id="PhysicalState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>
+						<tr id="PhysicalStateCommentsTR" style="display:none">
+							<td class="add-status-label">Explain:</td>
+							<td>
+								<input type="text" class="form-control" id="PhysicalStateComments" />
+							</td>
+						</tr>
+						
+						<tr>
+							<td colspan="2">
+								<div class="add-status-label">Transducer State:</div>
+								<select id="TransducerState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+									<option value="N/A">-- N/A --</option>
+								</select>
+							</td>
+						</tr>
+						<tr id="TransducerStateCommentsTR" style="display:none">
+							<td class="add-status-label">Explain:</td>
+							<td>
+								<input type="text" class="form-control" id="TransducerStateComments" />
+							</td>
+						</tr>
+						
+
+
+
+
+
+
+
+						
 						<tr>
 							<td colspan="2">
 								<div class="add-status-label">Control panel layout:</div>
@@ -1362,6 +1406,50 @@
 				  <p class=MsoNormal><b><u>System condition on arrival</u></b> </p>
 				  </td>
 				 </tr>
+				 
+				 
+				 
+				 
+				 
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Physical State: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Physical State </p>
+				  </td>
+				 </tr>
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Explain: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Testing </p>
+				  </td>
+				 </tr>				 
+				 
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Transducer State: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Transducer State </p>
+				  </td>
+				 </tr>
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Explain: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Testing </p>
+				  </td>
+				 </tr>				
+				 
+				 
+				 
+				 
+				 
+				 
 				 <tr>
 				  <td valign=top style='padding:0in 0in 0in 0in'>
 				  <p class=MsoNormal>Control panel layout: </p>
