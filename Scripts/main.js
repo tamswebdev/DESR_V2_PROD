@@ -391,7 +391,7 @@ function callbackPopulateHistories(data)
 											temp += '<td class="history-item-title" width="50%">Physical State:</td>';
 											temp += '<td class="history-item-value" width="50%">' + status.PhysicalState + '</td>';
 										temp += '</tr>';
-										if (status.PhysicalState=='Physical State changed') {
+										if (status.PhysicalState!='N/A') {
 											temp += '<tr ng-show="" style="font-style:italic;">';
 												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
 												temp += '<td class="history-item-value">' + status.PhysicalStateComments + '</td>';
@@ -403,7 +403,7 @@ function callbackPopulateHistories(data)
 											temp += '<td class="history-item-title" width="50%">Transducer State:</td>';
 											temp += '<td class="history-item-value" width="50%">' + status.TransducerState + '</td>';
 										temp += '</tr>';
-										if (status.TransducerState=='Transducer State changed') {
+										if (status.TransducerState!='N/A') {
 											temp += '<tr ng-show="" style="font-style:italic;">';
 												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
 												temp += '<td class="history-item-value">' + status.TransducerStateComments + '</td>';
@@ -646,7 +646,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 
 
 	$("#PhysicalState").change(function () {
-		if ($(this).val() == "Physical State changed")
+		if ($(this).val() != "N/A")
 			$("#PhysicalStateCommentsTR").show();
 		else
 			$("#PhysicalStateCommentsTR").hide();
@@ -654,7 +654,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	
 
 	$("#TransducerState").change(function () {
-		if ($(this).val() == "Transducer State changed")
+		if ($(this).val() != "N/A")
 			$("#TransducerStateCommentsTR").show();
 		else
 			$("#TransducerStateCommentsTR").hide();
@@ -676,6 +676,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	}
 	
 	var _url1 = serviceRootUrl + "svc.aspx?op=GetPhysicalStateValues&SPUrl=" + spwebRootUrl + "sites/busops";
+
 	Jsonp_Call(_url1, false, "callbackGetPhysicalStateValues");
 
 		//Load TransducerState from localstorage
@@ -885,12 +886,12 @@ function callbackLoadDraftStatus(data)
 			else
 				$("#systemPerformedNotAsExpectedExplainTR").hide();
 
-			if ($("#PhysicalState").val() == "Physical State changed")
+			if ($("#PhysicalState").val() != "N/A")
 				$("#PhysicalStateCommentsTR").show();
 			else
 				$("#PhysicalStateCommentsTR").hide();
 
-			if ($("#TransducerState").val() == "Transducer State changed")
+			if ($("#TransducerState").val() != "N/A")
 				$("#TransducerStateCommentsTR").show();
 			else
 				$("#TransducerStateCommentsTR").hide();
@@ -984,7 +985,7 @@ function saveStatus(isFinal) {
 	
 
 
-	if ((isFinal == "Yes") && ($scope.PhysicalState == "Physical State changed" && $scope.PhysicalStateComments == "")) {
+	if ((isFinal == "Yes") && ($scope.PhysicalState != "N/A" && $scope.PhysicalStateComments == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
@@ -993,7 +994,7 @@ function saveStatus(isFinal) {
 		return;
 	}
 	
-	if ((isFinal == "Yes") && ($scope.TransducerState == "Transducer State changed" && $scope.TransducerStateComments == "")) {
+	if ((isFinal == "Yes") && ($scope.TransducerState != "N/A" && $scope.TransducerStateComments == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
