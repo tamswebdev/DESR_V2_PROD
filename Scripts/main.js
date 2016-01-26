@@ -1167,7 +1167,26 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 			{$("#txt_SF_Workflow").val("");$("#tr_SF_Workflow").hide();}
 	});
 	
+	$("#rad_SF_GapCauseLostOrder1, #rad_SF_GapCauseLostOrder2").change(function () {
+		if ($(this).val() == "Yes")
+		{
+			$("#tr_SF_SystemsLost").show();
+			$("#tr_SF_QuotedSystem").show();
+			$("#tr_SF_CompetitorWon").show();			
+
+		}
+		else
+		{
+			$("#tr_SF_SystemsLost").hide();$("#txt_SF_SystemsLost").val("");
+			$("#tr_SF_QuotedSystem").hide();$("#txt_SF_QuotedSystem").val("");
+			$("#tr_SF_CompetitorWon").hide();$("#txt_SF_CompetitorWon").val("");
+		}
+	});
+
+
 	
+	
+
 	//Load PG from localstorage
 	var lookupPGValues = localstorage.get("lookupPGValues");
 	if (lookupPGValues != null && lookupPGValues != "")
@@ -1417,6 +1436,11 @@ function saveFeedback(isFinal) {
 		Ergonomics : $('#txt_SF_Ergonomics').val(),
 
 		GapCauseLostOrder : $('input[name=rad_SF_GapCauseLostOrder]:checked').val(),
+		SystemsLost : $('#txt_SF_SystemsLost').val(),	
+		QuotedSystem : $('#txt_SF_QuotedSystem').val(),	
+		CompetitorWon : $('#txt_SF_CompetitorWon').val(),	
+		
+
 
 		userInfo: {WorkPhone: userInfoData.Phone},
 
@@ -1476,7 +1500,8 @@ function saveFeedback(isFinal) {
 			//showLoading(false);
 			return;
 		}
-		
+
+
 		if ($scope.Workflow == "Other" && $scope.WorkflowOther == "" )
 		{
 			$('#SendFeedback-error-div').html('Please enter other value for Workflow.');
@@ -1486,6 +1511,45 @@ function saveFeedback(isFinal) {
 			//showLoading(false);
 			return;
 		}
+		
+		
+		
+
+		
+		if ($scope.GapCauseLostOrder == "Yes" && $scope.SystemsLost == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter # of Systems Lost.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter # of Systems Lost.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+
+		if ($scope.GapCauseLostOrder == "Yes" && $scope.QuotedSystem == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter Quoted System.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter Quoted System.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+
+		if ($scope.GapCauseLostOrder == "Yes" && $scope.CompetitorWon == "" )
+		{
+			$('#SendFeedback-error-div').html('Please enter which Competitor Won.');
+			showTimedElem('SendFeedback-error-div');
+			$('#SendFeedback-error-div2').html('Please enter which Competitor Won.');
+			showTimedElem('SendFeedback-error-div2');
+			//showLoading(false);
+			return;
+		}
+				
+		
+		
+		
+		
 	var confirmMessage = 'Please confirm you want to send the Feedback. A confirmation email will be sent out to the customer email address.';
 
 	$('<div>').simpledialog2({
@@ -1512,7 +1576,7 @@ function SaveFeedbackProcess(isFinal)
 		showTimedElem('SendFeedback-error-div2');
 
 
-			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics+ "&GapCauseLostOrder=" + $scope.GapCauseLostOrder+ "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
+			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics+ "&GapCauseLostOrder=" + $scope.GapCauseLostOrder+ "&SystemsLost=" + $scope.SystemsLost+ "&QuotedSystem=" + $scope.QuotedSystem+ "&CompetitorWon=" + $scope.CompetitorWon+ "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
 
 			Jsonp_Call(_url, true, "callbackSaveFeedback");
 

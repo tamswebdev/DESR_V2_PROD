@@ -99,7 +99,7 @@
                     <tr><td id="td-error"></td></tr>
                     <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
                 </table>
-				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.5<br />FOR INTERNAL USE ONLY</div>
+				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.6.0<br />FOR INTERNAL USE ONLY</div>
 				</center>
             </div>
 	    </div>
@@ -458,6 +458,28 @@
 								</fieldset>
 							</td>
 						</tr>      
+
+						<tr id="tr_SF_SystemsLost" style="display:none">
+							<td class="add-status-label"># of Systems Lost:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_SystemsLost" />
+							</td>
+						</tr>	
+						<tr id="tr_SF_QuotedSystem" style="display:none">
+							<td class="add-status-label">Quoted System:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_QuotedSystem" />
+							</td>
+						</tr>	
+						<tr id="tr_SF_CompetitorWon" style="display:none">
+							<td class="add-status-label">Competitor Won:</td>
+							<td>
+								<input type="text" class="form-control" id="txt_SF_CompetitorWon" />
+							</td>
+						</tr>	
+						
+									
+						
 						
 					</table>
 					<table class="table add-status-buttons">
