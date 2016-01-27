@@ -1135,6 +1135,10 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 	$("#tr_SF_PortfolioGap").hide();
 	$("#tr_SF_ClinicalApps").hide();
 	$("#tr_SF_Workflow").hide();
+	
+	$("#tr_SF_SystemsLost").hide();$("#txt_SF_SystemsLost").val("");
+	$("#tr_SF_QuotedSystem").hide();$("#txt_SF_QuotedSystem").val("");
+	$("#tr_SF_CompetitorWon").hide();$("#txt_SF_CompetitorWon").val("");
 
 		//$("#txt_SF_catalog_MCSS").text(userInfoData.DisplayName);
 		$("#txt_SF_catalog_MCSS").val(userInfoData.DisplayName);
