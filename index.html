@@ -41,6 +41,7 @@
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
+	<script >var AppVersion = "Ver. 2.6.1";</script>
 	
 	<script type="text/javascript" src="cordova.js"></script>
 </head>
@@ -99,7 +100,8 @@
                     <tr><td id="td-error"></td></tr>
                     <tr><td class="login-button"><input class="common-button" type="button" id="btnLoginSubmit" value="LOGIN" onclick="LoginUser()" /></td></tr>
                 </table>
-				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br />V2.6.0<br />FOR INTERNAL USE ONLY</div>
+				<div class="copyright">TOSHIBA CORPORATION <script>document.write(new Date().getFullYear());</script>. ALL RIGHTS RESERVED<br /><script>document.write(AppVersion);</script><br />FOR INTERNAL USE ONLY</div>
+				
 				</center>
             </div>
 	    </div>
@@ -124,7 +126,7 @@
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>			
-										<li><a href="javascript:void(0);" onclick="ToggleTheme(1);">Toggle Theme</a></li>												
+										<!--<li><a href="javascript:void(0);" onclick="ToggleTheme(1);">Toggle Theme</a></li>					-->							
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -932,7 +934,14 @@
 	    </div>
 	    <div role="main" class="ui-content">  
 			<div id="divHelpContent">
+			
+			
 				<h1 class="header-title">Help</h1>
+				<h2 >TAMS UL Mobile Apps - <script>document.write(AppVersion);</script></h2>
+				<h3 >Please contact Technical Support if you need any help with the system.</h3>
+				<h5 >Phone: <a href="tel:714-669-5522">(714) 669 5522</a></h5>
+				<br>
+
 				<p class=MsoTocHeading><b>Contents</b></p>
 
 				<p class=MsoToc1><span><a href="javascript:void(0);" onclick="ShowHelpSection('#_Toc399164558');"><i>Article
