@@ -1,5 +1,7 @@
 var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
+var SitePath = Configs.SitePath;
+var MKTSitePath = Configs.MKTSitePath;
 
 var isPageLoadReady = false;
 var isSkipPageLoad = "";
@@ -82,7 +84,7 @@ $( document ).on( "pagebeforeshow", "#pgHome", function(event) {
 	checkUserLogin();
 
 
-	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
+	var _url = serviceRootUrl + "svc.aspx?op=LogHomePage&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");	
 });
 
@@ -144,7 +146,7 @@ function LoginUser()
 	loginname = (loginname.indexOf("\\") > 0) ? loginname : "tamsdomain\\" + loginname;
 	
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
-	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
+	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
 	Jsonp_Call(_url, true, "callbackLogin");
 }
@@ -200,7 +202,7 @@ function initSystemTypes()
 
 function LoadSystemTypes()
 {
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + "sites/busops";
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
 }
 
@@ -240,8 +242,11 @@ function searchAction()
 	userSearchText = $("#searchCatalogs").val();
 	userSearchSystemType = $("#filterDocumentType").val();
 	
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
+
 	
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
+	
+		
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }
 
@@ -315,7 +320,7 @@ $( document ).on( "pagebeforeshow", "#pgHistory", function(event) {
 	
 	$( "#divHistoryResults" ).text("").append(getLoadingImg());	
 	
-	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader;
+	var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatuses&SPUrl=" + spwebRootUrl +  SitePath + "&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "callbackPopulateHistories");
 });
 
@@ -560,7 +565,7 @@ function saveAdditionalComment(id) {
 	if (jQuery.trim(comment) != "") {
 		$("#divAddCommentError" + id).text("").append(getLoadingMini()).show();
 		
-		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl + "sites/busops&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader + "&WorkPhone=" + userInfoData.Phone;
+		var _url = serviceRootUrl + "svc.aspx?op=AddAdditionalComments&SPUrl=" + spwebRootUrl +  SitePath + "&itemid=" + id + "&comment=" + comment + "&authInfo=" + userInfoData.AuthenticationHeader + "&WorkPhone=" + userInfoData.Phone;
 		Jsonp_Call(_url, false, "callbackAddComment");
 	}
 	else {
@@ -676,7 +681,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		$("#PhysicalState").selectmenu('refresh', true);
 	}
 	
-	var _url1 = serviceRootUrl + "svc.aspx?op=GetPhysicalStateValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetPhysicalStateValues&SPUrl=" + spwebRootUrl + SitePath;
 
 	Jsonp_Call(_url1, false, "callbackGetPhysicalStateValues");
 
@@ -694,7 +699,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		$("#TransducerState").selectmenu('refresh', true);
 	}
 	
-	var _url1 = serviceRootUrl + "svc.aspx?op=GetTransducerStateValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetTransducerStateValues&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetTransducerStateValues");
 
 	
@@ -719,13 +724,13 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 		$("#controlPanelLayout").selectmenu('refresh', true);
 	}
 	
-	var _url1 = serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + "sites/busops";
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetCPLValues&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetCPLValues");
 	
 	//Populate the draft data
 	if (isNumber($("#divStatusId").text()))
 	{
-		var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
+		var _url = serviceRootUrl + "svc.aspx?op=GetHistoryStatusById&SPUrl=" + spwebRootUrl +  SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $("#divStatusId").text();
 		Jsonp_Call(_url, true, "callbackLoadDraftStatus");
 	}
 	
@@ -733,7 +738,7 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	var id = $.urlParam("id");
 	if (id > 0)
 	{
-		var _url2 = serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl + "sites/busops&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id;
+		var _url2 = serviceRootUrl + "svc.aspx?op=GetCatalogById&SPUrl=" + spwebRootUrl +  SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&id=" + id;
 		Jsonp_Call(_url2, true, "callbackLoadAddStatus");
 	}
 	else 
@@ -1063,13 +1068,13 @@ function SaveStatusProcess(isFinal)
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
-			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + "sites/busops&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl +  SitePath + "&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
 		else 
 		{
-			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + "sites/busops&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+"&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + SitePath + "&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+"&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
@@ -1212,7 +1217,7 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 		$("#ddl_SF_ProductGap").selectmenu('refresh', true);
 	}
 	
-	var _url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Product Gap&SPUrl=" + spwebRootUrl + "sites/busops";
+	var _url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Product Gap&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetPGValues");
 	
 	var lookupFeedbackPortfolioGapValues = localstorage.get("lookupFeedbackPortfolioGapValues");
@@ -1228,7 +1233,7 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 		$("#ddl_SF_PortfolioGap").selectmenu('refresh', true);
 	}
 	
-	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Portfolio Gap&SPUrl=" + spwebRootUrl + "sites/busops";
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Portfolio Gap&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetFeedbackPortfolioGapValues");	
 
 	var lookupFeedbackClinicalAppsValues = localstorage.get("lookupFeedbackClinicalAppsValues");
@@ -1244,7 +1249,7 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 		$("#ddl_SF_ClinicalApps").selectmenu('refresh', true);
 	}
 	
-	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + "sites/busops";
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetFeedbackClinicalAppsValues");	
 	
 	var lookupFeedbackWorkflowValues = localstorage.get("lookupFeedbackWorkflowValues");
@@ -1260,10 +1265,10 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 		$("#ddl_SF_Workflow").selectmenu('refresh', true);
 	}
 	
-	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Workflow&SPUrl=" + spwebRootUrl + "sites/busops";
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Workflow&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetFeedbackWorkflowValues");	
 
-		_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + "sites/busops";
+		_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=Clinical Applications&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetFeedbackClinicalAppsValues");	
 	
 	var lookupFeedbackProductNameValues = localstorage.get("lookupFeedbackProductNameValues");
@@ -1279,7 +1284,7 @@ $( document ).on( "pagebeforeshow", "#pgSendFeedback", function(event) {
 		$("#ddl_SF_ProductName").selectmenu('refresh', true);
 	}
 	
-	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=ProductName&SPUrl=" + spwebRootUrl + "sites/busops";
+	_url1 = serviceRootUrl + "svc.aspx?op=GetPGValues&Type=ProductName&SPUrl=" + spwebRootUrl + SitePath;
 	Jsonp_Call(_url1, false, "callbackGetFeedbackProductNameValues");	
 	
 });
@@ -1587,7 +1592,7 @@ function SaveFeedbackProcess(isFinal)
 		showTimedElem('SendFeedback-error-div2');
 
 
-			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + "sites/marketing&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics+ "&GapCauseLostOrder=" + $scope.GapCauseLostOrder+ "&SystemsLost=" + $scope.SystemsLost+ "&QuotedSystem=" + $scope.QuotedSystem+ "&CompetitorWon=" + $scope.CompetitorWon+ "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
+			var _url =  serviceRootUrl + "svc.aspx?op=SendFeedback&SPUrl=" + spwebRootUrl + MKTSitePath + "&HospitalName=" + $scope.HospitalName + "&ProductGap=" + $scope.ProductGap + "&ProductGapOther=" + $scope.ProductGapOther  + "&CSSName=" + $scope.CSSName + "&CustomerName=" + $scope.CustomerName + "&CustomerEmail=" + $scope.CustomerEmail + "&ProductName=" + $scope.ProductName + "&SoftwareVersion=" + $scope.SoftwareVersion + "&PortfolioGap=" + $scope.PortfolioGap + "&PortfolioGapOther=" + $scope.PortfolioGapOther + "&ClinicalApplications=" + $scope.ClinicalApps + "&ClinicalApplicationsOther=" + $scope.ClinicalAppsOther + "&Workflow=" + $scope.Workflow + "&WorkflowOther=" + $scope.WorkflowOther + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&Ergonomics=" + $scope.Ergonomics+ "&GapCauseLostOrder=" + $scope.GapCauseLostOrder+ "&SystemsLost=" + $scope.SystemsLost+ "&QuotedSystem=" + $scope.QuotedSystem+ "&CompetitorWon=" + $scope.CompetitorWon+ "&DemoDate=" + $scope.DemoDate + "&authInfo=" + userInfoData.AuthenticationHeader ;
 
 			Jsonp_Call(_url, true, "callbackSaveFeedback");
 
@@ -1705,7 +1710,7 @@ function Jsonp_Call_Process(_url, _async, callback)
 
 function SignOut()
 {
-	var _url = serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl + "sites/marketing&authInfo=" + userInfoData.AuthenticationHeader;
+	var _url = serviceRootUrl + "svc.aspx?op=LogOut&SPUrl=" + spwebRootUrl +  MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader;
 	Jsonp_Call(_url, false, "");
 
 	userInfoData = localstorage.clear("userInfoData");

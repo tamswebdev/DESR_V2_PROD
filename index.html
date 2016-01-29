@@ -125,7 +125,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>			
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>			
 										<!--<li><a href="javascript:void(0);" onclick="ToggleTheme(1);">Toggle Theme</a></li>					-->							
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
@@ -151,7 +151,7 @@
 			
 			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgHistory');"><span class="glyphicon glyphicon-file"></span> View My History</button>
 			
-			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgSendFeedback');"><span class="glyphicon glyphicon-file"></span> Send Feedback</button>
+			<button class="btn btn-default btn-danger-custom2  btn-lg btn-block" onclick="$.mobile.navigate('#pgSendFeedback');"><span class="glyphicon glyphicon-file"></span> Product Feedback</button>
 			<br />			
 			<br />
 			<center>
@@ -187,7 +187,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>	
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>	
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp()">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -215,9 +215,9 @@
 						<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="performSearch();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
-						<td style="width: 45px;padding-top: 3px;" align="right">
+						<!--<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
-						</td>
+						</td>-->
 					</tr>
 				</table>
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
@@ -286,7 +286,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -538,7 +538,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -582,7 +582,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -621,8 +621,8 @@
 							<td>
 								<div id="catalog_Product" class="add-status"></div>
 								<div class="add-new-status">
-									<input type="text" class="form-control" id="inputSystemSerialNumber" style="padding-right: 40px;" />
-									<a href="javascript: void(0);" onclick="scanSerialNumBarcode();" style="position: relative;margin-right: 5px;margin-top: -32px; float:right;" class="appScanBarcodeLink"><img src="Images/barcode2.png" id="img-barcode-sn-btn" />
+									<input type="text" class="form-control" id="inputSystemSerialNumber"/> <!-- style="padding-right: 40px;" />-->
+									<!--<a href="javascript: void(0);" onclick="scanSerialNumBarcode();" style="position: relative;margin-right: 5px;margin-top: -32px; float:right;" class="appScanBarcodeLink"><img src="Images/barcode2.png" id="img-barcode-sn-btn" />-->
 								</div>
 							</td>
 						</tr>
@@ -876,7 +876,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
@@ -915,7 +915,7 @@
 										<li><a href="javascript:void(0);" onclick="goHome();">Home</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSearch');">Add Status</a></li>
 										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgHistory');">View History</a></li>
-										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Send Feedback</a></li>											
+										<li><a href="javascript:void(0);" onclick="NavigatePage('#pgSendFeedback');">Product Feedback</a></li>											
 										<li><a href="javascript:void(0);" onclick="ShowHelp();">Help</a></li>
 										<li><a href="javascript:void(0);" onclick="RefrestApp();">Refresh App</a></li>
 										<li><a href="javascript:void(0);" onclick="SignOut();">Sign Out</a></li>
