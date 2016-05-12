@@ -1057,7 +1057,7 @@ function saveStatus(isFinal) {
 	}
 
 
-	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.SystemDeliveredOnTime == "" || $scope.SystemDeliveredProfessionally == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
+	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.systemPerformedAsExpected == "" || $scope.SystemDeliveredProfessionally == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
 		$('#error-div').html('Please select all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please select all values.');
@@ -1066,7 +1066,31 @@ function saveStatus(isFinal) {
 		return;
 	}
 	
-
+	if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedNotAsExpectedExplain == "")) {
+		$('#error-div').html('Please fill all values.');
+		showTimedElem('error-div');
+		$('#error-div2').html('Please fill all values.');
+		showTimedElem('error-div2');
+		//showLoading(false);
+		return;
+	}
+		if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedAsExpectedExplain == "")) {
+		$('#error-div').html('Please fill all values.');
+		showTimedElem('error-div');
+		$('#error-div2').html('Please fill all values.');
+		showTimedElem('error-div2');
+		//showLoading(false);
+		return;
+	}
+		if ((isFinal == "Yes") && ($scope.SystemDeliveredProfessionally == "No" && $scope.SystemDeliveredProfessionallyExplain == "")) {
+		$('#error-div').html('Please fill all values.');
+		showTimedElem('error-div');
+		$('#error-div2').html('Please fill all values.');
+		showTimedElem('error-div2');
+		//showLoading(false);
+		return;
+	}
+	
 
 	if ((isFinal == "Yes") && ($scope.PhysicalState != "N/A" && $scope.PhysicalStateComments == "")) {
 		$('#error-div').html('Please fill all values.');
