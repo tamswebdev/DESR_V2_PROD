@@ -41,7 +41,7 @@
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
-	<script >var AppVersion = "Ver. 2.6.1";</script>
+	<script >var AppVersion = "Ver. 2.6.5";</script>
 	
 	<script type="text/javascript" src="cordova.js"></script>
 </head>
@@ -90,7 +90,7 @@
 				<div class="logo-div">TAMS UL MOBILE APPS</div>
                 <table class="login-table">
                     <tr><td class="login-label">Login</td></tr>
-                    <tr><td class="login-input"><input class="form-control" type="text" id="login" /></td></tr>
+                    <tr><td class="login-input"><input class="form-control" type="text" id="login" autocapitalize="off" autocorrect="off" /></td></tr>
                     <tr><td class="login-label">Password</td></tr>
                     <tr><td class="login-input"><input class="form-control" type="password" id="password" /></td></tr>
                     <tr><td class="login-label">
@@ -783,6 +783,41 @@
 								</fieldset>
 							</td>
 						</tr>
+
+						<tr>
+							<td class="add-status-label">System delivered on time:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime1" value="Yes" checked="checked" /><label for="SystemDeliveredOnTime1">Yes</label>
+									<input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime2" value="No" /><label for="SystemDeliveredOnTime2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr id="SystemDeliveredOnTimeExplainTR" style="display:none;">
+							<td class="add-status-label explain-field">Please explain:</td>
+							<td>
+								<input type="text" class="form-control" id="SystemDeliveredOnTimeExplain" />
+							</td>
+						</tr>						
+						<tr>
+							<td class="add-status-label">System delivered professionally:</td>
+							<td class="radio-button-td">
+								<fieldset data-role="controlgroup" data-type="horizontal" >
+									<input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally1" value="Yes" checked="checked" /><label for="SystemDeliveredProfessionally1">Yes</label>
+									<input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally2" value="No" /><label for="SystemDeliveredProfessionally2">No</label>
+								</fieldset>
+							</td>
+						</tr>
+						<tr id="SystemDeliveredProfessionallyExplainTR" style="display:none;">
+							<td class="add-status-label explain-field">Please explain:</td>
+							<td>
+								<input type="text" class="form-control" id="SystemDeliveredProfessionallyExplain" />
+							</td>
+						</tr>	
+
+
+
+						
 						<tr>
 							<td class="section-heading" colspan="2">Before leaving customer site</td>
 						</tr>
@@ -1552,6 +1587,43 @@
 				  <p class=MsoNormal>&nbsp; </p>
 				  </td>
 				 </tr>
+				 
+				 
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>System delivered on time: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Yes </p>
+				  </td>
+				 </tr>
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
+				  explain: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'></td>
+				 </tr>
+
+
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>System delivered professionally: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>Yes </p>
+				  </td>
+				 </tr>
+				 <tr>
+				  <td valign=top style='padding:0in 0in 0in 0in'>
+				  <p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
+				  explain: </p>
+				  </td>
+				  <td valign=top style='padding:0in 0in 0in 0in'></td>
+				 </tr>				 
+				 
+				 
+				 
 				 <tr>
 				  <td colspan=2 valign=top style='padding:0in 0in 0in 0in'>
 				  <p class=MsoNormal><b><u>Before leaving customer site</u></b> </p>

@@ -165,6 +165,8 @@ function callbackLogin( data ){
 			else
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
+	
+			
 			localstorage.set("userInfoData", userInfoData);
 			
 			NavigatePage("#pgHome");
@@ -465,6 +467,36 @@ function callbackPopulateHistories(data)
 											temp += '<td class="history-item-title">Demo images loaded on hard drive:</td>';
 											temp += '<td class="history-item-value">' + status.DemoImagesLoadedOnHardDrive + '</td>';
 										temp += '</tr>';
+										
+										
+										temp += '<tr>';
+											temp += '<td class="history-item-title">System delivered on time:</td>';
+											temp += '<td class="history-item-value">' + status.SystemDeliveredOnTime + '</td>';
+										temp += '</tr>';
+										
+										if (status.SystemDeliveredOnTime=='No') {
+											temp += '<tr style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+											   temp += ' <td class="history-item-value">' + status.SystemDeliveredOnTimeExplain + '</td>';
+											temp += '</tr>';
+										}										
+										
+										temp += '<tr>';
+											temp += '<td class="history-item-title">System delivered professionally:</td>';
+											temp += '<td class="history-item-value">' + status.SystemDeliveredProfessionally + '</td>';
+										temp += '</tr>';
+										
+										if (status.SystemDeliveredProfessionally=='No') {
+											temp += '<tr style="font-style:italic;">';
+												temp += '<td class="history-item-title" style="padding-left: 40px;">Explained:</td>';
+											   temp += ' <td class="history-item-value">' + status.SystemDeliveredProfessionallyExplain + '</td>';
+											temp += '</tr>';
+										}										
+										
+										
+										
+										
+										
 										temp += '<tr>';
 											temp += '<td class="history-item-section-header" colspan="4"><b>Before leaving customer site</b></td>';
 										temp += '</tr>';
@@ -605,6 +637,11 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 	$("#TransducerStateCommentsTR").hide();
 	$("#LayoutChangeExplainTR").hide();
 	$("#systemPerformedNotAsExpectedExplainTR").hide();
+	
+	$("#SystemDeliveredOnTimeExplainTR").hide();
+	$("#SystemDeliveredProfessionallyExplainTR").hide();
+
+	
 	$("#selectModality").val('UL').selectmenu('refresh', true);
 	$('#error-div2').text("");
 	$('#Comments').val("");
@@ -649,7 +686,20 @@ $( document ).on( "pagebeforeshow", "#pgAddStatus", function(event) {
 			$("#systemPerformedNotAsExpectedExplainTR").hide();
 	});
 
+	$("#SystemDeliveredOnTime1, #SystemDeliveredOnTime2").change(function () {
+		if ($(this).val() == "No")
+			$("#SystemDeliveredOnTimeExplainTR").show();
+		else
+			$("#SystemDeliveredOnTimeExplainTR").hide();
+	});
 
+	$("#SystemDeliveredProfessionally1, #SystemDeliveredProfessionally2").change(function () {
+		if ($(this).val() == "No")
+			$("#SystemDeliveredProfessionallyExplainTR").show();
+		else
+			$("#SystemDeliveredProfessionallyExplainTR").hide();
+	});
+	
 
 	$("#PhysicalState").change(function () {
 		if ($(this).val() != "N/A")
@@ -872,6 +922,14 @@ function callbackLoadDraftStatus(data)
 			SetRadioValue('demoImagesLoadedOnHardDrive', item.DemoImagesLoadedOnHardDrive);
 			SetRadioValue('systemPerformedAsExpected', item.SystemPerformedAsExpected);
 			$("#systemPerformedNotAsExpectedExplain").val(item.SystemPerformedNotAsExpectedExplain);
+
+
+			SetRadioValue('SystemDeliveredOnTime', item.SystemDeliveredOnTime);
+			$("#SystemDeliveredOnTimeExplain").val(item.SystemDeliveredOnTimeExplain);
+			SetRadioValue('SystemDeliveredProfessionally', item.SystemDeliveredProfessionally);
+			$("#SystemDeliveredProfessionallyExplain").val(item.SystemDeliveredProfessionallyExplain);
+
+
 			SetRadioValue('wereAnyIssuesDiscoveredWithSystemDuringDemo', item.AnyIssuesDuringDemo);
 			SetRadioValue('wasServiceContacted', item.wasServiceContacted);
 			SetRadioValue('ConfirmSystemHddEmptiedOfAllPatientStudies', item.ConfirmModalityWorkListRemoved);
@@ -891,7 +949,20 @@ function callbackLoadDraftStatus(data)
 				$("#systemPerformedNotAsExpectedExplainTR").show();
 			else
 				$("#systemPerformedNotAsExpectedExplainTR").hide();
-
+				
+			if ($('input[name=SystemDeliveredOnTime]:checked').val() == "No")
+				$("#SystemDeliveredOnTimeExplainTR").show();
+			else
+				$("#SystemDeliveredOnTimeExplainTR").hide();
+			
+			if ($('input[name=SystemDeliveredProfessionally]:checked').val() == "No")
+				$("#SystemDeliveredProfessionallyExplainTR").show();
+			else
+				$("#SystemDeliveredProfessionallyExplainTR").hide();
+			
+			
+			
+			
 			if ($("#PhysicalState").val() != "N/A")
 				$("#PhysicalStateCommentsTR").show();
 			else
@@ -947,6 +1018,12 @@ function saveStatus(isFinal) {
 		demoImagesLoadedOnHardDrive : $('input[name=demoImagesLoadedOnHardDrive]:checked').val(),
 		systemPerformedAsExpected : $('input[name=systemPerformedAsExpected]:checked').val(),
 		systemPerformedNotAsExpectedExplain : $("#systemPerformedNotAsExpectedExplain").val(),
+		
+		SystemDeliveredOnTime : $('input[name=SystemDeliveredOnTime]:checked').val(),
+		SystemDeliveredOnTimeExplain : $("#SystemDeliveredOnTimeExplain").val(),
+		SystemDeliveredProfessionally : $('input[name=SystemDeliveredProfessionally]:checked').val(),
+		SystemDeliveredProfessionallyExplain : $("#SystemDeliveredProfessionallyExplain").val(),
+		
 		wereAnyIssuesDiscoveredWithSystemDuringDemo : $('input[name=wereAnyIssuesDiscoveredWithSystemDuringDemo]:checked').val(),
 		wasServiceContacted : $('input[name=wasServiceContacted]:checked').val(),
 		ConfirmSystemHddEmptiedOfAllPatientStudies : $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
@@ -980,7 +1057,7 @@ function saveStatus(isFinal) {
 	}
 
 
-	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
+	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.SystemDeliveredOnTime == "" || $scope.SystemDeliveredProfessionally == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
 		$('#error-div').html('Please select all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please select all values.');
@@ -1068,13 +1145,13 @@ function SaveStatusProcess(isFinal)
 		if ($scope.recordId != "" && parseInt($scope.recordId) > 0)
 		{
 			//showLoading(true);
-			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl +  SitePath + "&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl +  SitePath + "&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&SystemDeliveredOnTimeExplain=" + $scope.SystemDeliveredOnTimeExplain + "&SystemDeliveredProfessionallyExplain=" + $scope.SystemDeliveredProfessionallyExplain + "&SystemDeliveredOnTime=" + $scope.SystemDeliveredOnTime + "&SystemDeliveredProfessionally=" + $scope.SystemDeliveredProfessionally + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
 		else 
 		{
-			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + SitePath + "&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+"&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
+			var _url =  serviceRootUrl + "svc.aspx?op=AddNewStatus&SPUrl=" + spwebRootUrl + SitePath + "&SerialNumber=" + $scope.SystemSerialNumber + "&SoftwareVersion=" + $scope.SoftwareVersion + "&RevisionLevel=" + $scope.RevisionLevel + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+"&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&SystemDeliveredOnTimeExplain=" + $scope.SystemDeliveredOnTimeExplain + "&SystemDeliveredProfessionallyExplain=" + $scope.SystemDeliveredProfessionallyExplain + "&SystemDeliveredOnTime=" + $scope.SystemDeliveredOnTime + "&SystemDeliveredProfessionally=" + $scope.SystemDeliveredProfessionally + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
