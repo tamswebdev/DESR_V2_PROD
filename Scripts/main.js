@@ -1047,9 +1047,9 @@ function saveStatus(isFinal) {
 	{
 		if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
 		{
-			$('#error-div').html('Please select all values.');
+			$('#error-div').html('Please fill all values marked "*".');
 			showTimedElem('error-div');
-			$('#error-div2').html('Please select all values.');
+			$('#error-div2').html('Please fill all values marked "*".');
 			showTimedElem('error-div2');
 			//showLoading(false);
 			return;
@@ -1067,25 +1067,25 @@ function saveStatus(isFinal) {
 	}
 	
 	if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedNotAsExpectedExplain == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}
 		if ((isFinal == "Yes") && ($scope.SystemDeliveredOnTime == "No" && $scope.SystemDeliveredOnTimeExplain == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}
 		if ((isFinal == "Yes") && ($scope.SystemDeliveredProfessionally == "No" && $scope.SystemDeliveredProfessionallyExplain == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
@@ -1093,45 +1093,45 @@ function saveStatus(isFinal) {
 	
 
 	if ((isFinal == "Yes") && ($scope.PhysicalState != "N/A" && $scope.PhysicalStateComments == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}
 	
 	if ((isFinal == "Yes") && ($scope.TransducerState != "N/A" && $scope.TransducerStateComments == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}	
 	
 	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}
 
 	if ((isFinal == "Yes") && ($scope.allSoftwareLoadedAndFunctioning == "No" && $scope.allSoftwareLoadedAndFunctioningReason == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
 	}
 
 	if ((isFinal == "Yes") && ($scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "Yes" && $scope.wasServiceContacted == "")) {
-		$('#error-div').html('Please fill all values.');
+		$('#error-div').html('Please fill all values marked "*".');
 		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values.');
+		$('#error-div2').html('Please fill all values marked "*".');
 		showTimedElem('error-div2');
 		//showLoading(false);
 		return;
@@ -1567,9 +1567,9 @@ function saveFeedback(isFinal) {
 
 		if ($scope.CustomerName == "" || $scope.CustomerEmail == "" || $scope.SoftwareVersion == "" || $scope.ProductName == "" || $scope.HospitalName == "" || $scope.DemoDate == "" || $scope.CSSName == "")
 		{
-			$('#SendFeedback-error-div').html('Please enter all required values.');
+			$('#SendFeedback-error-div').html('Please fill all values marked "*".');
 			showTimedElem('SendFeedback-error-div');
-			$('#SendFeedback-error-div2').html('Please enter all required values.');
+			$('#SendFeedback-error-div2').html('Please fill all values marked "*".');
 			showTimedElem('SendFeedback-error-div2');
 			//showLoading(false);
 			return;
