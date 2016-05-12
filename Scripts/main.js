@@ -1074,7 +1074,7 @@ function saveStatus(isFinal) {
 		//showLoading(false);
 		return;
 	}
-		if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedAsExpectedExplain == "")) {
+		if ((isFinal == "Yes") && ($scope.SystemDeliveredOnTime == "No" && $scope.SystemDeliveredOnTimeExplain == "")) {
 		$('#error-div').html('Please fill all values.');
 		showTimedElem('error-div');
 		$('#error-div2').html('Please fill all values.');
