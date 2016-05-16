@@ -125,6 +125,44 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 	searchAction();
 });
 
+function CheckTouchIDAvailable()
+{
+	
+	var RetVal=false;
+	Model="";
+	if (typeof device != 'undefined')
+	{
+
+		
+			
+			
+		
+		if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
+		{
+			Model=device.model.replace('iPhone','');
+			if (Model.charAt(0)=="6")
+			{
+				if (parseInt(Model.slice(-1))!=1)
+					RetVal=true;
+			}
+			else if (parseInt(Model.charAt(0))>6)
+			{
+				RetVal=true;
+			}
+			
+			else
+			{
+				RetVal=false;
+			}
+		
+
+		}
+			
+	}
+	return (RetVal);
+}
+
+
 
 function LoginUser()
 {
@@ -144,6 +182,20 @@ function LoginUser()
 	
 	var loginname = ($('#login').val().indexOf("@") > 0) ? $('#login').val().substring(0, $('#login').val().indexOf("@")) : $('#login').val();
 	loginname = (loginname.indexOf("\\") > 0) ? loginname : "tamsdomain\\" + loginname;
+	
+	
+	/* Umer: To add touch ID */
+	if (CheckTouchIDAvailable())
+	{
+		
+		localstorage.set("TouchIDAuthDESR", loginname);
+	}
+	else{
+		
+		localstorage.set("TouchIDAuthDESR", "0");
+	}			
+	/* Umer: To add touch ID */
+	
 	
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
@@ -165,7 +217,7 @@ function callbackLogin( data ){
 			else
 				userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
 			
-	
+			userInfoData.TouchIDAuthenticatedDESR = "1";	
 			
 			localstorage.set("userInfoData", userInfoData);
 			
@@ -173,7 +225,17 @@ function callbackLogin( data ){
 		}
 		else {
 			userInfoData = localstorage.getUserInfoDefault();
+
+			
+
+			if (CheckTouchIDAvailable())
+			{
+				
+				localstorage.set("TouchIDAuthDESR", "0");
+			}			
 			$('#td-error').html("Invalid login and/or password.");
+			
+
 		}
 	}
 	catch(err) {
@@ -1826,6 +1888,8 @@ function checkUserLogin()
 	$(".network-unreachable").remove();
 	
 	checkConnection();
+	
+	var TouchIDAuth="0";
 	if (userInfoData == null)
 	{
 		if (localstorage.get("userInfoData") != null)
@@ -1842,6 +1906,9 @@ function checkUserLogin()
 					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
 					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
 	
+	
+	
+	/*
     if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
 	{
 		NavigatePage("#pgLogin");
@@ -1852,7 +1919,145 @@ function checkUserLogin()
 		if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 			NavigatePage("#pgHome");
 	}
+	*/
+	
+	
+		///// ***** (S) Umer 5/11/2016 : Comment this section to disable touch id */
+		
+		var TouchIDAuthenticated=userInfoData.TouchIDAuthenticatedDESR;
+		
+		if (CheckTouchIDAvailable())
+		{
+				TouchIDAuth=localstorage.get("TouchIDAuthDESR");
+		}
+
+
+		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable())
+		{
+				// Authenticate user the Touch ID way
+			if (typeof touchid !== 'undefined')
+			{
+				touchid.authenticate(
+					function(msg) {
+						
+						LoginUserByTouchID(TouchIDAuth);
+						},
+					function(msg) {
+						TouchIDAuthenticated="0";
+						NavigatePage("#pgLogin");
+						}, 
+					"Scan your fingerprint please to login"
+					);
+			}
+		}
+		else
+		{
+			if (!isUserLogin && location.href.indexOf("#pgLogin") < 0 )
+			{
+				NavigatePage("#pgLogin");
+			}
+			else if (isUserLogin)
+			{	
+				$(".spanLoginUser").text("" +userInfoData.DisplayName);
+							
+
+					
+				if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
+					NavigatePage("#pgHome");
+			}					
+						
+		}
+		
+		///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
 }
+
+
+
+
+function LoginUserByTouchID(TouchIDAuth)
+{
+
+
+	$("#td-error").text("").append(getLoadingMini());
+
+	
+	var loginname=TouchIDAuth;
+	
+
+	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + "TouchID");
+	var _url = serviceRootUrl + "svc.aspx?op=AuthenticateByTouchID&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
+
+	Jsonp_Call(_url, true, "callbackLoginByTouchID");
+	
+}
+
+function callbackLoginByTouchID( data ){
+	try {
+	
+		if (data.d.results.issuccess) 
+		{
+			userInfoData.DisplayName = data.d.results.name;
+			userInfoData.Email = data.d.results.email;
+			userInfoData.Phone = data.d.results.phone;
+			$(".spanLoginUser").text("" +userInfoData.DisplayName);
+
+			userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
+
+			userInfoData.TouchIDAuthenticatedDESR = "1";
+			
+			localstorage.set("userInfoData", userInfoData);
+			
+						
+			
+			NavigatePage("#pgHome");
+		}
+		else {
+			userInfoData.TouchIDAuthenticatedDESR = "0";
+			userInfoData = localstorage.getUserInfoDefault();
+			if (CheckTouchIDAvailable())
+			{
+				
+				localstorage.set("TouchIDAuthDESR", "0");
+			}
+
+			NavigatePage("#pgLogin");
+			
+		}
+	}
+	catch(err) {
+		$('#td-error').html("Internal application error.");
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function checkConnection() {
 	try {
