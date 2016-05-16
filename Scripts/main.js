@@ -135,35 +135,37 @@ function CheckTouchIDAvailable()
 	if (typeof device != 'undefined')
 	{
 
-		
-			alert(device.model);
-				
-		
-		if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
+		if (typeof touch != 'undefined')
 		{
-							
-			Model=device.model.replace('iPhone','');
-			if (Model.charAt(0)=="6")
+
+					
+			
+			if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
 			{
-							
-				if (parseInt(Model.slice(-1))!=1)
+								
+				Model=device.model.replace('iPhone','');
+				if (Model.charAt(0)=="6")
+				{
+								
+					//if (parseInt(Model.slice(-1))!=1)
+						RetVal=true;
+				}
+				else if (parseInt(Model.charAt(0))>6)
+				{
+
 					RetVal=true;
-			}
-			else if (parseInt(Model.charAt(0))>6)
-			{
-
-				RetVal=true;
-			}
-			
-			else
-			{
-	
-				RetVal=false;
-			}
+				}
+				
+				else
+				{
 		
-
-		}
+					RetVal=false;
+				}
 			
+
+			}
+				
+		}
 	}
 	return (RetVal);
 }
