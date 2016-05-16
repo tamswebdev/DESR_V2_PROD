@@ -137,23 +137,27 @@ function CheckTouchIDAvailable()
 
 		
 			
-			
+					alert(1);
 		
 		if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
 		{
+								alert(2);
 			Model=device.model.replace('iPhone','');
 			if (Model.charAt(0)=="6")
 			{
+									alert(3);
 				if (parseInt(Model.slice(-1))!=1)
 					RetVal=true;
 			}
 			else if (parseInt(Model.charAt(0))>6)
 			{
+									alert(4);
 				RetVal=true;
 			}
 			
 			else
 			{
+									alert(5);
 				RetVal=false;
 			}
 		
@@ -189,7 +193,7 @@ function LoginUser()
 	/* Umer: To add touch ID */
 	if (CheckTouchIDAvailable())
 	{
-		alert(loginname);
+
 		localstorage.set("TouchIDAuthDESR", loginname);
 	}
 	else{
