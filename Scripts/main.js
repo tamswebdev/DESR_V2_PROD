@@ -167,7 +167,7 @@ function CheckTouchIDAvailable()
 				
 		}
 	}
-	alert(RetVal+"RetVal")
+
 	return (RetVal);
 }
 
@@ -1915,7 +1915,7 @@ function checkUserLogin()
 					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
 					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
 	
-	alert(isUserLogin);
+
 	
 	/*
     if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
@@ -1934,18 +1934,18 @@ function checkUserLogin()
 		///// ***** (S) Umer 5/11/2016 : Comment this section to disable touch id */
 		
 		var TouchIDAuthenticated=userInfoData.TouchIDAuthenticatedDESR;
-		alert("CheckTouchIDAvailable:"+CheckTouchIDAvailable());
+	
 		if (CheckTouchIDAvailable())
 		{
 			
 				TouchIDAuth=localstorage.get("TouchIDAuthDESR");
-				alert(TouchIDAuth);
+		
 		}
 
 
 		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable())
 		{
-			alert("In n out");
+		
 				// Authenticate user the Touch ID way
 			if (typeof touchid != 'undefined')
 			{
