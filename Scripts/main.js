@@ -1931,10 +1931,10 @@ function checkUserLogin()
 		///// ***** (S) Umer 5/11/2016 : Comment this section to disable touch id */
 		
 		var TouchIDAuthenticated=userInfoData.TouchIDAuthenticatedDESR;
-		
+		alert("CheckTouchIDAvailable:"+CheckTouchIDAvailable());
 		if (CheckTouchIDAvailable())
 		{
-			alert("CheckTouchIDAvailable:"+CheckTouchIDAvailable());
+			
 				TouchIDAuth=localstorage.get("TouchIDAuthDESR");
 				alert(TouchIDAuth);
 		}
