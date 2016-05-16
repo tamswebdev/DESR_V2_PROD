@@ -167,6 +167,7 @@ function CheckTouchIDAvailable()
 				
 		}
 	}
+	alert(RetVal+"RetVal")
 	return (RetVal);
 }
 
