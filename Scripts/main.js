@@ -1934,6 +1934,7 @@ function checkUserLogin()
 		
 		if (CheckTouchIDAvailable())
 		{
+			alert("CheckTouchIDAvailable:"+CheckTouchIDAvailable());
 				TouchIDAuth=localstorage.get("TouchIDAuthDESR");
 				alert(TouchIDAuth);
 		}
