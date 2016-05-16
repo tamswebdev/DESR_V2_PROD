@@ -130,6 +130,8 @@ function CheckTouchIDAvailable()
 	
 	var RetVal=false;
 	Model="";
+	
+
 	if (typeof device != 'undefined')
 	{
 
@@ -187,7 +189,7 @@ function LoginUser()
 	/* Umer: To add touch ID */
 	if (CheckTouchIDAvailable())
 	{
-		
+		alert(loginname);
 		localstorage.set("TouchIDAuthDESR", loginname);
 	}
 	else{
