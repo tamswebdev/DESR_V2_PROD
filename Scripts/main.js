@@ -136,7 +136,7 @@ function CheckTouchIDAvailable()
 	{
 
 		
-			
+			alert(device.model);
 				
 		
 		if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
