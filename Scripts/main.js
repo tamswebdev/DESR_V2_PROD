@@ -135,7 +135,7 @@ function CheckTouchIDAvailable()
 	if (typeof device != 'undefined')
 	{
 
-		if (typeof touch != 'undefined')
+		if (typeof touchid != 'undefined')
 		{
 
 					
@@ -1947,7 +1947,7 @@ function checkUserLogin()
 		{
 			alert("In n out");
 				// Authenticate user the Touch ID way
-			if (typeof touchid !== 'undefined')
+			if (typeof touchid != 'undefined')
 			{
 				touchid.authenticate(
 					function(msg) {
