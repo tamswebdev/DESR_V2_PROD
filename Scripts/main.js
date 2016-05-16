@@ -137,27 +137,27 @@ function CheckTouchIDAvailable()
 
 		
 			
-					alert(1);
+				
 		
 		if (device.platform=='iOS' && parseInt(device.version.charAt(0))>=8)
 		{
-								alert(2);
+							
 			Model=device.model.replace('iPhone','');
 			if (Model.charAt(0)=="6")
 			{
-									alert(3);
+							
 				if (parseInt(Model.slice(-1))!=1)
 					RetVal=true;
 			}
 			else if (parseInt(Model.charAt(0))>6)
 			{
-									alert(4);
+
 				RetVal=true;
 			}
 			
 			else
 			{
-									alert(5);
+	
 				RetVal=false;
 			}
 		
@@ -1912,7 +1912,7 @@ function checkUserLogin()
 					userInfoData.DisplayName != null && userInfoData.DisplayName != "" &&
 					userInfoData.Email != null && userInfoData.Email != "" && userInfoData.Expiration > getTimestamp());
 	
-	
+	alert(isUserLogin);
 	
 	/*
     if (!isUserLogin && location.href.indexOf("#pgLogin") < 0)
@@ -1935,11 +1935,13 @@ function checkUserLogin()
 		if (CheckTouchIDAvailable())
 		{
 				TouchIDAuth=localstorage.get("TouchIDAuthDESR");
+				alert(TouchIDAuth);
 		}
 
 
 		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable())
 		{
+			alert("In n out");
 				// Authenticate user the Touch ID way
 			if (typeof touchid !== 'undefined')
 			{
