@@ -1944,48 +1944,57 @@ function checkUserLogin()
 
 		if (userInfoData.Expiration <= getTimestamp())
 			TouchIDAuthenticated="0";
-		alert("TouchIDAuth:" + TouchIDAuth + " - TouchIDAuthenticated:"+ TouchIDAuthenticated+ " - CheckTouchIDAvailable():" + CheckTouchIDAvailable());
+
 		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable() )
 		{
 		
 				// Authenticate user the Touch ID way
 			if (typeof touchid != 'undefined')
 			{
-				touchid.authenticate(
-					function(msg) {
-						
-						LoginUserByTouchID(TouchIDAuth);
-						},
-					function(msg) {
-						TouchIDAuthenticated="0";
-						NavigatePage("#pgLogin");
-						}, 
-					"Scan your fingerprint please to login"
-					);
+				touchid.checkSupport(
+					touchid.authenticate(
+						function(msg) {
+							
+							LoginUserByTouchID(TouchIDAuth);
+							},
+						function(msg) {
+							TouchIDAuthenticated="0";
+							NavigatePage("#pgLogin");
+							}, 
+						"Please scan your fingerprint to login"
+						);
+					, TouchIDNotAvailable(isUserLogin,userInfoData.DisplayName)
+				);
+				
+				
+				
 			}
 		}
 		else
 		{
-			if (!isUserLogin && location.href.indexOf("#pgLogin") < 0 )
-			{
-				NavigatePage("#pgLogin");
-			}
-			else if (isUserLogin)
-			{	
-				$(".spanLoginUser").text("" +userInfoData.DisplayName);
-							
-
-					
-				if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
-					NavigatePage("#pgHome");
-			}					
+			TouchIDNotAvailable(isUserLogin,userInfoData.DisplayName)
 						
 		}
 		
 		///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
 }
 
+function TouchIDNotAvailable(isUserLogin,DisplayName)
+{
+			if (!isUserLogin && location.href.indexOf("#pgLogin") < 0 )
+			{
+				NavigatePage("#pgLogin");
+			}
+			else if (isUserLogin)
+			{	
+				$(".spanLoginUser").text("" + DisplayName);
+							
 
+					
+				if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
+					NavigatePage("#pgHome");
+			}		
+}
 
 
 function LoginUserByTouchID(TouchIDAuth)
