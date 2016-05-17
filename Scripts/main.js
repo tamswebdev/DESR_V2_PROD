@@ -1942,8 +1942,10 @@ function checkUserLogin()
 		
 		}
 
+		if (userInfoData.Expiration <= getTimestamp())
+			TouchIDAuthenticated="0";
 		alert("TouchIDAuth:" + TouchIDAuth + " - TouchIDAuthenticated:"+ TouchIDAuthenticated+ " - CheckTouchIDAvailable():" + CheckTouchIDAvailable());
-		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable())
+		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable() )
 		{
 		
 				// Authenticate user the Touch ID way
