@@ -1951,50 +1951,44 @@ function checkUserLogin()
 				// Authenticate user the Touch ID way
 			if (typeof touchid != 'undefined')
 			{
-				touchid.checkSupport(
-					touchid.authenticate(
-						function(msg) {
-							
-							LoginUserByTouchID(TouchIDAuth);
-							},
-						function(msg) {
-							TouchIDAuthenticated="0";
-							NavigatePage("#pgLogin");
-							}, 
-						"Please scan your fingerprint to login"
-						);
-					, TouchIDNotAvailable(isUserLogin,userInfoData.DisplayName)
-				);
 				
 				
-				
+
+				touchid.authenticate(
+					function(msg) {
+						
+						LoginUserByTouchID(TouchIDAuth);
+						},
+					function(msg) {
+						TouchIDAuthenticated="0";
+						NavigatePage("#pgLogin");
+						}, 
+					"Please scan your fingerprint to login"
+					);
 			}
 		}
 		else
 		{
-			TouchIDNotAvailable(isUserLogin,userInfoData.DisplayName)
-						
-		}
-		
-		///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
-}
-
-function TouchIDNotAvailable(isUserLogin,DisplayName)
-{
 			if (!isUserLogin && location.href.indexOf("#pgLogin") < 0 )
 			{
 				NavigatePage("#pgLogin");
 			}
 			else if (isUserLogin)
 			{	
-				$(".spanLoginUser").text("" + DisplayName);
+				$(".spanLoginUser").text("" +userInfoData.DisplayName);
 							
 
 					
 				if (location.href.indexOf("#") < 0 || location.href.indexOf("#pgLogin") > 0)
 					NavigatePage("#pgHome");
-			}		
+			}					
+						
+		}
+		
+		///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
 }
+
+
 
 
 function LoginUserByTouchID(TouchIDAuth)
