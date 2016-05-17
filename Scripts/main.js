@@ -1942,7 +1942,7 @@ function checkUserLogin()
 		
 		}
 
-
+		alert("TouchIDAuth:" + TouchIDAuth + " - TouchIDAuthenticated:"+ TouchIDAuthenticated+ " - CheckTouchIDAvailable():" + CheckTouchIDAvailable());
 		if( TouchIDAuth!="0" && TouchIDAuthenticated!="1" && CheckTouchIDAvailable())
 		{
 		
