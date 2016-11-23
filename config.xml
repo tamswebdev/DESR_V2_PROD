@@ -95,7 +95,7 @@
 
 	<!--<gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.2.0" />-->
   <plugin name="cordova-plugin-barcodescanner" source="npm" spec="2.2.0" />
-	<gap:plugin name="uk.co.ilee.touchid" source="pgb" />
+	<gap:plugin name="uk.co.ilee.touchid" source="npm" />
 	
 <!-- Define app icon for each platform. -->
     
