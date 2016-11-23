@@ -328,6 +328,7 @@ function callbackPopulateSearchResults(data)
 	try {
 		$( "#divSearchResults" ).text("");
 		
+		//alert("datacount:" + data.d.results.length);
 		if (data.d.results.length > 0)
 		{
 			for(var i=0; i < data.d.results.length; i++)
