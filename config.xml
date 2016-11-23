@@ -49,7 +49,7 @@
     -->
 	
 	<!-- Customize your app and platform with the preference element. -->
-	<preference name='phonegap-version' value='3.7.0' />				<!-- all: current version of PhoneGap -->
+	<preference name='phonegap-version' value='6.3.0' />				<!-- all: current version of PhoneGap -->
 
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
@@ -97,7 +97,7 @@
 	<!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
 
-	<plugin name="phonegap-plugin-barcodescanner" source="npm" />
+	<plugin name="phonegap-plugin-barcodescanner" source="npm"   />
 	<plugin name="cordova-plugin-touchid" source="npm" />
 	
 <!-- Define app icon for each platform. -->
