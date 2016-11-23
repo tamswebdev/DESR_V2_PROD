@@ -72,7 +72,6 @@
 
 	
 	<plugin name="cordova-plugin-battery-status" source="npm" spec="~1.1.1" />
-	<plugin name="cordova-plugin-battery-status" source="npm" />
     <plugin name="cordova-plugin-camera" source="npm" />
     <plugin name="cordova-plugin-media-capture" source="npm" />
     <plugin name="cordova-plugin-console" source="npm" />
@@ -98,7 +97,7 @@
 	<!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
 
-	<plugin name="phonegap-plugin-barcodescanner" vsource="npm"  version="2.2.0" />
+	<plugin name="phonegap-plugin-barcodescanner" source="npm"  version="2.2.0" />
 	<plugin name="cordova-plugin-touchid" source="npm" />
 	
 <!-- Define app icon for each platform. -->
