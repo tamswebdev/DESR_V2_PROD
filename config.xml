@@ -93,7 +93,8 @@
   <!-- Third party plugins -->
     <!-- A list of available plugins are available at https://build.phonegap.com/plugins -->
 
-	<gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.2.0" />
+	<!--<gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.2.0" />-->
+  <plugin name="cordova-plugin-barcodescanner" source="npm" spec="2.2.0" />
 	<gap:plugin name="uk.co.ilee.touchid" source="pgb" />
 	
 <!-- Define app icon for each platform. -->
