@@ -44,6 +44,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 }
 
 function onDeviceReady() {
+	window.location="https://intranet.tams.com/VirtualApps/BUSOPSWebs/TAMSULApps/index.html";
 	$.mobile.pageLoadErrorMessage = "";
 	
 	//ToggleTheme(0);
