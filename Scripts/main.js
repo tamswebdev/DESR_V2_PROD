@@ -1110,161 +1110,161 @@ function cancelStatus() {
 }
 
 function saveStatus(isFinal) {
-	$scope = {
-	    //recordId : $.urlParam("id"),
-	    demoRequestID: $.urlParam("id"),
-		Comments : $("#Comments").val(),
-		PhysicalState : $("#PhysicalState").val(),
-		TransducerState : $("#TransducerState").val(),
-		controlPanelLayout : $("#controlPanelLayout").val(),
-		modalityWorkListEmpty : $('input[name=modalityWorkListEmpty]:checked').val(),
-		allSoftwareLoadedAndFunctioning : $('input[name=allSoftwareLoadedAndFunctioning]:checked').val(),
-		allSoftwareLoadedAndFunctioningReason : $("#allSoftwareLoadedAndFunctioningReason").val(),
-		nPDPresetsOnSystem : $('input[name=nPDPresetsOnSystem]:checked').val(),
-		hDDFreeOfPatientStudies : $('input[name=hDDFreeOfPatientStudies]:checked').val(),
-		demoImagesLoadedOnHardDrive : $('input[name=demoImagesLoadedOnHardDrive]:checked').val(),
-		systemPerformedAsExpected : $('input[name=systemPerformedAsExpected]:checked').val(),
-		systemPerformedNotAsExpectedExplain : $("#systemPerformedNotAsExpectedExplain").val(),
-		
-		SystemDeliveredOnTime : $('input[name=SystemDeliveredOnTime]:checked').val(),
-		SystemDeliveredOnTimeExplain : $("#SystemDeliveredOnTimeExplain").val(),
-		SystemDeliveredProfessionally : $('input[name=SystemDeliveredProfessionally]:checked').val(),
-		SystemDeliveredProfessionallyExplain : $("#SystemDeliveredProfessionallyExplain").val(),
-		
-		wereAnyIssuesDiscoveredWithSystemDuringDemo : $('input[name=wereAnyIssuesDiscoveredWithSystemDuringDemo]:checked').val(),
-		wasServiceContacted : $('input[name=wasServiceContacted]:checked').val(),
-		ConfirmSystemHddEmptiedOfAllPatientStudies : $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
-		ConfirmModalityWorkListRemovedFromSystem : $('input[name=ConfirmModalityWorkListRemovedFromSystem]:checked').val(),
-		PhysicalStateComments : $("#PhysicalStateComments").val(),
-		TransducerStateComments : $("#TransducerStateComments").val(),
-		LayoutChangeExplain : $("#LayoutChangeExplain").val(),
-		userInfo: {WorkPhone: userInfoData.Phone},
-		
-		SystemType : $("#inputSystemType").val(),
-		//SystemSerialNumber : $("#inputSystemSerialNumber").val(),
-		//SoftwareVersion : $("#inputSoftwareVersion").val(),
-		//RevisionLevel : $("#inputRevisionLevel").val(),
-		Modality : $("#selectModality").val(),
-		StatusId : $("#divStatusId").text()
-	};
+    $scope = {
+        //recordId : $.urlParam("id"),
+        demoRequestID: $.urlParam("id"),
+        Comments: $("#Comments").val(),
+        PhysicalState: $("#PhysicalState").val(),
+        TransducerState: $("#TransducerState").val(),
+        controlPanelLayout: $("#controlPanelLayout").val(),
+        modalityWorkListEmpty: $('input[name=modalityWorkListEmpty]:checked').val(),
+        allSoftwareLoadedAndFunctioning: $('input[name=allSoftwareLoadedAndFunctioning]:checked').val(),
+        allSoftwareLoadedAndFunctioningReason: $("#allSoftwareLoadedAndFunctioningReason").val(),
+        nPDPresetsOnSystem: $('input[name=nPDPresetsOnSystem]:checked').val(),
+        hDDFreeOfPatientStudies: $('input[name=hDDFreeOfPatientStudies]:checked').val(),
+        demoImagesLoadedOnHardDrive: $('input[name=demoImagesLoadedOnHardDrive]:checked').val(),
+        systemPerformedAsExpected: $('input[name=systemPerformedAsExpected]:checked').val(),
+        systemPerformedNotAsExpectedExplain: $("#systemPerformedNotAsExpectedExplain").val(),
 
-	//console.log($scope);
-	
-	if ($scope.recordId == "" || !($scope.recordId > 0))
-	{
-	    if ($scope.demoRequestID == "" || !($scope.demoRequestID > 0)) {
-		//if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
-		{
-			$('#error-div').html('Please fill all values marked "*".');
-			showTimedElem('error-div');
-			$('#error-div2').html('Please fill all values marked "*".');
-			showTimedElem('error-div2');
-			//showLoading(false);
-			return;
-		}
-	}
+        SystemDeliveredOnTime: $('input[name=SystemDeliveredOnTime]:checked').val(),
+        SystemDeliveredOnTimeExplain: $("#SystemDeliveredOnTimeExplain").val(),
+        SystemDeliveredProfessionally: $('input[name=SystemDeliveredProfessionally]:checked').val(),
+        SystemDeliveredProfessionallyExplain: $("#SystemDeliveredProfessionallyExplain").val(),
+
+        wereAnyIssuesDiscoveredWithSystemDuringDemo: $('input[name=wereAnyIssuesDiscoveredWithSystemDuringDemo]:checked').val(),
+        wasServiceContacted: $('input[name=wasServiceContacted]:checked').val(),
+        ConfirmSystemHddEmptiedOfAllPatientStudies: $('input[name=ConfirmSystemHddEmptiedOfAllPatientStudies]:checked').val(),
+        ConfirmModalityWorkListRemovedFromSystem: $('input[name=ConfirmModalityWorkListRemovedFromSystem]:checked').val(),
+        PhysicalStateComments: $("#PhysicalStateComments").val(),
+        TransducerStateComments: $("#TransducerStateComments").val(),
+        LayoutChangeExplain: $("#LayoutChangeExplain").val(),
+        userInfo: { WorkPhone: userInfoData.Phone },
+
+        SystemType: $("#inputSystemType").val(),
+        //SystemSerialNumber : $("#inputSystemSerialNumber").val(),
+        //SoftwareVersion : $("#inputSoftwareVersion").val(),
+        //RevisionLevel : $("#inputRevisionLevel").val(),
+        Modality: $("#selectModality").val(),
+        StatusId: $("#divStatusId").text()
+    };
+
+    //console.log($scope);
+
+    //if ($scope.recordId == "" || !($scope.recordId > 0)) {
+    if ($scope.demoRequestID == "" || !($scope.demoRequestID > 0)) {
+        //if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
+        {
+            $('#error-div').html('Please fill all values marked "*".');
+            showTimedElem('error-div');
+            $('#error-div2').html('Please fill all values marked "*".');
+            showTimedElem('error-div2');
+            //showLoading(false);
+            return;
+        }
+    }
 
 
-	if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.systemPerformedAsExpected == "" || $scope.SystemDeliveredProfessionally == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
-		$('#error-div').html('Please select all values.');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please select all values.');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
-	
-	if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedNotAsExpectedExplain == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
-		if ((isFinal == "Yes") && ($scope.SystemDeliveredOnTime == "No" && $scope.SystemDeliveredOnTimeExplain == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
-		if ((isFinal == "Yes") && ($scope.SystemDeliveredProfessionally == "No" && $scope.SystemDeliveredProfessionallyExplain == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
-	
+    if ((isFinal == "Yes") && ($scope.PhysicalState == "" || $scope.TransducerState == "" || $scope.controlPanelLayout == "" || $scope.modalityWorkListEmpty == "" || $scope.allSoftwareLoadedAndFunctioning == "" || $scope.nPDPresetsOnSystem == "" || $scope.hDDFreeOfPatientStudies == "" || $scope.demoImagesLoadedOnHardDrive == "" || $scope.systemPerformedAsExpected == "" || $scope.systemPerformedAsExpected == "" || $scope.SystemDeliveredProfessionally == "" || $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "" || $scope.ConfirmSystemHddEmptiedOfAllPatientStudies == "" || $scope.ConfirmModalityWorkListRemovedFromSystem == "")) {
+        $('#error-div').html('Please select all values.');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please select all values.');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
 
-	if ((isFinal == "Yes") && ($scope.PhysicalState != "N/A" && $scope.PhysicalStateComments == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
-	
-	if ((isFinal == "Yes") && ($scope.TransducerState != "N/A" && $scope.TransducerStateComments == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}	
-	
-	if ((isFinal == "Yes") && ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
+    if ((isFinal == "Yes") && ($scope.systemPerformedAsExpected == "No" && $scope.systemPerformedNotAsExpectedExplain == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
+    if ((isFinal == "Yes") && ($scope.SystemDeliveredOnTime == "No" && $scope.SystemDeliveredOnTimeExplain == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
+    if ((isFinal == "Yes") && ($scope.SystemDeliveredProfessionally == "No" && $scope.SystemDeliveredProfessionallyExplain == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
 
-	if ((isFinal == "Yes") && ($scope.allSoftwareLoadedAndFunctioning == "No" && $scope.allSoftwareLoadedAndFunctioningReason == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
 
-	if ((isFinal == "Yes") && ($scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "Yes" && $scope.wasServiceContacted == "")) {
-		$('#error-div').html('Please fill all values marked "*".');
-		showTimedElem('error-div');
-		$('#error-div2').html('Please fill all values marked "*".');
-		showTimedElem('error-div2');
-		//showLoading(false);
-		return;
-	}
+    if ((isFinal == "Yes") && ($scope.PhysicalState != "N/A" && $scope.PhysicalStateComments == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
 
-	var confirmMessage = 'Do you want to save <b><u>draft</u></b>?<br />You can come back and edit it later';
-	if (isFinal == "Yes")
-		confirmMessage = 'Do you want to submit a <b><u>final</u></b> status?<br />The status will become read-only';
+    if ((isFinal == "Yes") && ($scope.TransducerState != "N/A" && $scope.TransducerStateComments == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
 
-	//var sure = confirm(confirmMessage);
-	
-	$('<div>').simpledialog2({
-		mode: 'blank',
-		headerText: 'Confirmation',
-		headerClose: false,
-		transition: 'flip',
-		themeDialog: 'a',
-		width: 300,
-		zindex: 2000,
-		blankContent : 
-		  "<div style='padding: 15px;'><p>" + confirmMessage + "</p>"+
-		  "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"SaveStatusProcess('" + isFinal + "');\">OK</a></td>" + 
-		  "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
+    if ((isFinal == "Yes") && ($scope.controlPanelLayout == "Control panel changed" && $scope.LayoutChangeExplain == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
+
+    if ((isFinal == "Yes") && ($scope.allSoftwareLoadedAndFunctioning == "No" && $scope.allSoftwareLoadedAndFunctioningReason == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
+
+    if ((isFinal == "Yes") && ($scope.wereAnyIssuesDiscoveredWithSystemDuringDemo == "Yes" && $scope.wasServiceContacted == "")) {
+        $('#error-div').html('Please fill all values marked "*".');
+        showTimedElem('error-div');
+        $('#error-div2').html('Please fill all values marked "*".');
+        showTimedElem('error-div2');
+        //showLoading(false);
+        return;
+    }
+
+    var confirmMessage = 'Do you want to save <b><u>draft</u></b>?<br />You can come back and edit it later';
+    if (isFinal == "Yes")
+        confirmMessage = 'Do you want to submit a <b><u>final</u></b> status?<br />The status will become read-only';
+
+    //var sure = confirm(confirmMessage);
+
+    $('<div>').simpledialog2({
+        mode: 'blank',
+        headerText: 'Confirmation',
+        headerClose: false,
+        transition: 'flip',
+        themeDialog: 'a',
+        width: 300,
+        zindex: 2000,
+        blankContent:
+            "<div style='padding: 15px;'><p>" + confirmMessage + "</p>" +
+            "<table width='100%' cellpadding='0' cellspacing='0'><tr><td width='50%'><a rel='close' data-role='button' href='#' onclick=\"SaveStatusProcess('" + isFinal + "');\">OK</a></td>" +
+            "<td width='50%'><a rel='close' data-role='button' href='#'>Cancel</a></td></tr></table></div>"
     });
 }
+
 	
 function SaveStatusProcess(isFinal)
 {
