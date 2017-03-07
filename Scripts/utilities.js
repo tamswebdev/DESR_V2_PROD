@@ -28,7 +28,8 @@ function NavigatePage(pageid)
 
 function scanBarcode() 
 {
-	try {
+    try {
+        alert('Run into scanBarcode() ');
 		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
@@ -52,7 +53,9 @@ function scanBarcode()
 			);
 		}
 	}
-	catch(err) { }
+    catch (err) {
+        alert(err);
+    }
 }
 
 function setOptions(srcType) {
