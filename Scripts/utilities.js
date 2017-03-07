@@ -58,12 +58,7 @@ function scanBarcode()
 function openCamera() {
     try {
         navigator.camera.getPicture(
-          function cameraSuccess(imageUri) {
-                //var image = $("#imgTest");
-              //image.src = imgUri;
-              alert('picture taken.');
-            },
-          function (message) { alert('No picture taken'); },
+          onCameraSuccess, onCameraFail,
           {
               quality: 50,
               destinationType: navigator.camera.DestinationType.FILE_URI,
@@ -78,6 +73,15 @@ function openCamera() {
     catch (err) {
         alert(err);
     }
+}
+
+function onCameraSuccess(imageUri) {
+    var image = $("#imgTest");
+    image.src = imageUri;
+}
+
+function onCameraFail(message) {
+    alert('Failed because: ' + message);
 }
 
 
