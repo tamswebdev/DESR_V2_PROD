@@ -57,18 +57,23 @@ function scanBarcode()
 
 function openCamera() {
     try {
-        navigator.camera.getPicture(
-          onCameraSuccess, onCameraFail,
-          {
-              quality: 50,
-              destinationType: navigator.camera.DestinationType.FILE_URI,
-              sourceType: navigator.camera.PictureSourceType.CAMERA,
-              encodingType: navigator.camera.EncodingType.JPEG,
-              targetWidth: 640,
-              targetHeight: 480
-          }
-        );
-        //navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
+        if (navigator.camera == null) {
+            alert('navigator.camera is null');
+        }
+        else {
+            navigator.camera.getPicture(
+              onCameraSuccess, onCameraFail,
+              {
+                  quality: 50,
+                  destinationType: navigator.camera.DestinationType.FILE_URI,
+                  sourceType: navigator.camera.PictureSourceType.CAMERA,
+                  encodingType: navigator.camera.EncodingType.JPEG,
+                  targetWidth: 640,
+                  targetHeight: 480
+              }
+            );
+            //navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
+        }
     }
     catch (err) {
         alert(err);
