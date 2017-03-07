@@ -71,37 +71,41 @@ function setOptions(srcType) {
 }
 
 function openCamera() {
+    try {
+        alert('run into openCamera()');
+        var srcType = Camera.PictureSourceType.CAMERA;
 
-    alert('run into openCamera()');
-    var srcType = Camera.PictureSourceType.CAMERA;
+        alert('before calling setOptions()');
+        var options = setOptions(srcType);
 
-    alert('before calling setOptions()');
-    var options = setOptions(srcType);
-
-    alert('after calling setOptions()');
-    navigator.camera.getPicture(onSuccess, onFail, {
-        quality: 50,
-        destinationType: Camera.DestinationType.FILE_URI
-    });
-
-    function onSuccess(imageURI) {
-        var image = $("#imgTest");
-        image.src = imgUri;
+        alert('after calling setOptions()');
+        navigator.camera.getPicture(onCamCallSuccess, onCamCallFail, {
+            quality: 50,
+            destinationType: Camera.DestinationType.FILE_URI
+        });
+        navigator.camera.cleanup(onCamCleanUpSuccess, onCamCleanUpFail);
+        
     }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
+    catch (err) {
+        alert(err);
     }
+}
 
-    navigator.camera.cleanup(onSuccess, onFail);
+function onCamCallSuccess(imageURI) {
+    var image = $("#imgTest");
+    image.src = imgUri;
+}
 
-    function onSuccess() {
-        //console.log("Camera cleanup success.")
-    }
+function onCamCallFail(message) {
+    alert('Failed because: ' + message);
+}
 
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
+function onCamCleanUpSuccess() {
+    //console.log("Camera cleanup success.")
+}
+
+function onCamCleanUpFail(message) {
+    alert('Failed because: ' + message);
 }
 
 function scanSerialNumBarcode() 
