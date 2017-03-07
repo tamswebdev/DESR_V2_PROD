@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: ms-appdata: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
     <title>TAMS UL Apps</title>
 
 	
@@ -216,16 +215,10 @@
 						<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="performSearch();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
-						<td style="width: 45px;padding-top: 3px;" align="right">
-							<!--<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>-->
-                            <a href="javascript: void(0);" onclick="openCamera();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
-						</td>
+						<!--<td style="width: 45px;padding-top: 3px;" align="right">
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
+						</td>-->
 					</tr>
-                    <tr>
-                        <td colspan="2">
-                            <img id="imgTest" />
-                        </td>
-                    </tr>
 				</table>
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
 			</div>

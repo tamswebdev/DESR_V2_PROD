@@ -55,47 +55,6 @@ function scanBarcode()
 	catch(err) { }
 }
 
-function setOptions(srcType) {
-    var options = {
-        // Some common settings are 20, 50, and 100 
-        quality: 50,
-        destinationType: Camera.DestinationType.FILE_URI,
-        // In this app, dynamically set the picture source, Camera or photo gallery 
-        sourceType: srcType,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        allowEdit: true,
-        correctOrientation: true  //Corrects Android orientation quirks 
-    }
-    return options;
-}
-
-function openCamera() {
-
-    var srcType = Camera.PictureSourceType.CAMERA;
-    var options = setOptions(srcType);
-    
-    navigator.camera.getPicture(function cameraSuccess(imageUri) {
-
-        var image = $("#imgTest");
-        image.src = imgUri;
-
-    }, function cameraError(error) {
-        console.debug("Unable to obtain picture: " + error, "app");
-
-    }, options);
-
-    navigator.camera.cleanup(onSuccess, onFail);
-
-    function onSuccess() {
-        //console.log("Camera cleanup success.")
-    }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
-}
-
 function scanSerialNumBarcode() 
 {
 	try {
