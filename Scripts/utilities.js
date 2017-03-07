@@ -68,7 +68,7 @@ function openCamera() {
               targetHeight: 480
           }
         );
-        navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
+        //navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
     }
     catch (err) {
         alert(err);
