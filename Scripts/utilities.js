@@ -59,8 +59,9 @@ function openCamera() {
     try {
         navigator.camera.getPicture(
           function cameraSuccess(imageUri) {
-                var image = $("#imgTest");
-                image.src = imgUri;
+                //var image = $("#imgTest");
+              //image.src = imgUri;
+              alert('picture taken.');
             },
           function (message) { alert('No picture taken'); },
           {
