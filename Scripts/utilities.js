@@ -58,7 +58,10 @@ function scanBarcode()
 function openCamera() {
     try {
         navigator.camera.getPicture(
-          onCamCallSuccess,
+          function cameraSuccess(imageUri) {
+                var image = $("#imgTest");
+                image.src = imgUri;
+            },
           function (message) { alert('No picture taken'); },
           {
               quality: 50,
@@ -69,30 +72,13 @@ function openCamera() {
               targetHeight: 480
           }
         );
-        navigator.camera.cleanup(onCamCleanUpSuccess, onCamCleanUpFail);
+        navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
     }
     catch (err) {
         alert(err);
     }
 }
 
-
-function onCamCallSuccess(imageURI) {
-    var image = $("#imgTest");
-    image.src = imgUri;
-}
-
-function onCamCallFail(message) {
-    alert('Failed because: ' + message);
-}
-
-function onCamCleanUpSuccess() {
-    //console.log("Camera cleanup success.")
-}
-
-function onCamCleanUpFail(message) {
-    alert('Failed because: ' + message);
-}
 
 function scanSerialNumBarcode() 
 {
