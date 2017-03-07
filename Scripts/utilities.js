@@ -29,8 +29,7 @@ function NavigatePage(pageid)
 function scanBarcode() 
 {
     try {
-        alert('Run into scanBarcode() ');
-		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+        if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					var barcodeText = result.text;
@@ -53,9 +52,7 @@ function scanBarcode()
 			);
 		}
 	}
-    catch (err) {
-        alert(err);
-    }
+    catch (err) {}
 }
 
 function setOptions(srcType) {
