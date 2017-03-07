@@ -72,18 +72,26 @@ function setOptions(srcType) {
 
 function openCamera() {
 
+    alert('run into openCamera()');
     var srcType = Camera.PictureSourceType.CAMERA;
-    var options = setOptions(srcType);
-    
-    navigator.camera.getPicture(function cameraSuccess(imageUri) {
 
+    alert('before calling setOptions()');
+    var options = setOptions(srcType);
+
+    alert('after calling setOptions()');
+    navigator.camera.getPicture(onSuccess, onFail, {
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI
+    });
+
+    function onSuccess(imageURI) {
         var image = $("#imgTest");
         image.src = imgUri;
+    }
 
-    }, function cameraError(error) {
-        console.debug("Unable to obtain picture: " + error, "app");
-
-    }, options);
+    function onFail(message) {
+        alert('Failed because: ' + message);
+    }
 
     navigator.camera.cleanup(onSuccess, onFail);
 
