@@ -55,6 +55,22 @@ function scanBarcode()
 	catch(err) { }
 }
 
+function openCamera() {
+
+    var srcType = Camera.PictureSourceType.CAMERA;
+    var options = setOptions(srcType);
+    
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+        var image = $("#imgTest");
+        image.src = "data:image/jpeg;base64," + imageData;
+
+    }, function cameraError(error) {
+        console.debug("Unable to obtain picture: " + error, "app");
+
+    }, options);
+}
+
 function scanSerialNumBarcode() 
 {
 	try {
