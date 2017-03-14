@@ -22,8 +22,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-	$(document).ready(function () {
-	        goHome();
+		$( document ).ready(function() {
+			goHome();
 			//ToggleTheme(0);
 
 			localstorage.set("DeviceInfo", deviceInfo);
@@ -54,9 +54,8 @@ function onDeviceReady() {
 		deviceInfo = "Browser:" + navigator.browserDetail;
 	
 	
-    try {
-        
-        navigator.geolocation.watchPosition(
+	try {
+		navigator.geolocation.watchPosition(
 			function (position) {
 				userLongitude = position.coords.longitude;
 				userLatitude = position.coords.latitude;

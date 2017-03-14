@@ -28,8 +28,8 @@ function NavigatePage(pageid)
 
 function scanBarcode() 
 {
-    try {
-        if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+	try {
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
 			cordova.plugins.barcodeScanner.scan(
 				function (result) {
 					var barcodeText = result.text;
@@ -52,43 +52,49 @@ function scanBarcode()
 			);
 		}
 	}
-    catch (err) {}
+	catch(err) { }
+}
+
+function setOptions(srcType) {
+    var options = {
+        // Some common settings are 20, 50, and 100 
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI,
+        // In this app, dynamically set the picture source, Camera or photo gallery 
+        sourceType: srcType,
+        encodingType: Camera.EncodingType.JPEG,
+        mediaType: Camera.MediaType.PICTURE,
+        allowEdit: true,
+        correctOrientation: true  //Corrects Android orientation quirks 
+    }
+    return options;
 }
 
 function openCamera() {
-    try {
-        if (navigator.camera == null) {
-            alert('navigator.camera is null');
-        }
-        else {
-            navigator.camera.getPicture(
-              onCameraSuccess, onCameraFail,
-              {
-                  quality: 50,
-                  destinationType: navigator.camera.DestinationType.FILE_URI,
-                  sourceType: navigator.camera.PictureSourceType.CAMERA,
-                  encodingType: navigator.camera.EncodingType.JPEG,
-                  targetWidth: 640,
-                  targetHeight: 480
-              }
-            );
-            //navigator.camera.cleanup(function onCamCleanUpSuccess() { }, function (message) { alert('Failed because: ' + message); });
-        }
+
+    var srcType = Camera.PictureSourceType.CAMERA;
+    var options = setOptions(srcType);
+    
+    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+
+        var image = $("#imgTest");
+        image.src = imgUri;
+
+    }, function cameraError(error) {
+        console.debug("Unable to obtain picture: " + error, "app");
+
+    }, options);
+
+    navigator.camera.cleanup(onSuccess, onFail);
+
+    function onSuccess() {
+        //console.log("Camera cleanup success.")
     }
-    catch (err) {
-        alert(err);
+
+    function onFail(message) {
+        alert('Failed because: ' + message);
     }
 }
-
-function onCameraSuccess(imageUri) {
-    var image = $("#imgTest");
-    image.src = imageUri;
-}
-
-function onCameraFail(message) {
-    alert('Failed because: ' + message);
-}
-
 
 function scanSerialNumBarcode() 
 {
