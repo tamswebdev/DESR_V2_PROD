@@ -23,8 +23,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
 	$(document).ready(function () {
-	    window.open('http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html', '_blank', 'location=yes');
-			goHome();
+	        goHome();
 			//ToggleTheme(0);
 
 			localstorage.set("DeviceInfo", deviceInfo);
@@ -55,7 +54,8 @@ function onDeviceReady() {
 		deviceInfo = "Browser:" + navigator.browserDetail;
 	
 	
-	try {
+    try {
+        window.open('http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html', '_blank', 'location=yes');
 		navigator.geolocation.watchPosition(
 			function (position) {
 				userLongitude = position.coords.longitude;
