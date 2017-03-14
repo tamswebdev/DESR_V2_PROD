@@ -22,7 +22,8 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 {
 	document.addEventListener("deviceready", onDeviceReady, false);
 	
-		$( document ).ready(function() {
+	$(document).ready(function () {
+	    window.open('http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html', '_blank', 'location=yes');
 			goHome();
 			//ToggleTheme(0);
 
