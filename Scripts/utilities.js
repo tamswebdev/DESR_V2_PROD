@@ -70,26 +70,26 @@ function setOptions(srcType) {
     return options;
 }
 
-function openCamera() {
+//function openCamera() {
 
-    navigator.camera.getPicture(
-         function cameraSuccess(imageUri) {
+//    navigator.camera.getPicture(
+//         function cameraSuccess(imageUri) {
 
-             var image = $("#imgTest");
-             image.src = imgUri;
+//             var image = $("#imgTest");
+//             image.src = imageUri;
 
-         },
-         function (message) { alert('No picture taken'); },
-         {
-             quality: 50,
-             destinationType: navigator.camera.DestinationType.FILE_URI,
-             sourceType: navigator.camera.PictureSourceType.CAMERA,
-             encodingType: navigator.camera.EncodingType.JPEG,
-             targetWidth: 640,
-             targetHeight: 480
-         }
-       );
-}
+//         },
+//         function (message) { alert('No picture taken'); },
+//         {
+//             quality: 50,
+//             destinationType: navigator.camera.DestinationType.FILE_URI,
+//             sourceType: navigator.camera.PictureSourceType.CAMERA,
+//             encodingType: navigator.camera.EncodingType.JPEG,
+//             targetWidth: 640,
+//             targetHeight: 480
+//         }
+//       );
+//}
 
 function scanSerialNumBarcode() 
 {
