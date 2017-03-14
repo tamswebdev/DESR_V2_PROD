@@ -55,7 +55,7 @@ function onDeviceReady() {
 	
 	
     try {
-        $cordovaInAppBrowser.open('http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html', '_blank', options)
+        
         navigator.geolocation.watchPosition(
 			function (position) {
 				userLongitude = position.coords.longitude;

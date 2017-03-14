@@ -34,8 +34,8 @@
 
     <!-- Application start page
     <content src="index.html"/> -->
-	<!-- Umer: Set this and comment above to run as a web app
-		<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>  -->
+	<!-- Umer: Set this and comment above to run as a web app-->
+		<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>  
 	
 
 	
