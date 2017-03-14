@@ -72,28 +72,23 @@ function setOptions(srcType) {
 
 function openCamera() {
 
-    var srcType = Camera.PictureSourceType.CAMERA;
-    var options = setOptions(srcType);
-    
-    navigator.camera.getPicture(function cameraSuccess(imageUri) {
+    navigator.camera.getPicture(
+         function cameraSuccess(imageUri) {
 
-        var image = $("#imgTest");
-        image.src = imgUri;
+             var image = $("#imgTest");
+             image.src = imgUri;
 
-    }, function cameraError(error) {
-        console.debug("Unable to obtain picture: " + error, "app");
-
-    }, options);
-
-    navigator.camera.cleanup(onSuccess, onFail);
-
-    function onSuccess() {
-        //console.log("Camera cleanup success.")
-    }
-
-    function onFail(message) {
-        alert('Failed because: ' + message);
-    }
+         },
+         function (message) { alert('No picture taken'); },
+         {
+             quality: 50,
+             destinationType: navigator.camera.DestinationType.FILE_URI,
+             sourceType: navigator.camera.PictureSourceType.CAMERA,
+             encodingType: navigator.camera.EncodingType.JPEG,
+             targetWidth: 640,
+             targetHeight: 480
+         }
+       );
 }
 
 function scanSerialNumBarcode() 
