@@ -7,9 +7,13 @@ var Configs = {
 
 	
 	
-    "ServiceRootUrl": "http://tusspdev1wfe3/VirtualApps/TAMS.BUSOPS/TAMS.BUSOPS.DemoESR.MobileSVC/",
-    "SharePointRootUrl": "http://tusspdev1wfe3/",
-	"SitePath" : "sites/busops", "MKTSitePath" : "sites/marketing"	
+	"ServiceRootUrl": "http://tusspdev1wfe3/VirtualApps/TAMS.BUSOPS/TAMS.BUSOPS.DemoESR.MobileSVC/",
+	"SharePointRootUrl" : "http://tusspdev1wfe3/",
+	"SitePath": "sites/busops",
+	"MKTSitePath": "sites/marketing"
+	
+	
+	
 		
 	
 };
