@@ -1,9 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
-    
     <title>TAMS UL Apps</title>
 
 	
@@ -42,7 +41,7 @@
     <script src="Scripts/Base64Converter.js"></script>
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
-	<script >var AppVersion = "Ver. 5.4.1";</script>
+	<script >var AppVersion = "Ver. 2.7.0";</script>
 	
 	<script type="text/javascript" src="cordova.js"></script>
 </head>
@@ -216,16 +215,10 @@
 						<td style="width: 45px;padding-top: 3px;" align="right">
 							<a href="javascript: void(0);" onclick="performSearch();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
-						<!--<td style="width: 45px;padding-top: 3px;" align="right">-->
-							<!--<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>-->
-                            <!--<a href="javascript: void(0);" onclick="openCamera();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>-->
-						<!--</td>-->
+						<!--<td style="width: 45px;padding-top: 3px;" align="right">
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
+						</td>-->
 					</tr>
-                    <!--<tr>
-                        <td colspan="2">
-                            <img id="imgTest" />
-                        </td>
-                    </tr>-->
 				</table>
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
 			</div>
@@ -623,13 +616,13 @@
 								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
 							</td>
 						</tr>
-						<!--<tr>
+						<tr>
 							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Product" class="add-status"></div>
 								<div class="add-new-status">
-									<input type="text" class="form-control" id="inputSystemSerialNumber"/>
-									
+									<input type="text" class="form-control" id="inputSystemSerialNumber"/> <!-- style="padding-right: 40px;" />-->
+									<!--<a href="javascript: void(0);" onclick="scanSerialNumBarcode();" style="position: relative;margin-right: 5px;margin-top: -32px; float:right;" class="appScanBarcodeLink"><img src="Images/barcode2.png" id="img-barcode-sn-btn" />-->
 								</div>
 							</td>
 						</tr>
@@ -646,7 +639,7 @@
 								<div id="catalog_Revision_x0020_Level" class="add-status"></div>
 								<div class="add-new-status"><input type="text" class="form-control" id="inputRevisionLevel" /></div>
 							</td>
-						</tr>-->
+						</tr>
 						<tr>
 							<td class="add-status-label">Date:</td>
 							<td><div id="catalog_System_x0020_Date"></div></td>

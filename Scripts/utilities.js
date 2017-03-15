@@ -26,99 +26,63 @@ function NavigatePage(pageid)
 	$.mobile.navigate(pageid, { transition : "slide"});
 }
 
-//function scanBarcode() 
-//{
-//	try {
-//		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
-//			cordova.plugins.barcodeScanner.scan(
-//				function (result) {
-//					var barcodeText = result.text;
-//					var BarCodeData = barcodeText.split(";");
-//					if (barcodeText.lastIndexOf(";") > 0)
-//					{
-//						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
-//						barcodeText = BarCodeData[3];
-//					}
-//					if (barcodeText != "")
-//					{
-//						$("#searchCatalogs").val(barcodeText);
-//						navigator.notification.vibrate(20);
-//						performSearch();
-//					}
-//				}, 
-//				function (error) {
-//					alert("Scanning failed: " + error);
-//				}
-//			);
-//		}
-//	}
-//	catch(err) { }
-//}
-
-function setOptions(srcType) {
-    var options = {
-        // Some common settings are 20, 50, and 100 
-        quality: 50,
-        destinationType: Camera.DestinationType.FILE_URI,
-        // In this app, dynamically set the picture source, Camera or photo gallery 
-        sourceType: srcType,
-        encodingType: Camera.EncodingType.JPEG,
-        mediaType: Camera.MediaType.PICTURE,
-        allowEdit: true,
-        correctOrientation: true  //Corrects Android orientation quirks 
-    }
-    return options;
+function scanBarcode() 
+{
+	try {
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+			cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					var barcodeText = result.text;
+					var BarCodeData = barcodeText.split(";");
+					if (barcodeText.lastIndexOf(";") > 0)
+					{
+						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
+						barcodeText = BarCodeData[3];
+					}
+					if (barcodeText != "")
+					{
+						$("#searchCatalogs").val(barcodeText);
+						navigator.notification.vibrate(20);
+						performSearch();
+					}
+				}, 
+				function (error) {
+					alert("Scanning failed: " + error);
+				}
+			);
+		}
+	}
+	catch(err) { }
 }
 
-//function openCamera() {
+function scanSerialNumBarcode() 
+{
+	try {
+		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
+			cordova.plugins.barcodeScanner.scan(
+				function (result) {
+					var barcodeText = result.text;
+					var BarCodeData = barcodeText.split(";");
+					if (barcodeText.lastIndexOf(";") > 0)
+					{
+						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
+						barcodeText = BarCodeData[3];
+					}
 
-//    navigator.camera.getPicture(
-//         function cameraSuccess(imageUri) {
-
-//             var image = $("#imgTest");
-//             image.src = imageUri;
-
-//         },
-//         function (message) { alert('No picture taken'); },
-//         {
-//             quality: 50,
-//             destinationType: navigator.camera.DestinationType.FILE_URI,
-//             sourceType: navigator.camera.PictureSourceType.CAMERA,
-//             encodingType: navigator.camera.EncodingType.JPEG,
-//             targetWidth: 640,
-//             targetHeight: 480
-//         }
-//       );
-//}
-
-//function scanSerialNumBarcode() 
-//{
-//	try {
-//		if (typeof cordova !== 'undefined' && $.isFunction(cordova.plugins.barcodeScanner.scan)) {
-//			cordova.plugins.barcodeScanner.scan(
-//				function (result) {
-//					var barcodeText = result.text;
-//					var BarCodeData = barcodeText.split(";");
-//					if (barcodeText.lastIndexOf(";") > 0)
-//					{
-//						//barcodeText = barcodeText.substring(barcodeText.lastIndexOf(";") + 1);
-//						barcodeText = BarCodeData[3];
-//					}
-
-//					if (barcodeText != "")
-//					{
-//						$("#inputSystemSerialNumber").val(barcodeText);
-//						navigator.notification.vibrate(20);
-//					}
-//				}, 
-//				function (error) {
-//					alert("Scanning failed: " + error);
-//				}
-//			);
-//		}
-//	}
-//	catch(err) { }
-//}
+					if (barcodeText != "")
+					{
+						$("#inputSystemSerialNumber").val(barcodeText);
+						navigator.notification.vibrate(20);
+					}
+				}, 
+				function (error) {
+					alert("Scanning failed: " + error);
+				}
+			);
+		}
+	}
+	catch(err) { }
+}
 
 function ShowHelp()
 {
