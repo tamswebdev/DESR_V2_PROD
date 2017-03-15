@@ -20,7 +20,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "io.tams.ULApps"
-        version   = "2.7.0">
+        version   = "6.5.0">
 		
     <name>TAMS UL Mobile Apps</name>
     <description>
@@ -34,8 +34,8 @@
 
     <!-- Application start page
     <content src="index.html"/> -->
-	<!-- Umer: Set this and comment above to run as a web app
-		<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>-->
+	<!-- Umer: Set this and comment above to run as a web app-->
+		<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>
     <!--<content src="http://intranet.tams.com/VirtualApps/busopswebs/TAMSULApps/index.html"/>-->
 	
 
@@ -50,7 +50,8 @@
     -->
 	
 	<!-- Customize your app and platform with the preference element. -->
-	<preference name='phonegap-version' value='cli-5.4.1' />				<!-- all: current version of PhoneGap -->
+	<preference name='phonegap-version' value='cli-6.5.0' />				<!-- all: current version of PhoneGap -->
+  <preference name="stay-in-webview" value="false" />
 
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
     <preference name="target-device"              value="universal" />      <!-- all: possible values handset, tablet, or universal -->
