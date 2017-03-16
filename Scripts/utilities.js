@@ -71,24 +71,35 @@ function setOptions(srcType) {
 }
 
 function openCamera() {
+    try {
+        if (navigator.camera == null) {
+            alert('navigator.camera is null');
+        }
+        else {
 
-    navigator.camera.getPicture(
-         function cameraSuccess(imageUri) {
+            navigator.camera.getPicture(
+                 function cameraSuccess(imageUri) {
 
-             var image = $("#imgTest");
-             image.src = imageUri;
+                     var image = $("#imgTest");
+                     image.src = imageUri;
 
-         },
-         function (message) { alert('No picture taken'); },
-         {
-             quality: 50,
-             destinationType: navigator.camera.DestinationType.FILE_URI,
-             sourceType: navigator.camera.PictureSourceType.CAMERA,
-             encodingType: navigator.camera.EncodingType.JPEG,
-             targetWidth: 640,
-             targetHeight: 480
-         }
-       );
+                 },
+                 function (message) { alert('No picture taken'); },
+                 {
+                     quality: 50,
+                     destinationType: navigator.camera.DestinationType.FILE_URI,
+                     sourceType: navigator.camera.PictureSourceType.CAMERA,
+                     encodingType: navigator.camera.EncodingType.JPEG,
+                     targetWidth: 640,
+                     targetHeight: 480
+                 }
+               );
+        }
+    }
+    catch (ex)
+    {
+        alert(ex);            
+    }
 }
 
 //function scanSerialNumBarcode() 
