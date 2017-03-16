@@ -63,7 +63,11 @@
                 alert('Run into takephoto();');
                 navigator.camera.getPicture(onSuccess, onFail, {
                     quality: 50,
-                    destinationType: Camera.DestinationType.DATA_URL
+                    destinationType: navigator.camera.DestinationType.FILE_URI,
+                    sourceType: navigator.camera.PictureSourceType.CAMERA,
+                    encodingType: navigator.camera.EncodingType.JPEG,
+                    targetWidth: 640,
+                    targetHeight: 480
                 });
             }
             catch (err) {
@@ -71,11 +75,13 @@
             }
         }
         function onSuccess(imageData) {
+            alert('Run into onSuccess()');
             var image = document.getElementById('myImage');
             image.src = "data:image/jpeg;base64," + imageData;
             document.getElementById("text1").innerHTML = imageData;
         }
         function onFail(message) {
+            alert('Run into onFail()');
             alert('Failed because: ' + message);
         }
     </script>
