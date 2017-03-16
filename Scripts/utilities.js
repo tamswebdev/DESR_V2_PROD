@@ -72,6 +72,28 @@ function setOptions(srcType) {
 
 function openCamera() {
     try {
+
+        if (navigator.notification == null) {
+            alert('navigator.notification is null');
+        }
+        else {
+            alert(navigator.notification);
+        }
+
+        if (navigator.appName == null) {
+            alert('navigator.appName is null');
+        }
+        else {
+            alert(navigator.appName);
+        }
+
+        if (navigator.appVersion == null) {
+            alert('navigator.appVersion is null');
+        }
+        else {
+            alert(navigator.notification);
+        }
+
         if (navigator.camera == null) {
             alert('navigator.camera is null');
         }
