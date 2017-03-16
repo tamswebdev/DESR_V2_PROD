@@ -91,7 +91,7 @@ function openCamera() {
             alert('navigator.appVersion is null');
         }
         else {
-            alert(navigator.notification);
+            alert(navigator.appVersion);
         }
 
         if (navigator.camera == null) {
