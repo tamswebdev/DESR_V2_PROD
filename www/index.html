@@ -60,6 +60,7 @@
         app.initialize();
         function takephoto() {
             try {
+                alert('Run into takephoto();');
                 navigator.camera.getPicture(onSuccess, onFail, {
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL
