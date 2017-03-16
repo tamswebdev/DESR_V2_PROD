@@ -79,21 +79,7 @@ function openCamera() {
         else {
             alert(navigator.notification);
         }
-
-        if (navigator.appName == null) {
-            alert('navigator.appName is null');
-        }
-        else {
-            alert(navigator.appName);
-        }
-
-        if (navigator.appVersion == null) {
-            alert('navigator.appVersion is null');
-        }
-        else {
-            alert(navigator.appVersion);
-        }
-
+        
         if (navigator.camera == null) {
             alert('navigator.camera is null');
         }
