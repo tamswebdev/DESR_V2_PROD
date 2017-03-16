@@ -1,6 +1,7 @@
 var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 var SitePath = Configs.SitePath;
+var EquipmentSitePath = Configs.EquipmentSitePath;
 var MKTSitePath = Configs.MKTSitePath;
 
 var isPageLoadReady = false;
@@ -275,7 +276,7 @@ function initSystemTypes()
 
 function LoadSystemTypes()
 {
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + SitePath;
+	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + EquipmentSitePath;
 	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
 }
 
