@@ -33,9 +33,9 @@
 
 
     <!-- Application start page-->
-    <content src="index.html"/> 
+    <!--<content src="index.html"/>--> 
 	<!-- Umer: Set this and comment above to run as a web app-->
-		<!--<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>-->
+		<content src="http://tusspdev1wfe3/VirtualApps/busopswebs/TAMSULApps/index.html"/>
     <!--<content src="http://intranet.tams.com/VirtualApps/busopswebs/TAMSULApps/index.html"/>-->
 	
 
@@ -50,7 +50,7 @@
     -->
 	
 	<!-- Customize your app and platform with the preference element. -->
-	<preference name='phonegap-version' value='cli-6.5.0' />				<!-- all: current version of PhoneGap -->
+	<preference name='phonegap-version' value='cli-5.4.1' />				<!-- all: current version of PhoneGap -->
   
 
     <preference name="orientation"                value="default" />        <!-- all: default means both landscape and portrait are enabled -->
