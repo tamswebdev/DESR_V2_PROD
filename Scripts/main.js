@@ -1,9 +1,8 @@
 var serviceRootUrl = Configs.ServiceRootUrl;
 var spwebRootUrl = Configs.SharePointRootUrl;
 var SitePath = Configs.SitePath;
-var EquipmentSitePath = Configs.EquipmentSitePath;
 var MKTSitePath = Configs.MKTSitePath;
-
+var EquipmentSitePath = Configs.EquipmentSitePath
 var isPageLoadReady = false;
 var isSkipPageLoad = "";
 var isUserLogin = false;
@@ -15,9 +14,9 @@ var deviceInfo = "";
 var userLongitude = 0;
 var userLatitude = 0;
 
-var userSearchText = "";
+//var userSearchText = "";
+var userSearchDemoRequest = "-1";
 var userSearchSystemType = "All";
-	  
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
@@ -28,9 +27,9 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 			//ToggleTheme(0);
 
 			localstorage.set("DeviceInfo", deviceInfo);
-			checkUserLogin();	
-			initSystemTypes();
-			LoadSystemTypes();
+			checkUserLogin();
+			initDemoRequestsDropDown();
+			LoadDemoRequestsDropDown();			
 			isPageLoadReady = true;
 	});
 	
@@ -74,9 +73,8 @@ function onDeviceReady() {
 	
 	
 	checkUserLogin();	
-	initSystemTypes();
-	LoadSystemTypes();
-	
+	initDemoRequestsDropDown();
+	LoadDemoRequestsDropDown();
 	isPageLoadReady = true;
 	
 };
@@ -113,13 +111,13 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 		performSearch();
 	});
 	
-	$( "#searchCatalogs" ).keypress(function(e) {
-		if (e.keyCode == 13) {
-            performSearch();
-        }
-	});
+	//$( "#searchCatalogs" ).keypress(function(e) {
+	//	if (e.keyCode == 13) {
+    //        performSearch();
+    //    }
+	//});
 	
-	$("#filterDocumentType").bind( "change", function(event, ui) {
+	$("#filterDemoRequest").bind( "change", function(event, ui) {
 		performSearch();
 	});
 
@@ -254,54 +252,63 @@ function callbackLogin( data ){
 }
 
 
-function initSystemTypes()
+function initDemoRequestsDropDown()
 {
-	//Load System Types from localstorage
-	var localSystemTypes = localstorage.get("localSystemTypes");
-	if (localSystemTypes != null && localSystemTypes != "")
+	//Load Demo Requests from localstorage
+	var localDemoRequests = localstorage.get("localDemoRequests");
+	if (localDemoRequests != null && localDemoRequests != "")
 	{
-		$('#filterDocumentType option[value!="All"]').remove();			
-		var _localSystemTypes = localSystemTypes.split(";");
-		for (var i = 0; i < _localSystemTypes.length; i++)
+		$('#filterDemoRequest option[value!="-1"]').remove();			
+		var _localDemoRequests = localDemoRequests.split(";");
+		for (var i = 0; i < _localDemoRequests.length; i++)
 		{
-			if (_localSystemTypes[i] != "")
-				$("#filterDocumentType").append("<option value='" + _localSystemTypes[i] + "' "+ ((userSearchSystemType == $.trim(_localSystemTypes[i])) ? "selected" : "") +">" + _localSystemTypes[i] + "</option>");
+		    if (_localDemoRequests[i] != "") {
+
+		        var _optionValueAndText = _localDemoRequests[i].split(":");
+		        $("#filterDemoRequest").append("<option value='" + _optionValueAndText[0] + "' " + ((userSearchDemoRequest == $.trim(_optionValueAndText[0])) ? "selected" : "") + ">" + _optionValueAndText[1] + "</option>");
+		        //$("#filterDemoRequest").append("<option value='" + _localDemoRequests[i] + "' " + ((userSearchDemoRequest == $.trim(_localDemoRequests[i])) ? "selected" : "") + ">" + _localDemoRequests[i] + "</option>");		        
+		    }
 		}
 		
 		try {
-			$('#filterDocumentType').selectmenu("refresh");
+			$('#filterDemoRequest').selectmenu("refresh");
 		} catch (err) {}
 	}
 }
 
-function LoadSystemTypes()
+function LoadDemoRequestsDropDown()
 {
-	var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + EquipmentSitePath;
-	Jsonp_Call(_url, true, "callbackPopulateSystemTypes");	
+    
+    //var _url = serviceRootUrl + "svc.aspx?op=GetSystemTypes&SPUrl=" + spwebRootUrl + EquipmentSitePath;
+    var _url = serviceRootUrl + "svc.aspx?op=GetDemoRequestsForDropDown&authInfo=" + userInfoData.AuthenticationHeader;
+	Jsonp_Call(_url, true, "callbackPopulateDemoRequests");	
 }
 
-function callbackPopulateSystemTypes(data)
+function callbackPopulateDemoRequests(data)
 {
 	try {
 		if (data.d.results.length > 0)
 		{
-			$('#filterDocumentType option[value!="All"]').remove();
+			$('#filterDemoRequest option[value!="-1"]').remove();
 			
-			var localSystemTypes = "";
+			var localDemoRequests = "";
+			
 			for (var i = 0; i < data.d.results.length; i++)
 			{
-				$("#filterDocumentType").append("<option value='" + data.d.results[i] + "' " + (userSearchSystemType== data.d.results[i] ? " selected " : "") + ">" + data.d.results[i] + "</option>");
-				localSystemTypes += data.d.results[i] + ";";
+			    var _optionValueAndText = data.d.results[i].split(":");
+			    $("#filterDemoRequest").append("<option value='" + _optionValueAndText[0] + "' " + (userSearchDemoRequest == _optionValueAndText[0] ? " selected " : "") + ">" + _optionValueAndText[1] + "</option>");
+			    //$("#filterDemoRequest").append("<option value='" + data.d.results[i] + "' " + (userSearchDemoRequest == data.d.results[i] ? " selected " : "") + ">" + data.d.results[i] + "</option>");
+				localDemoRequests += data.d.results[i] + ";";
 			}		
 			
 			try {
-				$('#filterDocumentType').selectmenu("refresh");
-			} catch (err) {}
+				$('#filterDemoRequest').selectmenu("refresh");
+			} catch (err) { alert(err); }
 			
-			localstorage.set("localSystemTypes", localSystemTypes);
+			localstorage.set("localDemoRequests", localDemoRequests);
 		}
 	}
-	catch(err) {}
+    catch (err) { alert(err);}
 }
 
 function performSearch()
@@ -313,13 +320,12 @@ function searchAction()
 {
 	$( "#divSearchResults" ).text("").append( getLoadingImg() );
 	
-	userSearchText = $("#searchCatalogs").val();
-	userSearchSystemType = $("#filterDocumentType").val();
-	
-
-	
-    //var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
-	var searchURL = serviceRootUrl + "svc.aspx?op=SearchDemoRequests&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchSystemType;
+	//userSearchText = $("#searchCatalogs").val();
+	userSearchDemoRequest = $("#filterDemoRequest").val();
+	    	
+    //var searchURL = serviceRootUrl + "svc.aspx?op=SearchCatalogs&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchDemoRequest;
+    //var searchURL = serviceRootUrl + "svc.aspx?op=SearchDemoRequests&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&searchText=" + userSearchText + "&modality=All&documentType=" + userSearchDemoRequest;
+	var searchURL = serviceRootUrl + "svc.aspx?op=SearchDemoRequests&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&modality=All&strRequestID=" + userSearchDemoRequest;
 		
 	Jsonp_Call(searchURL, false, "callbackPopulateSearchResults");
 }
@@ -397,11 +403,11 @@ function callbackPopulateSearchResults(data)
 			//no item
 			var temp = "<br /><center>No item found.</center>";
 			
-			temp += "<br />";			
-			if (userSearchText != "")
-				temp += "<div><center><i>Keyword:</i> <b>"+ userSearchText +"</b></center></div>";
+			//temp += "<br />";			
+			//if (userSearchText != "")
+			//	temp += "<div><center><i>Keyword:</i> <b>"+ userSearchText +"</b></center></div>";
 
-			temp += "<div><center><i>System Type:</i> <b>"+ userSearchSystemType +"</b></center></div>";
+			//temp += "<div><center><i>System Type:</i> <b>"+ userSearchDemoRequest +"</b></center></div>";
 			
 			$( "#divSearchResults" ).text("").append(temp);
 		}

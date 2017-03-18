@@ -206,7 +206,7 @@
 
         <div role="main" class="ui-content">
 			<div id="div-search-bar-wrapper">
-				<table width="100%" cellpadding="0" cellspacing="0">
+				<!--<table width="100%" cellpadding="0" cellspacing="0">
 					<tr>
 						<td>
 							<input type="search" name="search" id="searchCatalogs" value="" />
@@ -215,7 +215,7 @@
 							<a href="javascript: void(0);" onclick="performSearch();" style="" class="appSearchBtnLink"><img src="Images/search.png" id="img-search-btn" /></a>
 						</td>
 						<td style="width: 45px;padding-top: 3px;" align="right">
-							<!--<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>-->
+							<a href="javascript: void(0);" onclick="scanBarcode();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
                             <a href="javascript: void(0);" onclick="SnapPhoto();" style="" class="appScanBarcodeLink"><img src="Images/barcode.png" id="img-barcode-btn" /></a>
 						</td>
 					</tr>
@@ -224,15 +224,15 @@
                             <img id="imgTest" />
                         </td>
                     </tr>
-				</table>
+				</table>-->
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
 			</div>
 			<div class="div-modality">
                 <table width="100%">
                     <tr>
                         <td>
-                            <select class="form-control" id="filterDocumentType" name="filterDocumentType" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
-                                <option value="All">All System Types</option>
+                            <select class="form-control" id="filterDemoRequest" name="filterDemoRequest" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                                <option value="-1">All My Demo Requests</option>
                             </select>
                         </td>
                     </tr>
