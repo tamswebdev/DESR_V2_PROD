@@ -207,7 +207,7 @@ function LoginUser()
 	
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
-
+	alert(_url);
 	Jsonp_Call(_url, true, "callbackLogin");
 }
 

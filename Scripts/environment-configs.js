@@ -13,7 +13,7 @@ var Configs = {
 	//"SitePath": "sites/busops",
     //"MKTSitePath": "sites/marketing"		
 
-    "ServiceRootUrl": "http://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/TAMS.BUSOPS.DemoESR.MobileSVC/",
+    "ServiceRootUrl": "http://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
     "SharePointRootUrl": "http://intranetqa.tams.com/",
     "EquipmentSitePath": "sites/busops/Logistics/DER",
     "SitePath": "sites/busops",
