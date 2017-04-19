@@ -20,7 +20,7 @@ var userSearchSystemType = "All";
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
-    //document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
 	
     //$(document).ready(function () {
 	//	goHome();
@@ -32,11 +32,6 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 	//	LoadDemoRequestsDropDown();			
 	//	isPageLoadReady = true;
     //});
-    jQuery(document).ready(function () {
-        // do document ready stuff
-    }).on('deviceready', function () {
-        onDeviceReady();
-    });
 
 
 } else {
@@ -48,6 +43,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 }
 
 function onDeviceReady() {
+    alert("here - onDeviceReady");
 	$.mobile.pageLoadErrorMessage = "";
 	goHome();
 	//ToggleTheme(0);
