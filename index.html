@@ -6,28 +6,13 @@
     
     <title>TAMS UL Apps</title>
 
-	
 	<!--<link rel="stylesheet" href="Content/graphite/royal/jquery.mobile-1.3.1.css" />-->
-	
     <link rel="stylesheet" href="Scripts/jquery.mobile/jquery.mobile-1.4.3.min.css" />
-	
-	
 	<!--<link rel="stylesheet" href="Content/umer001-tams001/UMER001-TAMS001.css" />
 	<link rel="stylesheet" href="Content/umer001-tams001/jquery.mobile.icons.min.css" />-->
-	
-	
-	
-	
 	<link rel="stylesheet" href="Scripts/simpledialog/jquery.mobile.simpledialog.min.css" />
-	
     <!--<link rel="stylesheet" href="Content/flatui/css/jquery.mobile.flatui.css" />-->
-	
     <link rel="stylesheet" href="Content/main.css" />
-
-
-
-
-
 	<script src="Scripts/environment-configs.js"></script>
     <script src="Scripts/jquery-2.1.0.min.js"></script>
 	     
@@ -43,7 +28,6 @@
     <script src="Scripts/main.js"></script>
 	<script src="Scripts/utilities.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-	<script >var AppVersion = "Ver. 5.4.1";</script>    
 </head>
 <body>
     <div data-role="page" id="startpage" data-theme="a">
@@ -622,17 +606,22 @@
 								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
 							</td>
 						</tr>
-						<!--<tr>
-							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
-							<td>
-								<div id="catalog_Product" class="add-status"></div>
-								<div class="add-new-status">
-									<input type="text" class="form-control" id="inputSystemSerialNumber"/>
-									
-								</div>
-							</td>
-						</tr>
 						<tr>
+							<td class="add-status-label">System serial number<span class="required">*</span>:</td>
+                            <td>
+                                <div id="catalog_Serial_x0020_Number" class="add-status"></div>
+                                <div id="catalog_ScheduleID" class="add-status"></div>
+                                <div id="catalog_EquipmentRequestID" class="add-status"></div>                                
+                                <div class="add-new-status">
+                                    <input type="text" class="form-control" id="inputSystemSerialNumber" />
+                                    <input type="hidden" id="inputScheduleID" name="inputScheduleID" value="" />
+                                    <input type="hidden" id="inputEquipmentRequestID" name="inputEquipmentRequestID" value="" />
+                                    <input type="hidden" id="inputDemoRequestID" name="inputDemoRequestID" value="" />
+                                    
+                                </div>
+                            </td>
+						</tr>
+						<!--<tr>
 							<td class="add-status-label">Software version<span class="required">*</span>:</td>
 							<td>
 								<div id="catalog_Software_x0020_Version" class="add-status"></div>
