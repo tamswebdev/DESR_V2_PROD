@@ -20,21 +20,18 @@ var userSearchSystemType = "All";
 
 if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) && location.href.toLowerCase().indexOf( 'http://' ) < 0 && location.href.toLowerCase().indexOf( 'https://' ) < 0) 
 {
-	document.addEventListener("deviceready", onDeviceReady, false);
+    document.addEventListener("deviceready", onDeviceReady, false);
 	
-		$( document ).ready(function() {
-			goHome();
-			//ToggleTheme(0);
+    //$(document).ready(function () {
+	//	goHome();
+	//	//ToggleTheme(0);
 
-			localstorage.set("DeviceInfo", deviceInfo);
-			checkUserLogin();
-			initDemoRequestsDropDown();
-			LoadDemoRequestsDropDown();			
-			isPageLoadReady = true;
-	});
-	
-
-	
+	//	localstorage.set("DeviceInfo", deviceInfo);
+	//	checkUserLogin();
+	//	initDemoRequestsDropDown();
+	//	LoadDemoRequestsDropDown();			
+	//	isPageLoadReady = true;
+	//});
 } else {
 	isWebBrowser = true;
 	$( document ).ready(function() {
@@ -207,7 +204,7 @@ function LoginUser()
 	
 	userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + $('#password').val());
 	var _url = serviceRootUrl + "svc.aspx?op=Authenticate&SPUrl=" + spwebRootUrl + MKTSitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
-	alert(_url);
+	//alert(_url);
 	Jsonp_Call(_url, true, "callbackLogin");
 }
 
@@ -303,12 +300,12 @@ function callbackPopulateDemoRequests(data)
 			
 			try {
 				$('#filterDemoRequest').selectmenu("refresh");
-			} catch (err) { alert(err); }
+			} catch (err) { alert("callbackPopulateDemoRequests - Inside: " + err); }
 			
 			localstorage.set("localDemoRequests", localDemoRequests);
 		}
 	}
-    catch (err) { alert(err);}
+    catch (err) { alert("callbackPopulateDemoRequests - Outside: " + err); }
 }
 
 function performSearch()
