@@ -42,7 +42,7 @@ if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/) 
 
 function onDeviceReady() {
 	$.mobile.pageLoadErrorMessage = "";
-	
+	goHome();
 	//ToggleTheme(0);
 
 	if (typeof device != 'undefined')
