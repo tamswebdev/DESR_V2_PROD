@@ -98,6 +98,10 @@
 	<!--<gap:plugin name="com.phonegap.plugins.barcodescanner" version="2.2.0" />-->
   <plugin name="cordova-plugin-barcodescanner" source="npm" />
 	<gap:plugin name="cordova-plugin-touchid" source="npm" />
+
+  <gap:config-file platform="ios" parent="NSLocationAlwaysUsageDescription" overwrite="true">
+    <string>We would like to log the device's location.</string>
+  </gap:config-file>
 	
 <!-- Define app icon for each platform. -->
     
