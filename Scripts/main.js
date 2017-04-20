@@ -2135,7 +2135,9 @@ function callbackCheckAppVersion(data) {
                     themeDialog: 'a',
                     zindex: 2000,
                     blankContent:
-                      "<table width='100%' cellpadding='0' cellspacing='0'><tr><td>" + appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl) + "</td></tr></table>"
+                        "<div style='padding: 15px;'><br />" +
+                        "<table width='100%' cellpadding='0' cellspacing='0'><tr><td>" + appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl) + "</td></tr></table>" +
+                        "<br /><br /></div>"
                 });
             }
         }
