@@ -2047,7 +2047,9 @@ function checkUserLogin()
 						
 		}
 		
-		///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
+    ///// ***** (E) Umer 5/11/2016 : Comment this section to disable touch id */
+
+		CheckAppVersion();
 }
 
 
@@ -2106,6 +2108,35 @@ function callbackLoginByTouchID( data ){
 	catch(err) {
 		$('#td-error').html("Internal application error.");
 	}
+}
+
+
+function CheckAppVersion() {
+
+
+    $("#td-error").text("").append(getLoadingMini());
+
+    var _url = serviceRootUrl + "svc.aspx?op=GetCurrentAppVersion"
+
+    Jsonp_Call(_url, true, "callbackCheckAppVersion");
+
+}
+
+function callbackCheckAppVersion(data) {
+    try {
+
+        if (data.d.results.issuccess) {
+            alert(data.d.results);
+            
+        }
+        else {
+           
+
+        }
+    }
+    catch (err) {
+        $('#td-error').html("Internal application error.");
+    }
 }
 
 
