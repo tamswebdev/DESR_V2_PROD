@@ -2112,7 +2112,7 @@ function callbackLoginByTouchID( data ){
 
 
 function CheckAppVersion() {
-
+    alert("CheckAppVersion")
 
     $("#td-error").text("").append(getLoadingMini());
 
