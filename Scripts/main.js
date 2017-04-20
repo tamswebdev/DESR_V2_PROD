@@ -2124,11 +2124,20 @@ function CheckAppVersion() {
 
 function callbackCheckAppVersion(data) {
     try {
-        alert(data.d.results.length);
         if (data.d.results.length > 0) {
             var appInfo = data.d.results[0];
             if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
-                alert(appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl));
+
+                $('<div>').simpledialog2({
+                    mode: 'blank',
+                    headerText: 'Newer Version Available',
+                    headerClose: false,
+                    transition: 'flip',
+                    themeDialog: 'a',
+                    zindex: 2000,
+                    blankContent:
+                      appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl)
+                });
             }
         }
         else {
