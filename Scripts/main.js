@@ -2113,6 +2113,16 @@ function callbackLoginByTouchID( data ){
 
 function CheckAppVersion() {
     alert("CheckAppVersion")
+    $('<div>').simpledialog2({
+        mode: 'blank',
+        headerText: 'Newer Version Available',
+        headerClose: false,
+        transition: 'flip',
+        themeDialog: 'a',
+        zindex: 2000,
+        blankContent:
+          "Testing"
+    });
 
     $("#td-error").text("").append(getLoadingMini());
 
