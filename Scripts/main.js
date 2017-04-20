@@ -2125,8 +2125,9 @@ function CheckAppVersion() {
 function callbackCheckAppVersion(data) {
     try {
         alert(data.d.results);
-        if (data.d.results) {
-            alert(JSON.stringify(data.d.results));
+        if (data.d.results.length > 0) {
+            var appInfo = data.d.results[0];
+            alert(appInfo.AppVersion);
             
         }
         else {
