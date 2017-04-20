@@ -2125,7 +2125,7 @@ function CheckAppVersion() {
 function callbackCheckAppVersion(data) {
     try {
 
-        if (data.d.results.issuccess) {
+        if (data.d.results) {
             alert(data.d.results);
             
         }
