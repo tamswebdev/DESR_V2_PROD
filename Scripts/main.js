@@ -2127,7 +2127,7 @@ function callbackCheckAppVersion(data) {
         if (data.d.results.length > 0) {
             var appInfo = data.d.results[0];
             if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
-
+                alert(appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl));
                 $('<div>').simpledialog2({
                     mode: 'blank',
                     headerText: 'Newer Version Available',
