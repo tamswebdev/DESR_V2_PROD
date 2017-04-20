@@ -1,5 +1,5 @@
 //This is a configuration file for all hard-coded values in a specific environment
-var AppVersion = "Ver. 5.4.1";
+var AppVersion = "5.4.1";
 
 var Configs = {
 	//"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",

@@ -2127,8 +2127,9 @@ function callbackCheckAppVersion(data) {
         alert(data.d.results);
         if (data.d.results.length > 0) {
             var appInfo = data.d.results[0];
-            alert(appInfo.AppVersion);
-            
+            if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
+                alert(appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl));
+            }
         }
         else {
            
