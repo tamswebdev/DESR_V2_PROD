@@ -2113,17 +2113,6 @@ function callbackLoginByTouchID( data ){
 
 function CheckAppVersion() {
     alert("CheckAppVersion")
-    $('<div>').simpledialog2({
-        mode: 'blank',
-        headerText: 'Newer Version Available',
-        headerClose: false,
-        transition: 'flip',
-        themeDialog: 'a',
-        zindex: 2000,
-        blankContent:
-          "Testing"
-    });
-
     $("#td-error").text("").append(getLoadingMini());
 
     var _url = serviceRootUrl + "svc.aspx?op=GetCurrentAppVersion"
@@ -2146,7 +2135,7 @@ function callbackCheckAppVersion(data) {
                     themeDialog: 'a',
                     zindex: 2000,
                     blankContent:
-                      appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl)
+                      "<table width='100%' cellpadding='0' cellspacing='0'><tr><td>" + appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl) + "</td></tr></table>"
                 });
             }
         }
