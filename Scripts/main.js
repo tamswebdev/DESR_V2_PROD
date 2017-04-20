@@ -4,6 +4,7 @@ var SitePath = Configs.SitePath;
 var MKTSitePath = Configs.MKTSitePath;
 var EquipmentSitePath = Configs.EquipmentSitePath
 var isPageLoadReady = false;
+var isAppVersionChecking = false;
 var isSkipPageLoad = "";
 var isUserLogin = false;
 var isWebBrowser = false;
@@ -2112,13 +2113,16 @@ function callbackLoginByTouchID( data ){
 
 
 function CheckAppVersion() {
-    alert("CheckAppVersion")
-    $("#td-error").text("").append(getLoadingMini());
+    if (!isAppVersionChecking) {
+        alert("CheckAppVersion")
+        isAppVersionChecking = true;
 
-    var _url = serviceRootUrl + "svc.aspx?op=GetCurrentAppVersion"
+        $("#td-error").text("").append(getLoadingMini());
 
-    Jsonp_Call(_url, true, "callbackCheckAppVersion");
+        var _url = serviceRootUrl + "svc.aspx?op=GetCurrentAppVersion"
 
+        Jsonp_Call(_url, true, "callbackCheckAppVersion");
+    }
 }
 
 function callbackCheckAppVersion(data) {
@@ -2126,7 +2130,6 @@ function callbackCheckAppVersion(data) {
         if (data.d.results.length > 0) {
             var appInfo = data.d.results[0];
             if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
-                alert(appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl));
                 $('<div>').simpledialog2({
                     mode: 'blank',
                     headerText: 'Newer Version Available',
@@ -2141,14 +2144,12 @@ function callbackCheckAppVersion(data) {
                 });
             }
         }
-        else {
-           
-
-        }
     }
     catch (err) {
         $('#td-error').html("Internal application error.");
     }
+
+    isAppVersionChecking = false;
 }
 
 
