@@ -1917,7 +1917,7 @@ function Jsonp_Call_Process(_url, _async, callback)
 				contentType: "application/javascript",
 				async:_async,
 				cache: false,
-				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&lon=" + userLongitude + "&lat=" + userLatitude,
+				url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&appVersion=" + AppVersion + "&lon=" + userLongitude + "&lat=" + userLatitude,
 				data: {},
 				dataType: "jsonp",                
 				jsonpCallback: callback,
