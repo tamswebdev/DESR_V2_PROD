@@ -2130,7 +2130,7 @@ function callbackCheckAppVersion(data) {
             if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
                 $('<div>').simpledialog2({
                     mode: 'blank',
-                    headerText: 'Newer Version Available',
+                    headerText: 'New Version Available',
                     headerClose: false,
                     transition: 'flip',
                     themeDialog: 'a',
