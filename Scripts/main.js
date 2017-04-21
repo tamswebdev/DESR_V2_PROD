@@ -2128,6 +2128,13 @@ function callbackCheckAppVersion(data) {
         if (data.d.results.length > 0) {
             var appInfo = data.d.results[0];
             if (appInfo.AppVersion != "" && appInfo.AppVersion != AppVersion) {
+                var url = appInfo.AppIosUrl;
+                if (device.platform == "Android")
+                    url = appInfo.AppAndroidUrl;
+                else if (device.platform == "WinCE")
+                    url = appInfo.AppWindowsUrl;
+
+
                 $('<div>').simpledialog2({
                     mode: 'blank',
                     headerText: 'New Version Available',
@@ -2137,7 +2144,7 @@ function callbackCheckAppVersion(data) {
                     zindex: 2000,
                     blankContent:
                         "<div style='padding: 15px;'>" +
-                        appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl).replace("CURRENT_VERSION", AppVersion) +
+                        appInfo.MessageToUser.replace("APP_URL", url).replace("CURRENT_VERSION", AppVersion) +
                         "</div>"
                 });
             }
