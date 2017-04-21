@@ -422,3 +422,8 @@
 }
 
 
+
+.ui-header h1.ui-title {
+    width: 100% !important;
+    margin: 0 !important;
+}
