@@ -2114,13 +2114,11 @@ function callbackLoginByTouchID( data ){
 
 function CheckAppVersion() {
     if (!isAppVersionChecking) {
-        alert("CheckAppVersion")
+        //alert("CheckAppVersion")
         isAppVersionChecking = true;
 
         $("#td-error").text("").append(getLoadingMini());
-
         var _url = serviceRootUrl + "svc.aspx?op=GetCurrentAppVersion"
-
         Jsonp_Call(_url, true, "callbackCheckAppVersion");
     }
 }
@@ -2138,9 +2136,9 @@ function callbackCheckAppVersion(data) {
                     themeDialog: 'a',
                     zindex: 2000,
                     blankContent:
-                        "<div style='padding: 15px;'><br />" +
-                        "<table width='100%' cellpadding='0' cellspacing='0'><tr><td>" + appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl) + "</td></tr></table>" +
-                        "<br /><br /></div>"
+                        "<div style='padding: 15px;'>" +
+                        appInfo.MessageToUser.replace("APP_URL", appInfo.AppUrl).replace("CURRENT_VERSION", AppVersion) +
+                        "</div>"
                 });
             }
         }

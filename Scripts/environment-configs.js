@@ -1,4 +1,7 @@
 //This is a configuration file for all hard-coded values in a specific environment
+
+//This AppVersion must be matched with the version in API.
+//Otherwise, the app will force users to update
 var AppVersion = "5.4.1";
 
 var Configs = {
