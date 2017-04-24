@@ -2,7 +2,7 @@
 
 //This AppVersion must be matched with the version in API.
 //Otherwise, the app will force users to update
-var AppVersion = "5.4.3";
+var AppVersion = "5.4.4";
 
 var Configs = {
 	//"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
@@ -17,8 +17,8 @@ var Configs = {
 	//"SitePath": "sites/busops",
     //"MKTSitePath": "sites/marketing"		
 
-    "ServiceRootUrl": "http://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
-    "SharePointRootUrl": "http://intranetqa.tams.com/",
+    "ServiceRootUrl": "https://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
+    "SharePointRootUrl": "https://intranetqa.tams.com/",
     "EquipmentSitePath": "sites/busops/Logistics/DER",
     "SitePath": "sites/busops",
     "MKTSitePath": "sites/marketing"
