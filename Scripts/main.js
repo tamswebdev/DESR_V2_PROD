@@ -363,21 +363,30 @@ function callbackPopulateSearchResults(data)
 			    //temp += '<td class="catalog-img"><div><img class="img-icon" src="images/no_image.jpg" /></div></td>';
 			    temp += '<td class="catalog-info">';
 			    temp += '<div class="div-catalog-info">';
-			    temp += '<span class="head-cat">Customer: ' + demoRequest.Customer + '</span><br />';
-			    temp += 'Sales Rep: ' + demoRequest.SalesRep + '<br />';
-			    temp += 'Demo Date: ' + demoRequest.RequestedDate + '<br />';
-			    temp += 'Demo System: ' + demoRequest.DemoSystem + '<br />';
-			    temp += 'System serial number: ' + demoRequest.SerialNumber + '<br /><br />';
+                temp += '<table width="100%" cellpadding="1" cellspacing="1">'
+			    temp += '<tr><td class="search-result-title">Customer:</td><td class="search-result-value" colspan="2">' + demoRequest.Customer + '</td></tr>';
+			    temp += '<tr><td class="search-result-title">Sales Rep:</td><td class="search-result-value">' + demoRequest.SalesRep + '</td>';
+			        temp += '<td rowspan="5" valign="bottom" align="right" width="130"><a data-mini="true" data-inline="true" data-role="button" href="javascript: addStatusAction(' + demoRequest.DemoRequestID.toString() + ');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c" style="margin-right: 0px;"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Status</span></span></a></td></tr>';
+			    temp += '<tr><td class="search-result-title">Demo Date:</td><td class="search-result-value">' + demoRequest.RequestedDate + '</td></tr>';
+			    temp += '<tr><td class="search-result-title">Demo System:</td><td class="search-result-value">' + demoRequest.DemoSystem + '</td></tr>';
+			    temp += '<tr><td class="search-result-title">System Serial #:</td><td class="search-result-value">' + demoRequest.SerialNumber + '</td></tr>';
+			    temp += '<tr><td class="search-result-title">Status:</td><td class="search-result-value">' + (demoRequest.StatusStatus == "Pending" ? "<span style='color:red;'>" + demoRequest.StatusStatus + "</span>" : "<span style='color:blue;'>" + demoRequest.StatusStatus + "</span>") + '</td></tr>';
+			    temp += '</table>'
+			    //temp += '<span class="head-cat"><span class="search-result-title">Customer:</span> <span class="search-result-value">' + demoRequest.Customer + '</span></span><br />';
+			    //temp += '<span class="search-result-title">Sales Rep:</span> <span class="search-result-value">' + demoRequest.SalesRep + '</span><br />';
+			    //temp += '<span class="search-result-title">Demo Date:</span> <span class="search-result-value">' + demoRequest.RequestedDate + '</span><br />';
+			    //temp += '<span class="search-result-title">Demo System:</span> <span class="search-result-value">' + demoRequest.DemoSystem + '</span><br />';
+			    //temp += '<span class="search-result-title">System Serial #:</span> <span class="search-result-value">' + demoRequest.SerialNumber + '</span><br /><br />';
 			    temp += '</div>';
 			    temp += '</td>';
 			    temp += '</tr>';
-			    temp += '<tr>';
-			    temp += '<td class="td-add-to-cart" valign="bottom">';
-			    temp += '<div class="div-catalog-add">';
-			    temp += '<a data-mini="true" data-inline="true" data-role="button" href="javascript: addStatusAction(' + demoRequest.DemoRequestID.toString() + ');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Status</span></span></a>';
-			    temp += '</div>';
-			    temp += '</td>';
-			    temp += '</tr>';
+			    //temp += '<tr>';
+			    //temp += '<td class="td-add-to-cart" valign="bottom">';
+			    //temp += '<div class="div-catalog-add">';
+			    //temp += '<a data-mini="true" data-inline="true" data-role="button" href="javascript: addStatusAction(' + demoRequest.DemoRequestID.toString() + ');" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ui-btn-up-c"><span class="ui-btn-inner ui-btn-corner-all"><span class="ui-btn-text">Add Status</span></span></a>';
+			    //temp += '</div>';
+			    //temp += '</td>';
+			    //temp += '</tr>';
 			    temp += '</table>';
 			
 				$( "#divSearchResults" ).append(temp);
@@ -452,7 +461,7 @@ function callbackPopulateHistories(data)
 								temp += '<div id="divHistoryStatusDetails">  ';
 									temp += '<table width="100%">';
 										temp += '<tr>';
-											temp += '<td class="history-item-title" width="30%">System serial number:</td>';
+											temp += '<td class="history-item-title" width="30%">System Serial #:</td>';
 											temp += '<td class="history-item-value" width="70%">' + status.SerialNumber + '</td>';
 										temp += '</tr>';
 										//temp += '<tr>';
@@ -933,6 +942,10 @@ function callbackLoadAddStatus(data)
 		    $("#inputEquipmentRequestID").val("");
 		    $("#inputSystemSerialNumber").val("");
 		}
+
+		if (demoRequest.SerialNumber == "")
+		    $(".add-new-status-serial-number").show();
+		
 	}
 	catch(err) {}
 }
@@ -1107,6 +1120,7 @@ function callbackLoadDraftStatus(data)
 		    $("#inputEquipmentRequestID").val("");
 		    $("#inputSystemSerialNumber").val("");
 		}
+
 	}
 	catch(err) { }
 }
@@ -1173,15 +1187,15 @@ function saveStatus(isFinal) {
 
     //if ($scope.recordId == "" || !($scope.recordId > 0)) {
     //if ($scope.demoRequestID == "" || !($scope.demoRequestID > 0)) {
-    //    //if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
-    //    {
-    //        $('#error-div').html('Please fill all values marked "*".');
-    //        showTimedElem('error-div');
-    //        $('#error-div2').html('Please fill all values marked "*".');
-    //        showTimedElem('error-div2');
-    //        //showLoading(false);
-    //        return;
-    //    }
+        if ((isFinal == "Yes") && ($scope.SystemType == "" || $scope.SystemSerialNumber == "" || $scope.SoftwareVersion == "" || $scope.Modality == ""))
+        {
+            $('#error-div').html('Please fill all values marked "*".');
+            showTimedElem('error-div');
+            $('#error-div2').html('Please fill all values marked "*".');
+            showTimedElem('error-div2');
+            //showLoading(false);
+            return;
+        }
     //}
 
 
@@ -1265,6 +1279,7 @@ function saveStatus(isFinal) {
         return;
     }
 
+
     var confirmMessage = 'Do you want to save <b><u>draft</u></b>?<br />You can come back and edit it later';
     if (isFinal == "Yes")
         confirmMessage = 'Do you want to submit a <b><u>final</u></b> status?<br />The status will become read-only';
@@ -1302,7 +1317,6 @@ function SaveStatusProcess(isFinal)
 		    //var _url =  serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl +  SitePath + "&recordId=" + $scope.recordId + "&PhysicalStateComments=" + $scope.PhysicalStateComments+ "&TransducerStateComments=" + $scope.TransducerStateComments+"&PhysicalState=" + $scope.PhysicalState+ "&TransducerState=" + $scope.TransducerState+ "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&SystemDeliveredOnTimeExplain=" + $scope.SystemDeliveredOnTimeExplain + "&SystemDeliveredProfessionallyExplain=" + $scope.SystemDeliveredProfessionallyExplain + "&SystemDeliveredOnTime=" + $scope.SystemDeliveredOnTime + "&SystemDeliveredProfessionally=" + $scope.SystemDeliveredProfessionally + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 		    //var _url = serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + SitePath + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments + "&TransducerStateComments=" + $scope.TransducerStateComments + "&PhysicalState=" + $scope.PhysicalState + "&TransducerState=" + $scope.TransducerState + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&SystemDeliveredOnTimeExplain=" + $scope.SystemDeliveredOnTimeExplain + "&SystemDeliveredProfessionallyExplain=" + $scope.SystemDeliveredProfessionallyExplain + "&SystemDeliveredOnTime=" + $scope.SystemDeliveredOnTime + "&SystemDeliveredProfessionally=" + $scope.SystemDeliveredProfessionally + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId;
 		    var _url = serviceRootUrl + "svc.aspx?op=AddStatus&SPUrl=" + spwebRootUrl + SitePath + "&SystemType=" + $scope.SystemType + "&Modality=" + $scope.Modality + "&PhysicalStateComments=" + $scope.PhysicalStateComments + "&TransducerStateComments=" + $scope.TransducerStateComments + "&PhysicalState=" + $scope.PhysicalState + "&TransducerState=" + $scope.TransducerState + "&ControlPanelLayout=" + $scope.controlPanelLayout + "&ModalityWorkListEmpty=" + $scope.modalityWorkListEmpty + "&AllSoftwareLoadedAndFunctioning=" + $scope.allSoftwareLoadedAndFunctioning + "&IfNoExplain=" + $scope.allSoftwareLoadedAndFunctioningReason + "&NPDPresetsOnSystem=" + $scope.nPDPresetsOnSystem + "&HDDFreeOfPatientStudies=" + $scope.hDDFreeOfPatientStudies + "&DemoImagesLoadedOnHardDrive=" + $scope.demoImagesLoadedOnHardDrive + "&SystemPerformedAsExpected=" + $scope.systemPerformedAsExpected + "&SystemDeliveredOnTimeExplain=" + $scope.SystemDeliveredOnTimeExplain + "&SystemDeliveredProfessionallyExplain=" + $scope.SystemDeliveredProfessionallyExplain + "&SystemDeliveredOnTime=" + $scope.SystemDeliveredOnTime + "&SystemDeliveredProfessionally=" + $scope.SystemDeliveredProfessionally + "&AnyIssuesDuringDemo=" + $scope.wereAnyIssuesDiscoveredWithSystemDuringDemo + "&wasServiceContacted=" + $scope.wasServiceContacted + "&ConfirmModalityWorkListRemoved=" + $scope.ConfirmModalityWorkListRemovedFromSystem + "&ConfirmSystemHDDEmptied=" + $scope.ConfirmSystemHddEmptiedOfAllPatientStudies + "&LayoutChangeExplain=" + $scope.LayoutChangeExplain + "&Comments=" + $scope.Comments + "&WorkPhone=" + $scope.userInfo.WorkPhone + "&SystemPerformedNotAsExpectedExplain=" + $scope.systemPerformedNotAsExpectedExplain + "&IsFinal=" + isFinal + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + $scope.StatusId + "&DemoRequestID=" + $scope.demoRequestID + "&ScheduleID=" + $scope.ScheduleID + "&EquipmentRequestID=" + $scope.EquipmentRequestID + "&SerialNumber=" + $scope.SystemSerialNumber;
-			
 			Jsonp_Call(_url, true, "callbackSaveStatus");
 		}
 		else 
