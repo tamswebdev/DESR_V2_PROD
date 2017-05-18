@@ -440,3 +440,15 @@
     font-weight:bold;
     vertical-align: top;
 }
+
+ .history-head-title {
+    font-style: italic;
+    color: #777;
+    width: 70px;
+    text-align: left;
+    vertical-align: top;
+ }
+ .history-head-value {
+     font-weight:bold;
+    vertical-align: top;
+ }

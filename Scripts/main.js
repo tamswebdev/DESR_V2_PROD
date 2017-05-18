@@ -437,25 +437,35 @@ function callbackPopulateHistories(data)
 			
 			for(var i=0; i < data.d.results.length; i++)
 			{
-				var status = data.d.results[i];
+			    var status = data.d.results[i];
+			    console.log(status);
 				var temp = "";
 					temp += '<table class="table-catalog-info">';
 						temp += '<tr>';
 							temp += '<td class="catalog-info">';
 								temp += '<div class="col-xs-12 div-history-status-info history-collapsed itemid_' + status.ID + '">';
 									temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr><td onclick="toggleHistoryStatusDetails(this)"  valign="top">';
-										temp += '<table width="100%" cellpadding="0" cellspacing="0"><tr>';
-										temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
-										temp += '<td valign="top"><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
-										temp += '<td align="right">' + status.Modified + '</td></tr>';
-										//temp += '<tr><td valign="top">Serial #: ' + status.SerialNumber + '</td>';
-										temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
+									    temp += '<table width="100%" cellpadding="0" cellspacing="0">';
+									    temp += '<tr>';
+									    temp += '<td rowspan="20" class="collapsed-expanded-icon" valign="top" style="padding-top: 4px;"><div>&nbsp;</div></td>';
+									    temp += '<td class="history-head-title">Customer:</td><td class="history-head-value">' + status.Customer + '</td>';
+									    if (status.IsFinal == "No")
+									        temp += "</td><td rowspan='20' width='40' align='right' valign='top' style='padding-top: 4px;'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a></td>";
+									    else
+									        temp += "</td><td rowspan='20' width='40' align='right' valign='top' style='padding-top: 4px;'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a></td>";
+									    temp += '</tr>';
+									    //temp += '<tr><td class="history-head-title">Demo Date:</td><td class="history-head-value">' + status.Customer + '</td></tr>';
+									    temp += '<tr><td class="history-head-title">System:</td><td class="history-head-value">' + status.SystemType + (status.SerialNumber != "" ? ' (' + status.SerialNumber + ')': '') + '</td></tr>';
+									    temp += '<tr><td class="history-head-title">Reported:</td><td class="history-head-value">' + status.Modified + '</td></tr>';
+									    temp += '<tr><td class="history-head-title">Status:</td><td class="history-head-value">' + (status.IsFinal == "Yes" ? "<span style='color:green;'>Final</span>" : "<span style='color:red;'>Draft</span>") + '</td></tr>';
+
+										//temp += '<td rowspan="2" class="collapsed-expanded-icon" valign="middle"><div>&nbsp;</div></td>';
+										//temp += '<td valign="top"><span class="head-cat"><b>' + status.Modality + ' (' + status.SystemType + ')</b></span></td>';										
+										//temp += '<td align="right">' + status.Modified + '</td></tr>';
+										////temp += '<tr><td valign="top">Serial #: ' + status.SerialNumber + '</td>';
+										//temp += '<td align="right">Submission: <i>' + (status.IsFinal == "Yes" ? "<b>Final</b>" : "Draft") + '</i></td></tr>';
 										temp += '</table>';
 										
-									if (status.IsFinal == "No")
-										temp += "</td><td width='40' align='right' valign='middle'> <a href=''javascript:void(0);' onclick='NavigatePage(\"#pgAddStatus?sid=" + status.ID + "\")' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext'></a>";
-									else
-										temp += "</td><td width='40' align='right' valign='middle'> <a href='javascript:void(0);' class='ui-btn ui-icon-edit ui-mini ui-btn-icon-notext ui-disabled'></a>";
 									temp += "</td></tr></table>";
 								temp += '</div>  ';
 								temp += '<div id="divHistoryStatusDetails">  ';

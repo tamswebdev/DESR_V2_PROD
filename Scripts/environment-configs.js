@@ -2,7 +2,7 @@
 
 //This AppVersion must be matched with the version in API.
 //Otherwise, the app will force users to update
-var AppVersion = "5.4.10";
+var AppVersion = "5.4.11";
 
 var Configs = {
 	//"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
