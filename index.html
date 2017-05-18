@@ -212,8 +212,8 @@
 				</table>-->
 				Can’t find system? <a href="javascript:void(0)" onclick="$.mobile.navigate('#pgAddStatus');">Add Manually</a>
 			</div>
-			<div class="div-modality">
-                <table width="100%">
+			<div class="div-modality">&nbsp;
+                <!--<table width="100%">
                     <tr>
                         <td>
                             <select class="form-control" id="filterDemoRequest" name="filterDemoRequest" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
@@ -221,7 +221,7 @@
                             </select>
                         </td>
                     </tr>
-                </table>                    
+                </table>-->                    
             </div>
 			<center>
 				<div id="divSearchResults">
@@ -599,6 +599,13 @@
 						<tr>
 							<td class="section-heading" colspan="2">System information</td>
 						</tr>
+                        <tr>
+                            <td class="add-status-label">Customer:</td>
+                            <td>
+                                <div id="catalog_Customer" class="add-status"></div>
+                                <div class="add-new-status"><input type="text" class="form-control" id="inputCustomer" /></div>
+                            </td>
+                        </tr>
 						<tr>
 							<td class="add-status-label">System type<span class="required">*</span>:</td>
 							<td>
