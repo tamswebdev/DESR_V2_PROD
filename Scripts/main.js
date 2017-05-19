@@ -114,7 +114,7 @@ $( document ).on( "pagebeforeshow", "#pgSearch", function(event) {
 
 function CheckTouchIDAvailable()
 {
-	
+	/*
 	var RetVal=false;
 	Model="";
 	
@@ -156,6 +156,8 @@ function CheckTouchIDAvailable()
 	}
 
 	return (RetVal);
+    */
+    return false;
 }
 
 
