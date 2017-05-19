@@ -438,7 +438,7 @@ function callbackPopulateHistories(data)
 			for(var i=0; i < data.d.results.length; i++)
 			{
 			    var status = data.d.results[i];
-			    console.log(status);
+			    //console.log(status);
 				var temp = "";
 					temp += '<table class="table-catalog-info">';
 						temp += '<tr>';
