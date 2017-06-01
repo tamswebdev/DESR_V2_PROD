@@ -1917,32 +1917,33 @@ $( document ).on( "pagebeforeshow", "#pgRedirect", function(event) {
 	}
 });
 
-var Jsonp_Call_Count = 0;
+//var Jsonp_Call_Count = 0;
 function Jsonp_Call(_url, _async, callback)
 {
 	try {
-		Jsonp_Call_Count = 0;		
-		setTimeout(function(){
-			Jsonp_Call_Count++;
+		//Jsonp_Call_Count = 0;		
+		//setTimeout(function(){
+			//Jsonp_Call_Count++;
 			Jsonp_Call_RecursiveCall(_url, _async, callback);
-		}, 1000);
+		//}, 1000);
 	}
 	catch (err) {}	
 }
 
 function Jsonp_Call_RecursiveCall(_url, _async, callback)
 {
-	if (userLongitude != 0 || userLongitude != 0 || Jsonp_Call_Count >= 5)
-	{
+	//if (userLongitude != 0 || userLongitude != 0 || Jsonp_Call_Count >= 1)
+	//{
+	//    console.log("call: " + Jsonp_Call_Count)
 		Jsonp_Call_Process(_url, _async, callback)
-	}
-	else
-	{
-		setTimeout(function(){
-			Jsonp_Call_Count++;
-			Jsonp_Call_RecursiveCall(_url, _async, callback);
-		}, 1000);
-	}
+	//}
+	//else
+	//{
+	//	setTimeout(function(){
+	//		Jsonp_Call_Count++;
+	//		Jsonp_Call_RecursiveCall(_url, _async, callback);
+	//	}, 1000);
+	//}
 }
 
 function Jsonp_Call_Process(_url, _async, callback)

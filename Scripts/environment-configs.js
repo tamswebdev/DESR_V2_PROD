@@ -2,7 +2,7 @@
 
 //This AppVersion must be matched with the version in API.
 //Otherwise, the app will force users to update
-var AppVersion = "5.4.13";
+var AppVersion = "5.4.14";
 
 var Configs = {
 
