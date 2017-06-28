@@ -6,11 +6,11 @@ var AppVersion = { version: "5.4.14" };
 
 var Configs = {
 
-    //"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
-    //"SharePointRootUrl": "https://intranet.tams.com/",
-    //"EquipmentSitePath": "sites/busops/Logistics/DER",
-    //"SitePath": "sites/busops",
-    //"MKTSitePath": "sites/marketing"
+    "ServiceRootUrl": "https://intranet.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
+    "SharePointRootUrl": "https://intranet.tams.com/",
+    "EquipmentSitePath": "sites/busops/Logistics/DER",
+    "SitePath": "sites/busops",
+    "MKTSitePath": "sites/marketing"
 
 	
 	
@@ -20,10 +20,10 @@ var Configs = {
 	//"SitePath": "sites/busops",
     //"MKTSitePath": "sites/marketing"		
 
-    "ServiceRootUrl": "https://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
-    "SharePointRootUrl": "https://intranetqa.tams.com/",
-    "EquipmentSitePath": "sites/busops/Logistics/DER",
-    "SitePath": "sites/busops",
-    "MKTSitePath": "sites/marketing"
+    //"ServiceRootUrl": "https://intranetqa.tams.com/VirtualApps/TAMS.BUSOPS/BUSOPSWebs/TAMS.BUSOPS.DemoESR.MobileSVC/",
+    //"SharePointRootUrl": "https://intranetqa.tams.com/",
+    //"EquipmentSitePath": "sites/busops/Logistics/DER",
+    //"SitePath": "sites/busops",
+    //"MKTSitePath": "sites/marketing"
 	
 };
