@@ -23,12 +23,30 @@
 .header-left {
 	text-align: left;
 	vertical-align: bottom;
-	width: 100px;
+	width: 150px;
 }
 .header-right {
 	text-align: right;
 	vertical-align: bottom;
-	width: 100px;
+	width:150px;
+    
+}
+.header-right-text {
+    font-size: 0.7em;
+    font-weight: normal;
+        padding-right: 24px;
+}
+.header-right .spanCurrentSpecialist {
+	font-weight: bold;
+    display: inline-block;
+    padding-bottom: 8px;
+    padding-right: 23px;
+    background-image: url(../Images/arrow-dropdown.png);
+    background-repeat: no-repeat;
+    background-position: right -4px;
+    background-color: transparent;
+    font-size: 15px;
+    line-height: 16px;
 }
 
 .header-middle{
@@ -451,4 +469,83 @@
  .history-head-value {
      font-weight:bold;
     vertical-align: top;
+ }
+
+
+ .spanCurrentSpecialist {
+     cursor: pointer;
+ }
+
+ .SelectSpecialistPopup .ui-header {
+     min-height: 40px;
+     padding-top: 20px;
+ }
+
+
+ .SpecialistItem {
+    border: 1px solid #ddd;
+    margin: 3px 0px;
+    padding: 4px;
+    cursor: pointer;
+ }
+
+ .SelectSpecialistPopup .Selected {
+     background-image: url(../Images/checkmark.png);
+     background-repeat: no-repeat;
+     background-position: right 10px center;
+ }
+
+
+ .add-picture-section {
+     border-bottom: 1px solid #ddd;
+     font-size: 11px !important;
+     text-align: center;
+ }
+
+ .add-picture-button-td {
+     text-align: left;
+ }
+
+ .add-picture-button
+ {
+    color: green !important;
+    width: 80px !important;
+    padding: 6px 6px !important;
+    font-size: 11px !important;
+    margin-bottom: 15px;
+ }
+
+ 
+.captured-photo-div {
+     margin-right: 5px;
+     margin-bottom: 5px;
+     display: inline-block;
+ }
+
+ .captured-photo-div .captured-photo {
+     border: 1px solid black;
+     width:100px;
+     height:100px;
+ }
+
+ .captured-photo-div .captured-photo-delete {
+    background-color: red;
+    position: absolute;
+    color: white;
+    display: inline-block;
+    border-radius: 2px;
+    padding: 2px 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+ .app-version-footer {
+    font-size: 0.6em;
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding-bottom: 10px;
+    color: #aaa;
+    text-transform: uppercase;
  }

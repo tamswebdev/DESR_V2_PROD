@@ -6,12 +6,12 @@ function goHome()
 	NavigatePage("#pgHome");
 }
 
-function addStatusAction(id, sid)
+function addStatusAction(id, sid, serial)
 {
     if (sid != "")
         NavigatePage('#pgAddStatus?sid=' + sid);
     else
-        NavigatePage('#pgAddStatus?id=' + id);
+        NavigatePage('#pgAddStatus?id=' + id + '&serial=' + serial);
 }
   
 function showAboutMeMenu() 
@@ -73,21 +73,21 @@ function setOptions(srcType) {
     return options;
 }
 
-function SnapPhoto() {
+//function SnapPhoto() {
 
-    navigator.camera.getPicture(
-      alert('success'),
-      function (message) { alert('No picture taken'); },
-      {
-          quality: 50,
-          destinationType: navigator.camera.DestinationType.FILE_URI,
-          sourceType: navigator.camera.PictureSourceType.CAMERA,
-          encodingType: navigator.camera.EncodingType.JPEG,
-          targetWidth: 640,
-          targetHeight: 480
-      }
-    );
-}
+//    navigator.camera.getPicture(
+//      alert('success'),
+//      function (message) { alert('No picture taken'); },
+//      {
+//          quality: 50,
+//          destinationType: navigator.camera.DestinationType.FILE_URI,
+//          sourceType: navigator.camera.PictureSourceType.CAMERA,
+//          encodingType: navigator.camera.EncodingType.JPEG,
+//          targetWidth: 640,
+//          targetHeight: 480
+//      }
+//    );
+//}
 
 
 //function openCamera() {
@@ -213,6 +213,10 @@ function RefrestApp()
 	location.reload(true);
 }
 
+function RefrestPage() {
+    location.reload(false);
+}
+
 
 $.urlParam = function(name){
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href)||[,""])[1].replace(/\+/g, '%20')).replace("(FSLASH)","/").replace("(BSLASH)","\\") || "";
@@ -268,7 +272,7 @@ var localstorage = {
 		return this.getHistoryDefault();
 	},
 	getUserInfoDefault: function() {
-		return {"AuthenticationHeader" : "", "DisplayName" : "", "Email" : "", "Phone" : "", "Expiration" : 0 };
+	    return { "AuthenticationHeader": "", "DisplayName": "", "Email": "", "Phone": "", "Expiration": 0, "CurrentSpecialist": "" };
 	},
 	getHistoryDefault: function() {
 		return {"History" : "", "Expiration" : 0 };
@@ -357,4 +361,13 @@ function ShowHelpSection(id)
 	$('html, body').animate({
         scrollTop: $(id).offset().top -80
     }, 1000);
+}
+
+
+function GetTokenIndex(str, split, index) {
+    var tokens = str.split(split);
+    if (tokens.length > index)
+        return tokens[index];
+    else
+        return "";
 }
