@@ -1254,8 +1254,10 @@ function callbackSaveStatus(data) {
                 processPhotoDelete(statusID);
             else if (photosToUpload.length > 0)
                 processPhotoUpload(statusID, photosToUpload.shift());
-            else
-                NavigatePage('#pgHistory');
+            else {
+                //NavigatePage('#pgHistory');
+                SendEmailNotification(statusID);
+            }
         }
         else {
             //alert(data);
@@ -1273,8 +1275,10 @@ function processPhotoUpload(statusID, imageObj) {
         //alert('sent');
         if (photosToUpload.length > 0)
             processPhotoUpload(statusID, photosToUpload.shift());
-        else
-            NavigatePage('#pgHistory');
+        else {
+            //NavigatePage('#pgHistory');
+            SendEmailNotification(statusID);
+        }
     });
 }
 
@@ -1285,13 +1289,23 @@ function processPhotoDelete(statusID) {
         //alert('sent');
         if (photosToUpload.length > 0)
             processPhotoUpload(statusID, photosToUpload.shift());
-        else
-            NavigatePage('#pgHistory');
+        else {
+            //NavigatePage('#pgHistory');
+            SendEmailNotification(statusID);
+        }
     });
 }
 
 
+function SendEmailNotification(statusID) {
+    var _url = serviceRootUrl + "svc.aspx?op=SendNotification&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&statusId=" + statusID;
+    Jsonp_Call(_url, true, "callbackSendEmailNotification");
+}
 
+
+function callbackSendEmailNotification(data) {
+    NavigatePage('#pgHistory');
+}
 
 
 
