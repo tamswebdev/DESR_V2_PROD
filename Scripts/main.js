@@ -44,7 +44,7 @@ function onDeviceReady() {
         deviceInfo = "Browser:" + navigator.browserDetail + '|App:' + AppVersion.version;
 
 
-    
+
 
     pictureSource = navigator.camera.PictureSourceType;
     destinationType = navigator.camera.DestinationType;
@@ -115,19 +115,17 @@ $(document).on("pagebeforeshow", "#pgSearch", function (event) {
 
 function CheckTouchIDAvailable() {
     var RetVal = false;
-    if (typeof device != 'undefined')
-    {
+    if (typeof device != 'undefined') {
         //alert(device.platform + " -> version:" + device.version + " -> iphone: " + device.model);
-        if (device.platform == 'iOS' && parseInt(device.version.substring(0,device.version.indexOf("."))) >= 8)
-		{
-			var Model=device.model.toLowerCase().replace('iphone','');
-			if (parseInt(Model.substring(0, Model.indexOf(","))) >= 6)
-				RetVal = true;				
-			else
-				RetVal=false;
-		}				
-	}
-	return (RetVal);
+        if (device.platform == 'iOS' && parseInt(device.version.substring(0, device.version.indexOf("."))) >= 8) {
+            var Model = device.model.toLowerCase().replace('iphone', '');
+            if (parseInt(Model.substring(0, Model.indexOf(","))) >= 6)
+                RetVal = true;
+            else
+                RetVal = false;
+        }
+    }
+    return (RetVal);
 }
 
 
@@ -852,7 +850,7 @@ function callbackLoadAddStatus(data) {
             $("#inputEquipmentRequestID").val(demoRequest.EquipmentRequestID);
             $("#inputDemoRequestID").val(demoRequest.DemoRequestID);
 
-            $("#selectModality").val("UL").selectmenu('refresh', true);         
+            $("#selectModality").val("UL").selectmenu('refresh', true);
         }
         else {
             //
@@ -1284,7 +1282,7 @@ function processPhotoUpload(statusID, imageObj) {
 
 function processPhotoDelete(statusID) {
     var url = serviceRootUrl + "photo.ashx?op=DeletePhotos&statusid=" + statusID + "&authinfo=" + userInfoData.AuthenticationHeader + "&spurl=" + spwebRootUrl + SitePath + "&ids=" + DeletingPhotos.join(";");
-    var params = { };
+    var params = {};
     $.post(url, params, function (data) {
         //alert('sent');
         if (photosToUpload.length > 0)
@@ -1933,7 +1931,7 @@ function checkUserLogin() {
         		    catch (err) { }
         		},
         		function (error) {
-        		}, 
+        		},
                 { timeout: 10000 }
         	);
         }
@@ -2044,7 +2042,7 @@ function callbackCheckAppVersion(data) {
 
 
 function SelectSpecialist() {
-    
+
     //$("#td-error").text("").append(getLoadingMini());
     var _url = serviceRootUrl + "svc.aspx?op=GetSpecialists&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader
     Jsonp_Call(_url, true, "callbackSelectSpecialist");
@@ -2079,9 +2077,9 @@ function callbackSelectSpecialist(data) {
                 else
                     html += "<div class='SpecialistItem' onclick='SelectThisSpecialist(\"" + tempuser.SPUserID + "\",\"" + tempuser.DisplayName + "\",\"" + tempuser.LoginName.toLowerCase() + "\");'>" + tempuser.DisplayName + "</div>";
             }
-            
+
             $("#divSelectSpecialistPopupContent").html(html);
-            
+
         }
     }
     catch (err) {
@@ -2132,9 +2130,9 @@ function onPhotoDataSuccess(imageData) {
                 newIndex = Math.max(parseInt(temp) + 1, newIndex);
             }
         }
-        catch(err) {}
+        catch (err) { }
     });
-    newPhoto.find("img").attr("data-name", "DESR-" + ($.urlParam("sid") != "" ? $.urlParam("sid"): "XIDX") + "-" + newIndex + ".jpg");
+    newPhoto.find("img").attr("data-name", "DESR-" + ($.urlParam("sid") != "" ? $.urlParam("sid") : "XIDX") + "-" + newIndex + ".jpg");
 
     $(".add-picture-display").append(newPhoto);
 }
@@ -2142,7 +2140,7 @@ function onPhotoDataSuccess(imageData) {
 function getPhotoWithData() {
     // Retrieve image file location from specified source
     navigator.camera.getPicture(onPhotoURISuccess, onPhotoDataFail, {
-        quality: 50,
+        quality: 100,
         destinationType: destinationType.FILE_URI,
         sourceType: pictureSource.PHOTOLIBRARY,
         encodingType: Camera.EncodingType.JPEG,
@@ -2161,7 +2159,7 @@ function onPhotoURISuccess(imageUri) {
         canvas.height = this.height;
         canvas.width = this.width;
         ctx.drawImage(this, 0, 0);
-        dataURL = canvas.toDataURL("image/jpeg", 1.0);
+        dataURL = canvas.toDataURL("image/jpeg", 0.5);
         onPhotoDataSuccess(dataURL.replace(/^data:image\/(png|jpg|jpeg);base64,/ig, ""));
     };
     img.src = imageUri;
@@ -2193,7 +2191,7 @@ function LoadingPhotos(locationObj, statudId, isEditable) {
 
     if (locationObj.find("img").length == 0) {
         var photos = locationObj.attr("data-status-photos");
-        
+
         if (photos != "") {
             var photoTokens = photos.split(";");
             for (var i = 0; i < photoTokens.length; i++) {
