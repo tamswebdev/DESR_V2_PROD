@@ -272,7 +272,7 @@ var localstorage = {
 		return this.getHistoryDefault();
 	},
 	getUserInfoDefault: function() {
-	    return { "AuthenticationHeader": "", "DisplayName": "", "Email": "", "Phone": "", "Expiration": 0, "CurrentSpecialist": "" };
+        return { "AuthenticationHeader": "", "DisplayName": "", "Email": "", "Phone": "", "Expiration": 0, "CurrentSpecialist": "", "TouchIDAuthenticatedDESR":"0" };
 	},
 	getHistoryDefault: function() {
 		return {"History" : "", "Expiration" : 0 };

@@ -20,14 +20,14 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "io.tams.ULApps"
-        version   = "5.4.22">
+        version   = "5.4.23">
 
-  <name>TAMS UL Mobile Apps</name>
+  <name>CMSU UL Mobile Apps</name>
   <description>
     A mobile app for UL. Collection of features to improve portability, efficiency and productivity. Currently includes Demo Equipment Status Request App and UL Customer Feeback App. Author: Umer Pasha
   </description>
 
-  <author href="http://www.umerpasha.com" email="upasha@tams.com">
+  <author href="http://www.umerpasha.com" email="upasha@us.medical.canon">
     Umer Pasha
   </author>
 

@@ -2,12 +2,12 @@
 
 //This AppVersion must be matched with the version in API.
 //Otherwise, the app will force users to update
-var AppVersion = { version: "5.4.22" };
+var AppVersion = { version: "5.4.23" };
 
 var Configs = {
 
-    "ServiceRootUrl": "https://intranet.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
-    "SharePointRootUrl": "https://intranet.tams.com/",
+    "ServiceRootUrl": "https://starsqa.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
+    "SharePointRootUrl": "http://tusspqawfe1/",
     "EquipmentSitePath": "sites/busops/Logistics/DER",
     "SitePath": "sites/busops",
     "MKTSitePath": "sites/marketing"

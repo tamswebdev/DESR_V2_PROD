@@ -45,9 +45,10 @@ function onDeviceReady() {
 
 
 
-
-    pictureSource = navigator.camera.PictureSourceType;
-    destinationType = navigator.camera.DestinationType;
+    if (navigator.camera){
+        pictureSource = navigator.camera.PictureSourceType;
+        destinationType = navigator.camera.DestinationType;
+    }
 
     localstorage.set("DeviceInfo", deviceInfo);
 
@@ -56,7 +57,7 @@ function onDeviceReady() {
     //LoadDemoRequestsDropDown();
     isPageLoadReady = true;
 
-    NavigatePage("#pgHome");
+    //NavigatePage("#pgHome");
 };
 
 $(document).on("pagebeforeshow", "#pgHome", function (event) {
@@ -1803,7 +1804,7 @@ function Jsonp_Call_Process(_url, _async, callback) {
             async: _async,
             cache: false,
             url: _url + "&nocachets=" + (new Date().getTime()) + "&deviceInfo=" + _encodeURIComponent(deviceInfo) + "&lon=" + userLongitude + "&lat=" + userLatitude,
-            data: {},
+            data: { "Authorization": GetAuthorization() },
             dataType: "jsonp",
             jsonpCallback: callback,
             error: function (jqXHR, textStatus, errorThrown) {
@@ -1825,6 +1826,23 @@ function Jsonp_Call_Process(_url, _async, callback) {
         });
     }
     catch (err) { }
+}
+function GetAuthorization(){
+    let	userinfodata=null;
+    if (userInfoData == null)
+    {
+        if (localstorage.get("userInfoData") != null)
+        {
+            userInfoData = localstorage.get("userInfoData");
+        }
+        else if (localstorage.get("userInfoData") == null)
+        {
+            userInfoData = localstorage.getUserInfoDefault();
+        }
+    }
+    
+    let isUserLogin = userInfoData.AuthenticationHeader; 
+    return isUserLogin;		
 }
 
 function SignOut() {
@@ -1938,7 +1956,7 @@ function checkUserLogin() {
         catch (err) { }
     }
 
-    CheckAppVersion();
+   // CheckAppVersion();
 }
 
 
@@ -1947,10 +1965,20 @@ function checkUserLogin() {
 function LoginUserByTouchID(TouchIDAuth) {
     $("#td-error").text("").append(getLoadingMini());
     var loginname = TouchIDAuth;
-    userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + "TouchID");
-    var _url = serviceRootUrl + "svc.aspx?op=AuthenticateByTouchID&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
+    //userInfoData.AuthenticationHeader = Base64.encode(loginname + ":" + "TouchID");
+    //var _url = serviceRootUrl + "svc.aspx?op=AuthenticateByTouchID&SPUrl=" + spwebRootUrl + SitePath + "&authInfo=" + userInfoData.AuthenticationHeader + "&currentURL=" + serviceRootUrl + "main.html"
 
-    Jsonp_Call(_url, true, "callbackLoginByTouchID");
+    //Jsonp_Call(_url, true, "callbackLoginByTouchID");
+    $(".spanLoginUser").text("" + userInfoData.DisplayName);
+
+
+    userInfoData.Expiration = getTimestamp() + 14400000; //4 hours
+
+    userInfoData.TouchIDAuthenticatedDESR = "1";
+
+    localstorage.set("userInfoData", userInfoData);
+
+    NavigatePage("#pgHome");
 }
 
 function callbackLoginByTouchID(data) {
