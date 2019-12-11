@@ -597,10 +597,10 @@
 				<div id="divAddStatus">
 					<div class="div-catalogs-list error-message" id="error-div"></div>
 					<div class="div-catalogs-list success-message" id="success-div"></div>
-					<table class="table table-add-status">
-						<tr>
-							<td class="section-heading" colspan="2">System information</td>
-						</tr>
+                    <table class="table table-add-status">
+                        <tr>
+                            <td class="section-heading" colspan="2">System information</td>
+                        </tr>
                         <tr>
                             <td class="add-status-label">Customer:</td>
                             <td>
@@ -608,19 +608,19 @@
                                 <div class="add-new-status"><input type="text" class="form-control" id="inputCustomer" /></div>
                             </td>
                         </tr>
-						<tr>
-							<td class="add-status-label">System type<span class="required">*</span>:</td>
-							<td>
-								<div id="catalog_SystemType" class="add-status"></div>
-								<div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">System Serial #<span class="required">*</span>:</td>
+                        <tr>
+                            <td class="add-status-label">System type<span class="required">*</span>:</td>
+                            <td>
+                                <div id="catalog_SystemType" class="add-status"></div>
+                                <div class="add-new-status"><input type="text" class="form-control" id="inputSystemType" /></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">System Serial #<span class="required">*</span>:</td>
                             <td>
                                 <div id="catalog_Serial_x0020_Number" class="add-status"></div>
                                 <div id="catalog_ScheduleID" class="add-status"></div>
-                                <div id="catalog_EquipmentRequestID" class="add-status"></div>                                
+                                <div id="catalog_EquipmentRequestID" class="add-status"></div>
                                 <div class="add-new-status add-new-status-serial-number">
                                     <input type="text" class="form-control" id="inputSystemSerialNumber" />
                                     <input type="hidden" id="inputScheduleID" name="inputScheduleID" value="" />
@@ -629,234 +629,251 @@
 
                                 </div>
                             </td>
-						</tr>
-						<!--<tr>
-							<td class="add-status-label">Software version<span class="required">*</span>:</td>
-							<td>
-								<div id="catalog_Software_x0020_Version" class="add-status"></div>
-								<div class="add-new-status"><input type="text" class="form-control" id="inputSoftwareVersion" /></div>
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">Revision level:</td>
-							<td>
-								<div id="catalog_Revision_x0020_Level" class="add-status"></div>
-								<div class="add-new-status"><input type="text" class="form-control" id="inputRevisionLevel" /></div>
-							</td>
-						</tr>-->
-						<tr>
-							<td class="add-status-label">Date:</td>
-							<td><div id="catalog_System_x0020_Date"></div></td>
-						</tr>
-						<tr>
-							<td class="add-status-label">CSS:</td>
-							<td><div id="catalog_MCSS"></div></td>
-						</tr>
-						<tr>
-							<td class="add-status-label">Modality<span class="required">*</span>:</td>
-							<td>
-								<div id="catalog_Modality" class="add-status"></div>
-								<div class="add-new-status">
-									<select class="form-control" id="selectModality" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
-										<option value="">-- Please Select --</option>
-										<option value="CT">CT</option>
-										<option value="MR">MR</option>
-										<option value="UL">UL</option>
-										<option value="VL">VL</option>
-										<option value="XR">XR</option>
-									</select>
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div class="add-status-label">Comments:</div>
-								<textarea class="form-control" id="Comments" rows="3" style="width: 100%"></textarea>
-							</td>
-						</tr>
-						<tr>
-							<td class="section-heading" colspan="2">System condition on arrival</td>        
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div class="add-status-label">Physical State:</div>
-								<select id="PhysicalState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
-									<option value="N/A">-- N/A --</option>
-								</select>
-							</td>
-						</tr>
-						<tr id="PhysicalStateCommentsTR" style="display:none">
-							<td class="add-status-label">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="PhysicalStateComments" />
-							</td>
-						</tr>
-						
-						<tr>
-							<td colspan="2">
-								<div class="add-status-label">Transducer State:</div>
-								<select id="TransducerState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
-									<option value="N/A">-- N/A --</option>
-								</select>
-							</td>
-						</tr>
-						<tr id="TransducerStateCommentsTR" style="display:none">
-							<td class="add-status-label">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="TransducerStateComments" />
-							</td>
-						</tr>
-						<tr>
-							<td colspan="2">
-								<div class="add-status-label">Control panel layout:</div>
-								<select id="controlPanelLayout" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
-									<option value="N/A">-- N/A --</option>
-								</select>
-							</td>
-						</tr>
-						<tr id="LayoutChangeExplainTR" style="display:none">
-							<td class="add-status-label">Explain if changed:</td>
-							<td>
-								<input type="text" class="form-control" id="LayoutChangeExplain" />
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">Modality work list empty:</td>
-							<td class="radio-button-td" style="min-width: 130px;">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty1" value="Yes" checked="checked" /><label for="modalityWorkListEmpty1">Yes</label>
-									<input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty2" value="No" /><label for="modalityWorkListEmpty2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">All software loaded and functioning:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning1" value="Yes" checked="checked" /><label for="allSoftwareLoadedAndFunctioning1">Yes</label>
-									<input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning2" value="No" /><label for="allSoftwareLoadedAndFunctioning2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr id="allSoftwareLoadedAndFunctioningReasonTR" style="display:none;">
-							<td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="allSoftwareLoadedAndFunctioningReason" />
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">NPD presets on system:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem1" value="Yes" checked="checked" /><label for="nPDPresetsOnSystem1">Yes</label>
-									<input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem2" value="No" /><label for="nPDPresetsOnSystem2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">HDD free of patients studies:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies1" value="Yes" checked="checked" /><label for="hDDFreeOfPatientStudies1">Yes</label>
-									<input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies2" value="No" /><label for="hDDFreeOfPatientStudies2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">Demo images loaded on hard drive:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive1" value="Yes" checked="checked" /><label for="demoImagesLoadedOnHardDrive1">Yes</label>
-									<input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive2" value="No" /><label for="demoImagesLoadedOnHardDrive2">No</label>
-								</fieldset>
-							</td>
-						</tr>
+                        </tr>
+                        <!--<tr>
+        <td class="add-status-label">Software version<span class="required">*</span>:</td>
+        <td>
+            <div id="catalog_Software_x0020_Version" class="add-status"></div>
+            <div class="add-new-status"><input type="text" class="form-control" id="inputSoftwareVersion" /></div>
+        </td>
+    </tr>
+    <tr>
+        <td class="add-status-label">Revision level:</td>
+        <td>
+            <div id="catalog_Revision_x0020_Level" class="add-status"></div>
+            <div class="add-new-status"><input type="text" class="form-control" id="inputRevisionLevel" /></div>
+        </td>
+    </tr>-->
+                        <tr>
+                            <td class="add-status-label">Date:</td>
+                            <td><div id="catalog_System_x0020_Date"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">CSS:</td>
+                            <td><div id="catalog_MCSS"></div></td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Modality<span class="required">*</span>:</td>
+                            <td>
+                                <div id="catalog_Modality" class="add-status"></div>
+                                <div class="add-new-status">
+                                    <select class="form-control" id="selectModality" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                                        <option value="">-- Please Select --</option>
+                                        <option value="CT">CT</option>
+                                        <option value="MR">MR</option>
+                                        <option value="UL">UL</option>
+                                        <option value="VL">VL</option>
+                                        <option value="XR">XR</option>
+                                    </select>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="add-status-label">Comments:</div>
+                                <textarea class="form-control" id="Comments" rows="3" style="width: 100%"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="section-heading" colspan="2">System condition on arrival</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="add-status-label">Physical State:</div>
+                                <select id="PhysicalState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                                    <option value="N/A">-- N/A --</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="PhysicalStateCommentsTR" style="display:none">
+                            <td class="add-status-label">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="PhysicalStateComments" />
+                            </td>
+                        </tr>
 
-						<tr>
-							<td class="add-status-label">System delivered on time:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime1" value="Yes" checked="checked" /><label for="SystemDeliveredOnTime1">Yes</label>
-									<input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime2" value="No" /><label for="SystemDeliveredOnTime2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr id="SystemDeliveredOnTimeExplainTR" style="display:none;">
-							<td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="SystemDeliveredOnTimeExplain" />
-							</td>
-						</tr>						
-						<tr>
-							<td class="add-status-label">System delivered professionally:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally1" value="Yes" checked="checked" /><label for="SystemDeliveredProfessionally1">Yes</label>
-									<input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally2" value="No" /><label for="SystemDeliveredProfessionally2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr id="SystemDeliveredProfessionallyExplainTR" style="display:none;">
-							<td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="SystemDeliveredProfessionallyExplain" />
-							</td>
-						</tr>	
-						<tr>
-							<td class="section-heading" colspan="2">Before leaving customer site</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">System performed as expected:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected1" value="Yes" checked="checked" /><label for="systemPerformedAsExpected1">Yes</label>
-									<input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected2" value="No" /><label for="systemPerformedAsExpected2">No</label>
-								</fieldset>
-							</td>
-						</tr>
-						<tr id="systemPerformedNotAsExpectedExplainTR" style="display:none;">
-							<td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
-							<td>
-								<input type="text" class="form-control" id="systemPerformedNotAsExpectedExplain" />
-							</td>
-						</tr>
-						<tr>
-							<td class="add-status-label">Were any issues discovered with system during demo:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo1" value="Yes" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo1">Yes</label>
+                        <tr>
+                            <td colspan="2">
+                                <div class="add-status-label">Transducer State:</div>
+                                <select id="TransducerState" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                                    <option value="N/A">-- N/A --</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="TransducerStateCommentsTR" style="display:none">
+                            <td class="add-status-label">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="TransducerStateComments" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="add-status-label">Control panel layout:</div>
+                                <select id="controlPanelLayout" class="form-control" data-overlay-theme="b" data-theme="a" data-native-menu="false" tabindex="-1">
+                                    <option value="N/A">-- N/A --</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr id="LayoutChangeExplainTR" style="display:none">
+                            <td class="add-status-label">Explain if changed:</td>
+                            <td>
+                                <input type="text" class="form-control" id="LayoutChangeExplain" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Modality work list empty:</td>
+                            <td class="radio-button-td" style="min-width: 130px;">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty1" value="Yes" checked="checked" /><label for="modalityWorkListEmpty1">Yes</label>
+                                    <input type="radio" name="modalityWorkListEmpty" id="modalityWorkListEmpty2" value="No" /><label for="modalityWorkListEmpty2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">All software loaded and functioning:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning1" value="Yes" checked="checked" /><label for="allSoftwareLoadedAndFunctioning1">Yes</label>
+                                    <input type="radio" name="allSoftwareLoadedAndFunctioning" id="allSoftwareLoadedAndFunctioning2" value="No" /><label for="allSoftwareLoadedAndFunctioning2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr id="allSoftwareLoadedAndFunctioningReasonTR" style="display:none;">
+                            <td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="allSoftwareLoadedAndFunctioningReason" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">NPD presets on system:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem1" value="Yes" checked="checked" /><label for="nPDPresetsOnSystem1">Yes</label>
+                                    <input type="radio" name="nPDPresetsOnSystem" id="nPDPresetsOnSystem2" value="No" /><label for="nPDPresetsOnSystem2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">HDD free of patients studies:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies1" value="Yes" checked="checked" /><label for="hDDFreeOfPatientStudies1">Yes</label>
+                                    <input type="radio" name="hDDFreeOfPatientStudies" id="hDDFreeOfPatientStudies2" value="No" /><label for="hDDFreeOfPatientStudies2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Demo images loaded on hard drive:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive1" value="Yes" checked="checked" /><label for="demoImagesLoadedOnHardDrive1">Yes</label>
+                                    <input type="radio" name="demoImagesLoadedOnHardDrive" id="demoImagesLoadedOnHardDrive2" value="No" /><label for="demoImagesLoadedOnHardDrive2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="add-status-label">System delivered on time:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime1" value="Yes" checked="checked" /><label for="SystemDeliveredOnTime1">Yes</label>
+                                    <input type="radio" name="SystemDeliveredOnTime" id="SystemDeliveredOnTime2" value="No" /><label for="SystemDeliveredOnTime2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr id="SystemDeliveredOnTimeExplainTR" style="display:none;">
+                            <td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="SystemDeliveredOnTimeExplain" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">System delivered professionally:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally1" value="Yes" checked="checked" /><label for="SystemDeliveredProfessionally1">Yes</label>
+                                    <input type="radio" name="SystemDeliveredProfessionally" id="SystemDeliveredProfessionally2" value="No" /><label for="SystemDeliveredProfessionally2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr id="SystemDeliveredProfessionallyExplainTR" style="display:none;">
+                            <td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="SystemDeliveredProfessionallyExplain" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="section-heading" colspan="2">Before leaving customer site</td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">System performed as expected:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected1" value="Yes" checked="checked" /><label for="systemPerformedAsExpected1">Yes</label>
+                                    <input type="radio" name="systemPerformedAsExpected" id="systemPerformedAsExpected2" value="No" /><label for="systemPerformedAsExpected2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr id="systemPerformedNotAsExpectedExplainTR" style="display:none;">
+                            <td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="systemPerformedNotAsExpectedExplain" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Were any issues discovered with system during demo:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo1" value="Yes" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo1">Yes</label>
                                     <input type="radio" name="wereAnyIssuesDiscoveredWithSystemDuringDemo" id="wereAnyIssuesDiscoveredWithSystemDuringDemo2" value="No" checked="checked" /><label for="wereAnyIssuesDiscoveredWithSystemDuringDemo2">No</label>
-								</fieldset>
-							</td>
-						</tr>        
-						<tr ng-show="wereAnyIssuesDiscoveredWithSystemDuringDemo=='Yes'">
-							<td class="add-status-label">Was service contacted:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="wasServiceContacted" id="wasServiceContacted1" value="Yes" checked="checked" /><label for="wasServiceContacted1">Yes</label>
-									<input type="radio" name="wasServiceContacted" id="wasServiceContacted2" value="No" /><label for="wasServiceContacted2">No</label>
-								</fieldset>
-							</td>
-						</tr>    
-						<tr>
-							<td class="add-status-label">Confirm that you have removed modality work list from system:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem1" value="Yes" checked="checked" /><label for="ConfirmModalityWorkListRemovedFromSystem1">Yes</label>
-									<input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem2" value="No" /><label for="ConfirmModalityWorkListRemovedFromSystem2">No</label>
-								</fieldset>
-							</td>
-						</tr>   
-						<tr>
-							<td class="add-status-label">Confirm that you have emptied system HDD emptied of all patient studies:</td>
-							<td class="radio-button-td">
-								<fieldset data-role="controlgroup" data-type="horizontal" >
-									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies1" value="Yes" checked="checked" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies1">Yes</label>
-									<input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies2" value="No" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies2">No</label>
-								</fieldset>
-							</td>
-						</tr> 
-					</table>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr ng-show="wereAnyIssuesDiscoveredWithSystemDuringDemo=='Yes'">
+                            <td class="add-status-label">Was service contacted:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="wasServiceContacted" id="wasServiceContacted1" value="Yes" checked="checked" /><label for="wasServiceContacted1">Yes</label>
+                                    <input type="radio" name="wasServiceContacted" id="wasServiceContacted2" value="No" /><label for="wasServiceContacted2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Confirm that you have removed modality work list from system:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem1" value="Yes" checked="checked" /><label for="ConfirmModalityWorkListRemovedFromSystem1">Yes</label>
+                                    <input type="radio" name="ConfirmModalityWorkListRemovedFromSystem" id="ConfirmModalityWorkListRemovedFromSystem2" value="No" /><label for="ConfirmModalityWorkListRemovedFromSystem2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="add-status-label">Confirm that you have emptied system HDD emptied of all patient studies:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies1" value="Yes" checked="checked" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies1">Yes</label>
+                                    <input type="radio" name="ConfirmSystemHddEmptiedOfAllPatientStudies" id="ConfirmSystemHddEmptiedOfAllPatientStudies2" value="No" /><label for="ConfirmSystemHddEmptiedOfAllPatientStudies2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <!-- new entry -->
+                        <tr>
+                            <td class="add-status-label">Do you approve this system to proceed to the next demo:</td>
+                            <td class="radio-button-td">
+                                <fieldset data-role="controlgroup" data-type="horizontal">
+                                    <input type="radio" name="ApproveForNextDemo" id="ApproveForNextDemo1" value="Yes" checked="checked" /><label for="ApproveForNextDemo1">Yes</label>
+                                    <input type="radio" name="ApproveForNextDemo" id="ApproveForNextDemo2" value="No" /><label for="ApproveForNextDemo2">No</label>
+                                </fieldset>
+                            </td>
+                        </tr>
+                        <tr id="ApproveForNextDemoCommentsTR" style="display:none;">
+                            <td class="add-status-label explain-field">Please explain<span class="required">*</span>:</td>
+                            <td>
+                                <input type="text" class="form-control" id="ApproveForNextDemoComments" />
+                            </td>
+                        </tr>
+                        <!-- new entry -->
+                    </table>
                     <table class="table add-picture-section" width="100%">
                         <tr>
                             <td class="add-picture-button-td" data-status-photos="">
@@ -1543,16 +1560,16 @@
 				 </tr>
 				 <tr>
 				  <td valign=top style='padding:0in 0in 0in 0in'>
-				  <p class=MsoNormal>All software loaded and functioning: </p>
+				    <p class=MsoNormal>All software loaded and functioning: </p>
 				  </td>
 				  <td valign=top style='padding:0in 0in 0in 0in'>
-				  <p class=MsoNormal>Yes </p>
+				    <p class=MsoNormal>Yes </p>
 				  </td>
 				 </tr>
 				 <tr>
 				  <td valign=top style='padding:0in 0in 0in 0in'>
-				  <p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
-				  explain: </p>
+				      <p class=MsoNormal>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Please
+				      explain: </p>
 				  </td>
 				  <td valign=top style='padding:0in 0in 0in 0in'></td>
 				 </tr>
