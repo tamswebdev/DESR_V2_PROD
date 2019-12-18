@@ -6,8 +6,8 @@ var AppVersion = { version: "5.5.0" };
 
 var Configs = {
 
-    "ServiceRootUrl": "https://starsqa.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
-    "SharePointRootUrl": "http://tusspqawfe1/",
+    "ServiceRootUrl": "https://stars.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
+    "SharePointRootUrl": "http://tusspwfe2/",
     "EquipmentSitePath": "sites/busops/Logistics/DER",
     "SitePath": "sites/busops",
     "MKTSitePath": "sites/marketing"
