@@ -2,15 +2,14 @@
 
 //This AppVersion must be matched with the version in API.
 //Otherwise, the app will force users to update
-var AppVersion = { version: "5.5.0" };
+var AppVersion = { version: "5.5.2" };
 
 var Configs = {
 
-    //"ServiceRootUrl": "https://stars.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
-    //"SharePointRootUrl": "http://tusspwfe2/",
-    //"EquipmentSitePath": "sites/busops/Logistics/DER",
-    //"SitePath": "sites/busops",
-    //"MKTSitePath": "sites/marketing"
+
+	"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/", "SharePointRootUrl": "https://intranet.tams.com/", "EquipmentSitePath": "sites/busops/Logistics/DER", "SitePath": "sites/busops", "MKTSitePath": "sites/marketing"
+
+    //"ServiceRootUrl": "https://stars.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/","SharePointRootUrl": "http://tusspwfe2/","EquipmentSitePath": "sites/busops/Logistics/DER","SitePath": "sites/busops","MKTSitePath": "sites/marketing"
 
 	//"ServiceRootUrl": "http://tusspdev1wfe4/VirtualApps/TAMS.BUSOPS/TAMS.BUSOPS.DemoESR.MobileSVC/",
 	//"SharePointRootUrl" : "http://tusspdev1wfe4/",
@@ -26,11 +25,11 @@ var Configs = {
 	
 		
 	
-	"ServiceRootUrl": "https://intranetuat.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
-    "SharePointRootUrl": "https://intranetuat.tams.com/",
-    "EquipmentSitePath": "sites/busops/Logistics/DER",
-    "SitePath": "sites/busops",
-    "MKTSitePath": "sites/marketing"
+	//"ServiceRootUrl": "https://intranetuat.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/",
+    //"SharePointRootUrl": "https://intranetuat.tams.com/",
+    //"EquipmentSitePath": "sites/busops/Logistics/DER",
+    //"SitePath": "sites/busops",
+    //"MKTSitePath": "sites/marketing"
 	
 	
 };
