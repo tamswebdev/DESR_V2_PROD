@@ -20,7 +20,7 @@
 <widget xmlns     = "http://www.w3.org/ns/widgets"
 		xmlns:gap = "http://phonegap.com/ns/1.0"
         id        = "io.tams.ULApps"
-        version   = "5.5.2">
+        version   = "5.2020.1.1">
 
   <name>UL Mobile Apps</name>
   <description>
