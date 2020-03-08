@@ -9,7 +9,7 @@ var Configs = {
 
 //	"ServiceRootUrl": "https://intranet.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/", "SharePointRootUrl": "https://intranet.tams.com/", "EquipmentSitePath": "sites/busops/Logistics/DER", "SitePath": "sites/busops", "MKTSitePath": "sites/marketing"
 
-    "ServiceRootUrl": "https://stars.tams.com/VirtualApps/BUSOPSWebs/ULAppsService-App/","SharePointRootUrl": "https://intranet.cmsu.com/","EquipmentSitePath": "sites/busops/Logistics/DER","SitePath": "sites/busops","MKTSitePath": "sites/marketing"
+    "ServiceRootUrl": "https://stars.tams.com/VirtualApps/BUSOPSWebs/ULAppsService/","SharePointRootUrl": "https://intranet.cmsu.com/","EquipmentSitePath": "sites/busops/Logistics/DER","SitePath": "sites/busops","MKTSitePath": "sites/marketing"
 
 	//"ServiceRootUrl": "http://tusspdev1wfe4/VirtualApps/TAMS.BUSOPS/TAMS.BUSOPS.DemoESR.MobileSVC/",
 	//"SharePointRootUrl" : "http://tusspdev1wfe4/",
